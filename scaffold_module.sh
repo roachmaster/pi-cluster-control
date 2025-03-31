@@ -1,119 +1,89 @@
 #!/bin/bash
 
-ROOT_CMAKE="CMakeLists.txt"
-TEMPLATE_DIR="templates"
-MODULE_CONFIG="modules.yaml"
-
 SUCCESS="✅"
 FAIL="❌"
-INFO="🔧"
+INFO="🔍"
+DONE="🎉"
 
-UPDATE_MODE=false
+MODULE_CONFIG="modules.yaml"
+TEMPLATE_DIR="templates"
 
 print_intro() {
-  echo "\n$INFO  Running module scaffolder via $MODULE_CONFIG..."
+  echo ""
+  echo "$INFO  Scaffolding modules from $MODULE_CONFIG..."
   echo "---------------------------------------------"
 }
 
-parse_flags() {
-  while [[ $# -gt 0 ]]; do
-    case "$1" in
-      --update) UPDATE_MODE=true ;;
-    esac
-    shift
-  done
+create_directory_structure() {
+  local name="$1"
+  mkdir -p "$name/include" "$name/src"
 }
 
-check_config_file_exists() {
-  if [ ! -f "$MODULE_CONFIG" ]; then
-    echo "$FAIL Missing $MODULE_CONFIG. Aborting."
-    exit 1
+generate_cmake_file() {
+  local name="$1" type="$2" version="$3" project_name="$4"
+  local cmake_template="$TEMPLATE_DIR/CMakeLists.txt.mustache"
+  if [ "$type" == "lib" ]; then
+    cmake_template="$TEMPLATE_DIR/CMakeLists-lib.mustache"
+  fi
+  if [ ! -f "$name/CMakeLists.txt" ]; then
+    sed -e "s/{{MODULE_NAME}}/$name/g" \
+        -e "s/{{CMAKE_VERSION}}/$version/g" \
+        -e "s/{{CMAKE_PROJECT}}/$project_name/g" \
+        "$cmake_template" > "$name/CMakeLists.txt"
+    echo "$SUCCESS Created $name/CMakeLists.txt"
   fi
 }
 
-create_module_structure() {
-  local MODULE_NAME="$1"
-  mkdir -p "$MODULE_NAME"/{src,include}
-  touch "$MODULE_NAME/include/.gitkeep"
-}
-
-generate_file() {
-  local template_file="$1"
-  local output_file="$2"
-  local module_name="$3"
-
-  if [ ! -f "$template_file" ]; then
-    echo "$FAIL Missing template: $template_file"
-    exit 1
-  fi
-
-  if [ -f "$output_file" ] && [ "$UPDATE_MODE" = false ]; then
-    echo "⚠️  Skipping existing: $output_file"
-    return
-  fi
-
-  sed "s/{{MODULE_NAME}}/$module_name/g" "$template_file" > "$output_file"
-  echo "$SUCCESS Created: $output_file"
-}
-
-update_root_cmake() {
-  local MODULE_NAME="$1"
-  if ! grep -q "add_subdirectory($MODULE_NAME)" "$ROOT_CMAKE"; then
-    echo "add_subdirectory($MODULE_NAME)" >> "$ROOT_CMAKE"
-    echo "$SUCCESS Added $MODULE_NAME to $ROOT_CMAKE"
+generate_main_cpp() {
+  local name="$1"
+  if [ ! -f "$name/src/main.cpp" ]; then
+    sed "s/{{MODULE_NAME}}/$name/g" "$TEMPLATE_DIR/main.cpp.mustache" > "$name/src/main.cpp"
+    echo "$SUCCESS Created $name/src/main.cpp"
   fi
 }
 
-scaffold_module() {
-  local MODULE_NAME="$1"
-  local MODULE_TYPE="$2"
-  local MODULE_TEST="$3"
-
-  echo "\n📦 Scaffolding: $MODULE_NAME ($MODULE_TYPE)"
-
-  create_module_structure "$MODULE_NAME"
-
-  if [ "$MODULE_TYPE" == "lib" ]; then
-    generate_file "$TEMPLATE_DIR/CMakeLists-lib.mustache" "$MODULE_NAME/CMakeLists.txt" "$MODULE_NAME"
-    generate_file "$TEMPLATE_DIR/class.cpp.mustache" "$MODULE_NAME/src/${MODULE_NAME}.cpp" "$MODULE_NAME"
-  else
-    generate_file "$TEMPLATE_DIR/CMakeLists.txt.mustache" "$MODULE_NAME/CMakeLists.txt" "$MODULE_NAME"
-    generate_file "$TEMPLATE_DIR/main.cpp.mustache" "$MODULE_NAME/src/main.cpp" "$MODULE_NAME"
+generate_test_files() {
+  local name="$1" version="$2" project_name="$3"
+  mkdir -p "$name/test"
+  if [ ! -f "$name/test/CMakeLists.txt" ]; then
+    sed -e "s/{{MODULE_NAME}}/$name/g" \
+        -e "s/{{CMAKE_VERSION}}/$version/g" \
+        -e "s/{{CMAKE_PROJECT}}/$project_name/g" \
+        "$TEMPLATE_DIR/test-CMakeLists.txt.mustache" > "$name/test/CMakeLists.txt"
+    echo "$SUCCESS Created $name/test/CMakeLists.txt"
   fi
+}
 
-  if [ "$MODULE_TEST" = true ]; then
-    local TEST_DIR="tests/${MODULE_NAME}_tests"
-    mkdir -p "$TEST_DIR"
-    generate_file "$TEMPLATE_DIR/test-CMakeLists.txt.mustache" "$TEST_DIR/CMakeLists.txt" "$MODULE_NAME"
-    generate_file "$TEMPLATE_DIR/test-main.cpp.mustache" "$TEST_DIR/test_main.cpp" "$MODULE_NAME"
-    generate_file "$TEMPLATE_DIR/test-module.cpp.mustache" "$TEST_DIR/test_${MODULE_NAME}.cpp" "$MODULE_NAME"
-    if ! grep -q "add_subdirectory(tests/${MODULE_NAME}_tests)" "$ROOT_CMAKE"; then
-      echo "add_subdirectory(tests/${MODULE_NAME}_tests)" >> "$ROOT_CMAKE"
-      echo "$SUCCESS Added test module for $MODULE_NAME to $ROOT_CMAKE"
+generate_feature_file() {
+  local name="$1"
+  local feature_dir="features/$name"
+  local feature_file="$feature_dir/$name.feature"
+  mkdir -p "$feature_dir/steps"
+  if [ ! -f "$feature_file" ]; then
+    sed "s/{{MODULE_NAME}}/$name/g" "$TEMPLATE_DIR/feature.mustache" > "$feature_file"
+    echo "$SUCCESS Created $feature_file"
+  fi
+}
+
+scaffold_modules() {
+  local version=$(yq -r ".cmake.version" "$MODULE_CONFIG")
+  local project_name=$(yq -r ".cmake.project" "$MODULE_CONFIG")
+
+  yq -o=json ".modules[]" "$MODULE_CONFIG" | jq -c '.' | while read -r module; do
+    local name=$(echo "$module" | jq -r '.name')
+    local type=$(echo "$module" | jq -r '.type')
+    local has_test=$(echo "$module" | jq -r '.test // false')
+
+    create_directory_structure "$name"
+    generate_cmake_file "$name" "$type" "$version" "$project_name"
+    generate_main_cpp "$name"
+    if [ "$has_test" == "true" ]; then
+      generate_test_files "$name" "$version" "$project_name"
     fi
-  fi
-
-  update_root_cmake "$MODULE_NAME"
-}
-
-scaffold_all_modules() {
-  local COUNT=0
-  local MODULES=$(yq '.modules[]' "$MODULE_CONFIG")
-
-  yq -o=json '.modules[]' "$MODULE_CONFIG" | jq -c '.' | while read -r module; do
-    local NAME=$(echo "$module" | jq -r '.name')
-    local TYPE=$(echo "$module" | jq -r '.type')
-    local TEST=$(echo "$module" | jq -r '.test // false')
-
-    scaffold_module "$NAME" "$TYPE" "$TEST"
-    COUNT=$((COUNT + 1))
+    generate_feature_file "$name"
   done
-
-  echo "\n$SUCCESS $COUNT modules scaffolded."
 }
 
 # ── Entry Point ─────────────────────────────
 print_intro
-parse_flags "$@"
-check_config_file_exists
-scaffold_all_modules
+scaffold_modules

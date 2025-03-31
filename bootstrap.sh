@@ -110,6 +110,24 @@ delete_and_regenerate_cmake_files() {
 
       echo "$SUCCESS Regenerated $test_cmake"
     fi
+
+    # Create BDD feature files
+    local feature_dir="features/$name"
+    local feature_file="$feature_dir/$name.feature"
+    local steps_dir="$feature_dir/steps"
+    mkdir -p "$steps_dir"
+
+    if [ ! -f "$feature_file" ]; then
+      cat <<EOF > "$feature_file"
+Feature: $name runtime behavior
+
+  Scenario: $name starts up
+    Given the $name module is compiled
+    When the $name binary is executed
+    Then it should print "$name module running..."
+EOF
+      echo "$SUCCESS Created BDD feature file: $feature_file"
+    fi
   done
 }
 
