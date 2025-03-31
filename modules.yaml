@@ -1,3 +1,7 @@
+cmake:
+  version: 3.21
+  project: pi_cluster_control
+
 modules:
   - name: common
     type: lib
