@@ -1,0 +1,23 @@
+modules:
+  - name: common
+    type: lib
+    packages: []
+
+  - name: agent
+    type: exe
+    test: true
+    packages:
+      - boost
+
+  - name: master
+    type: exe
+    test: false
+    packages:
+      - jsoncpp
+
+  - name: backend
+    type: exe
+    test: true
+    packages:
+      - crow
+      - nlohmann-json

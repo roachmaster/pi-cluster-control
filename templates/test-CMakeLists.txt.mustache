@@ -1,0 +1,6 @@
+add_executable(test_{{MODULE_NAME}}
+    test_main.cpp
+    test_{{MODULE_NAME}}.cpp
+)
+
+target_link_libraries(test_{{MODULE_NAME}} PRIVATE {{MODULE_NAME}})
