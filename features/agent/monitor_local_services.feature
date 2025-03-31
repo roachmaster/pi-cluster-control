@@ -1,0 +1,10 @@
+Feature: Monitor local services
+  Scenario: Docker is active
+    Given Docker is installed
+    When the agent checks for running services
+    Then Docker should be reported as running
+
+  Scenario: K3s is inactive
+    Given k3s is not running
+    When the agent checks for running services
+    Then it should report k3s as inactive

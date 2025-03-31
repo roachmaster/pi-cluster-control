@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION {{CMAKE_VERSION}})
+project({{CMAKE_PROJECT}})
+
+{{#MODULES}}
+{{#HAS_TEST}}add_subdirectory({{NAME}}/test)
+{{/HAS_TEST}}add_subdirectory({{NAME}})
+{{/MODULES}}

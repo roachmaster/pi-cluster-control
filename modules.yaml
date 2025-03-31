@@ -3,8 +3,9 @@ cmake:
   project: pi_cluster_control
 
 modules:
-  - name: common
+  - name: di
     type: lib
+    test: true
     packages: []
 
   - name: agent
