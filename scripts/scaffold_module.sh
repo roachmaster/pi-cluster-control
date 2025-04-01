@@ -4,7 +4,6 @@ source "$(dirname "$0")/common.sh"
 
 ROOT_DIR="$(dirname "$0")/.."
 MODULE_CONFIG="$ROOT_DIR/modules.yaml"
-TEMPLATE_DIR="$(dirname "$0")/templates"
 
 print_intro() {
   echo ""

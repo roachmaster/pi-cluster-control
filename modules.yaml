@@ -3,6 +3,16 @@ cmake:
   project: pi_cluster_control
 
 modules:
+  - name: cppforge
+    type: lib
+    test: true
+    packages: []
+
+  - name: parser
+    type: lib
+    test: true
+    packages: []
+
   - name: di
     type: lib
     test: true

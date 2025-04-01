@@ -9,7 +9,6 @@ fi
 # Ensure everything resolves relative to the repo root
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-TEMPLATE_DIR="${SCRIPT_DIR}/templates"
 MODULE_CONFIG="$ROOT_DIR/modules.yaml"
 ROOT_CMAKE="$ROOT_DIR/CMakeLists.txt"
 ALL_PRESENT=true

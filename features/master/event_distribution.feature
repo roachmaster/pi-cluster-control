@@ -1,0 +1,11 @@
+Feature: Handle event publishing and subscribing
+
+  Scenario: Publish events to backend
+    Given an agent status or action occurs
+    When the master generates an event
+    Then the event is published to the backend
+
+  Scenario: Receive instructions from backend
+    Given a backend system sends a command
+    When the master receives the instruction
+    Then the command is forwarded to the appropriate agent
