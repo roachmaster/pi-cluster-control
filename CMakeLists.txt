@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.21)
 project(pi_cluster_control)
 
+add_subdirectory(cppforge/test)
+add_subdirectory(cppforge)
+add_subdirectory(parser/test)
+add_subdirectory(parser)
 add_subdirectory(di/test)
 add_subdirectory(di)
 add_subdirectory(agent/test)
