@@ -1,0 +1,29 @@
+#include <gtest/gtest.h>
+#include <iostream>
+
+// Step Interface
+class {{interface_class_name}} {
+public:
+{{#steps}}
+    virtual void {{method_name}}() {
+        FAIL() << "[STEP NOT IMPLEMENTED] {{{step_text}}}";
+    }
+{{/steps}}
+
+    virtual ~{{interface_class_name}}() = default;
+};
+
+// Stub Implementation (throws failures)
+class {{stub_class_name}} : public {{interface_class_name}} {
+    // No overrides – just uses FAIL() behavior from base class
+};
+
+// Test Case
+TEST({{test_class_name}}, executes_scenario) {
+    {{stub_class_name}} steps;
+
+{{#steps}}
+    std::cout << "[{{prefix}}] {{{step_text}}}" << std::endl;
+    steps.{{method_name}}();
+{{/steps}}
+}

@@ -1,38 +1,43 @@
-cmake:
-  version: 3.21
-  project: pi_cluster_control
+CMAKE:
+  VERSION: 3.21
+  PROJECT: pi_cluster_control
+  CXX_STANDARD: 17
 
-modules:
-  - name: cppforge
-    type: exe
-    test: true
-    packages: []
+TEST_DEPENDENCIES:
+  - NAME: googletest
+    URL: https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip
 
-  - name: parser
-    type: lib
-    test: true
-    packages: []
+MODULES:
+  - NAME: cppforge
+    TYPE: exe
+    TEST: true
+    PACKAGES: []
 
-  - name: di
-    type: lib
-    test: true
-    packages: []
+  - NAME: parser
+    TYPE: lib
+    TEST: true
+    PACKAGES: []
 
-  - name: agent
-    type: exe
-    test: true
-    packages:
+  - NAME: di
+    TYPE: lib
+    TEST: true
+    PACKAGES: []
+
+  - NAME: agent
+    TYPE: exe
+    TEST: true
+    PACKAGES:
       - boost
 
-  - name: master
-    type: exe
-    test: false
-    packages:
+  - NAME: master
+    TYPE: exe
+    TEST: false
+    PACKAGES:
       - jsoncpp
 
-  - name: backend
-    type: exe
-    test: true
-    packages:
+  - NAME: backend
+    TYPE: exe
+    TEST: true
+    PACKAGES:
       - crow
       - nlohmann-json

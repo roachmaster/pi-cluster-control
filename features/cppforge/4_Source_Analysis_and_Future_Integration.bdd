@@ -1,0 +1,7 @@
+Feature: Source Analysis & Future Integration
+
+  Scenario: Generate YAML metadata for source files
+    Given a set of source files exist in a module
+    When I run cppforge analyze
+    Then an AST-like YAML should be created
+    And it should include headers, public methods, and constructors

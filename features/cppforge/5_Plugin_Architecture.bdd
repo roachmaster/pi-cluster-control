@@ -1,0 +1,6 @@
+Feature: Plugin Architecture
+
+  Scenario: Register and execute a cppforge plugin
+    Given a plugin implements the cppforge plugin interface
+    When I run cppforge with the plugin flag
+    Then the plugin logic should be executed as part of the pipeline

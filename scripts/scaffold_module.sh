@@ -70,7 +70,6 @@ generate_test_files() {
   local test_dir="$ROOT_DIR/$name/test"
   local test_cmake="$test_dir/CMakeLists.txt"
   local test_main="$test_dir/test_main.cpp"
-  local test_module="$test_dir/test_${name}.cpp"
 
   mkdir -p "$test_dir"
 
@@ -83,15 +82,10 @@ generate_test_files() {
   fi
 
   if [ ! -f "$test_main" ]; then
-    cp "$(get_template_path test-main.cpp.mustache)" "$test_main"
-    echo "$SUCCESS Created $test_main"
-  fi
-
-  if [ ! -f "$test_module" ]; then
     render_template \
       "$(jq -n --arg name "$name" '{MODULE_NAME: $name}')" \
-      "$(get_template_path test-module.cpp.mustache)" "$test_module"
-    echo "$SUCCESS Created $test_module"
+      "$(get_template_path test-main.cpp.mustache)" "$test_main"
+    echo "$SUCCESS Created $test_main"
   fi
 }
 

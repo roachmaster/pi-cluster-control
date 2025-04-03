@@ -1,0 +1,18 @@
+Feature: CMake Consistency & Hygiene
+
+  Scenario: Bootstrap a new C++ project repository
+    Given a valid modules.yaml file exists
+    When I run the cppforge bootstrap command
+    Then a root-level CMakeLists.txt should be generated
+    And it should include all module directories
+    And reflect the correct project name and CMake version
+
+  Scenario: Detect missing source files in CMakeLists.txt
+    Given a module has source files not listed in its CMakeLists.txt
+    When I run cppforge validate
+    Then it should report the missing source file references
+
+  Scenario: Detect unused entries in CMakeLists.txt
+    Given a module’s CMakeLists.txt lists non-existent files
+    When I run cppforge validate
+    Then it should report the invalid entries

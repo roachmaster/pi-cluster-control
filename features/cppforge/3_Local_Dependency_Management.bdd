@@ -1,0 +1,7 @@
+Feature: Local Dependency Management
+
+  Scenario: Resolve local inter-module dependencies
+    Given module A depends on module B
+    When I run the cppforge bootstrap command
+    Then module A’s CMakeLists.txt should include add_subdirectory for module B
+    And the target_link_libraries section should include module B

@@ -1,6 +1,6 @@
-#include <iostream>
+#include <cppforge/cli_logic.hpp>
 
 int main() {
-    std::cout << "cppforge module running..." << std::endl;
+    cppforge::run_cli();
     return 0;
 }
