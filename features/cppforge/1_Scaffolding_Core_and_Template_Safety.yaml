@@ -1,0 +1,38 @@
+- feature: Scaffolding Core and Template Safety
+  scenarios:
+  - name: Generate a new executable module
+    steps:
+    - given: a module name "monitor"
+    - and: the module type is "exe"
+    - when: I run the cppforge scaffolding tool
+    - then: a directory named "monitor" should be created
+    - and: it should contain "CMakeLists.txt"
+    - and: it should contain "src/main.cpp"
+    - and: it should contain an "include/" directory
+  - name: Generate a new library module
+    steps:
+    - given: a module name "utils"
+    - and: the module type is "lib"
+    - when: I run the cppforge scaffolding tool
+    - then: a directory named "utils" should be created
+    - and: it should contain "CMakeLists.txt"
+    - and: it should contain "src/utils.cpp"
+    - and: it should contain "include/utils.hpp"
+  - name: 'Generate tests for a module with test: true'
+    steps:
+    - given: the module "network" has test enabled
+    - when: I run the cppforge scaffolding tool
+    - then: a "test" folder should be created inside the "network" module
+    - and: it should contain "CMakeLists.txt", "test_main.cpp", and "test_network.cpp"
+  - name: 'Skip generating tests for module with test: false'
+    steps:
+    - given: the module "logging" has test disabled
+    - when: I run the cppforge scaffolding tool
+    - then: no "test" directory should be created for the "logging" module
+  - name: Re-scaffold updated templates without overwriting custom files
+    steps:
+    - given: templates have been modified
+    - and: existing module directories contain user changes
+    - when: I run the cppforge regenerate command
+    - then: only missing or outdated files should be updated
+    - and: custom user files should remain untouched

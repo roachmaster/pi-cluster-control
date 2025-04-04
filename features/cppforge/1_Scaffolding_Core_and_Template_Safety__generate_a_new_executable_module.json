@@ -1,0 +1,42 @@
+{
+  "interface_class_name": "cppforge_generate_a_new_executable_module_steps",
+  "stub_class_name": "stub_generate_a_new_executable_module_steps",
+  "test_class_name": "cppforge_generate_a_new_executable_module_test",
+  "steps": [
+    {
+      "method_name": "given_a_module_name_monitor",
+      "step_text": "Given a module name \"monitor\"",
+      "prefix": "GIVEN"
+    },
+    {
+      "method_name": "and_the_module_type_is_exe",
+      "step_text": "And the module type is \"exe\"",
+      "prefix": "AND"
+    },
+    {
+      "method_name": "when_i_run_the_cppforge_scaffolding_tool",
+      "step_text": "When I run the cppforge scaffolding tool",
+      "prefix": "WHEN"
+    },
+    {
+      "method_name": "then_a_directory_named_monitor_should_be_created",
+      "step_text": "Then a directory named \"monitor\" should be created",
+      "prefix": "THEN"
+    },
+    {
+      "method_name": "and_it_should_contain_cmakelists_txt",
+      "step_text": "And it should contain \"CMakeLists.txt\"",
+      "prefix": "AND"
+    },
+    {
+      "method_name": "and_it_should_contain_src_main_cpp",
+      "step_text": "And it should contain \"src/main.cpp\"",
+      "prefix": "AND"
+    },
+    {
+      "method_name": "and_it_should_contain_an_include_directory",
+      "step_text": "And it should contain an \"include/\" directory",
+      "prefix": "AND"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "interface_class_name": "cppforge_re_scaffold_updated_templates_without_overwriting_custom_files_steps",
+  "stub_class_name": "stub_re_scaffold_updated_templates_without_overwriting_custom_files_steps",
+  "test_class_name": "cppforge_re_scaffold_updated_templates_without_overwriting_custom_files_test",
+  "steps": [
+    {
+      "method_name": "given_templates_have_been_modified",
+      "step_text": "Given templates have been modified",
+      "prefix": "GIVEN"
+    },
+    {
+      "method_name": "and_existing_module_directories_contain_user_changes",
+      "step_text": "And existing module directories contain user changes",
+      "prefix": "AND"
+    },
+    {
+      "method_name": "when_i_run_the_cppforge_regenerate_command",
+      "step_text": "When I run the cppforge regenerate command",
+      "prefix": "WHEN"
+    },
+    {
+      "method_name": "then_only_missing_or_outdated_files_should_be_updated",
+      "step_text": "Then only missing or outdated files should be updated",
+      "prefix": "THEN"
+    },
+    {
+      "method_name": "and_custom_user_files_should_remain_untouched",
+      "step_text": "And custom user files should remain untouched",
+      "prefix": "AND"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+📥 Loading YAML: features/cppforge/1_Scaffolding_Core_and_Template_Safety.yaml
+📊 Found 5 scenario(s)
+
+🚀 Converting scenario: 'Generate a new executable module'
+🔧 Converted to snake_case: 'Generate a new executable module' -> 'generate_a_new_executable_module'
+🔨 Generated method name: 'a module name "monitor"' -> 'given_a_module_name_monitor'
+📝 Step added: {'method_name': 'given_a_module_name_monitor', 'step_text': 'Given a module name "monitor"', 'prefix': 'GIVEN'}
+🔨 Generated method name: 'the module type is "exe"' -> 'and_the_module_type_is_exe'
+📝 Step added: {'method_name': 'and_the_module_type_is_exe', 'step_text': 'And the module type is "exe"', 'prefix': 'AND'}
+🔨 Generated method name: 'I run the cppforge scaffolding tool' -> 'when_i_run_the_cppforge_scaffolding_tool'
+📝 Step added: {'method_name': 'when_i_run_the_cppforge_scaffolding_tool', 'step_text': 'When I run the cppforge scaffolding tool', 'prefix': 'WHEN'}
+🔨 Generated method name: 'a directory named "monitor" should be created' -> 'then_a_directory_named_monitor_should_be_created'
+📝 Step added: {'method_name': 'then_a_directory_named_monitor_should_be_created', 'step_text': 'Then a directory named "monitor" should be created', 'prefix': 'THEN'}
+🔨 Generated method name: 'it should contain "CMakeLists.txt"' -> 'and_it_should_contain_cmakelists_txt'
+📝 Step added: {'method_name': 'and_it_should_contain_cmakelists_txt', 'step_text': 'And it should contain "CMakeLists.txt"', 'prefix': 'AND'}
+🔨 Generated method name: 'it should contain "src/main.cpp"' -> 'and_it_should_contain_src_main_cpp'
+📝 Step added: {'method_name': 'and_it_should_contain_src_main_cpp', 'step_text': 'And it should contain "src/main.cpp"', 'prefix': 'AND'}
+🔨 Generated method name: 'it should contain an "include/" directory' -> 'and_it_should_contain_an_include_directory'
+📝 Step added: {'method_name': 'and_it_should_contain_an_include_directory', 'step_text': 'And it should contain an "include/" directory', 'prefix': 'AND'}
+✅ JSON written to: features/cppforge/1_Scaffolding_Core_and_Template_Safety__generate_a_new_executable_module.json
+
+🚀 Converting scenario: 'Generate a new library module'
+🔧 Converted to snake_case: 'Generate a new library module' -> 'generate_a_new_library_module'
+🔨 Generated method name: 'a module name "utils"' -> 'given_a_module_name_utils'
+📝 Step added: {'method_name': 'given_a_module_name_utils', 'step_text': 'Given a module name "utils"', 'prefix': 'GIVEN'}
+🔨 Generated method name: 'the module type is "lib"' -> 'and_the_module_type_is_lib'
+📝 Step added: {'method_name': 'and_the_module_type_is_lib', 'step_text': 'And the module type is "lib"', 'prefix': 'AND'}
+🔨 Generated method name: 'I run the cppforge scaffolding tool' -> 'when_i_run_the_cppforge_scaffolding_tool'
+📝 Step added: {'method_name': 'when_i_run_the_cppforge_scaffolding_tool', 'step_text': 'When I run the cppforge scaffolding tool', 'prefix': 'WHEN'}
+🔨 Generated method name: 'a directory named "utils" should be created' -> 'then_a_directory_named_utils_should_be_created'
+📝 Step added: {'method_name': 'then_a_directory_named_utils_should_be_created', 'step_text': 'Then a directory named "utils" should be created', 'prefix': 'THEN'}
+🔨 Generated method name: 'it should contain "CMakeLists.txt"' -> 'and_it_should_contain_cmakelists_txt'
+📝 Step added: {'method_name': 'and_it_should_contain_cmakelists_txt', 'step_text': 'And it should contain "CMakeLists.txt"', 'prefix': 'AND'}
+🔨 Generated method name: 'it should contain "src/utils.cpp"' -> 'and_it_should_contain_src_utils_cpp'
+📝 Step added: {'method_name': 'and_it_should_contain_src_utils_cpp', 'step_text': 'And it should contain "src/utils.cpp"', 'prefix': 'AND'}
+🔨 Generated method name: 'it should contain "include/utils.hpp"' -> 'and_it_should_contain_include_utils_hpp'
+📝 Step added: {'method_name': 'and_it_should_contain_include_utils_hpp', 'step_text': 'And it should contain "include/utils.hpp"', 'prefix': 'AND'}
+✅ JSON written to: features/cppforge/1_Scaffolding_Core_and_Template_Safety__generate_a_new_library_module.json
+
+🚀 Converting scenario: 'Generate tests for a module with test: true'
+🔧 Converted to snake_case: 'Generate tests for a module with test: true' -> 'generate_tests_for_a_module_with_test_true'
+🔨 Generated method name: 'the module "network" has test enabled' -> 'given_the_module_network_has_test_enabled'
+📝 Step added: {'method_name': 'given_the_module_network_has_test_enabled', 'step_text': 'Given the module "network" has test enabled', 'prefix': 'GIVEN'}
+🔨 Generated method name: 'I run the cppforge scaffolding tool' -> 'when_i_run_the_cppforge_scaffolding_tool'
+📝 Step added: {'method_name': 'when_i_run_the_cppforge_scaffolding_tool', 'step_text': 'When I run the cppforge scaffolding tool', 'prefix': 'WHEN'}
+🔨 Generated method name: 'a "test" folder should be created inside the "network" module' -> 'then_a_test_folder_should_be_created_inside_the_network_module'
+📝 Step added: {'method_name': 'then_a_test_folder_should_be_created_inside_the_network_module', 'step_text': 'Then a "test" folder should be created inside the "network" module', 'prefix': 'THEN'}
+🔨 Generated method name: 'it should contain "CMakeLists.txt", "test_main.cpp", and "test_network.cpp"' -> 'and_it_should_contain_cmakelists_txt_test_main_cpp_and_test_network_cpp'
+📝 Step added: {'method_name': 'and_it_should_contain_cmakelists_txt_test_main_cpp_and_test_network_cpp', 'step_text': 'And it should contain "CMakeLists.txt", "test_main.cpp", and "test_network.cpp"', 'prefix': 'AND'}
+✅ JSON written to: features/cppforge/1_Scaffolding_Core_and_Template_Safety__generate_tests_for_a_module_with_test_true.json
+
+🚀 Converting scenario: 'Skip generating tests for module with test: false'
+🔧 Converted to snake_case: 'Skip generating tests for module with test: false' -> 'skip_generating_tests_for_module_with_test_false'
+🔨 Generated method name: 'the module "logging" has test disabled' -> 'given_the_module_logging_has_test_disabled'
+📝 Step added: {'method_name': 'given_the_module_logging_has_test_disabled', 'step_text': 'Given the module "logging" has test disabled', 'prefix': 'GIVEN'}
+🔨 Generated method name: 'I run the cppforge scaffolding tool' -> 'when_i_run_the_cppforge_scaffolding_tool'
+📝 Step added: {'method_name': 'when_i_run_the_cppforge_scaffolding_tool', 'step_text': 'When I run the cppforge scaffolding tool', 'prefix': 'WHEN'}
+🔨 Generated method name: 'no "test" directory should be created for the "logging" module' -> 'then_no_test_directory_should_be_created_for_the_logging_module'
+📝 Step added: {'method_name': 'then_no_test_directory_should_be_created_for_the_logging_module', 'step_text': 'Then no "test" directory should be created for the "logging" module', 'prefix': 'THEN'}
+✅ JSON written to: features/cppforge/1_Scaffolding_Core_and_Template_Safety__skip_generating_tests_for_module_with_test_false.json
+
+🚀 Converting scenario: 'Re-scaffold updated templates without overwriting custom files'
+🔧 Converted to snake_case: 'Re-scaffold updated templates without overwriting custom files' -> 're_scaffold_updated_templates_without_overwriting_custom_files'
+🔨 Generated method name: 'templates have been modified' -> 'given_templates_have_been_modified'
+📝 Step added: {'method_name': 'given_templates_have_been_modified', 'step_text': 'Given templates have been modified', 'prefix': 'GIVEN'}
+🔨 Generated method name: 'existing module directories contain user changes' -> 'and_existing_module_directories_contain_user_changes'
+📝 Step added: {'method_name': 'and_existing_module_directories_contain_user_changes', 'step_text': 'And existing module directories contain user changes', 'prefix': 'AND'}
+🔨 Generated method name: 'I run the cppforge regenerate command' -> 'when_i_run_the_cppforge_regenerate_command'
+📝 Step added: {'method_name': 'when_i_run_the_cppforge_regenerate_command', 'step_text': 'When I run the cppforge regenerate command', 'prefix': 'WHEN'}
+🔨 Generated method name: 'only missing or outdated files should be updated' -> 'then_only_missing_or_outdated_files_should_be_updated'
+📝 Step added: {'method_name': 'then_only_missing_or_outdated_files_should_be_updated', 'step_text': 'Then only missing or outdated files should be updated', 'prefix': 'THEN'}
+🔨 Generated method name: 'custom user files should remain untouched' -> 'and_custom_user_files_should_remain_untouched'
+📝 Step added: {'method_name': 'and_custom_user_files_should_remain_untouched', 'step_text': 'And custom user files should remain untouched', 'prefix': 'AND'}
+✅ JSON written to: features/cppforge/1_Scaffolding_Core_and_Template_Safety__re_scaffold_updated_templates_without_overwriting_custom_files.json
