@@ -6,9 +6,10 @@ if [[ "$0" == *".git/hooks/pre-commit"* ]]; then
   exit 1
 fi
 
-# Ensure everything resolves relative to the repo root
+# Resolve shared paths and utilities
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+source "$SCRIPT_DIR/common.sh"
+
 MODULE_CONFIG="$ROOT_DIR/modules.yaml"
 ROOT_CMAKE="$ROOT_DIR/CMakeLists.txt"
 ALL_PRESENT=true
@@ -19,8 +20,6 @@ if [[ "$1" == "--help" ]]; then
   echo "Scans modules.yaml, regenerates CMake files, and validates dependencies."
   exit 0
 fi
-
-source "$SCRIPT_DIR/common.sh"
 
 print_intro() {
   echo ""
@@ -50,7 +49,7 @@ check_module_packages() {
     return
   fi
 
-  mapfile -t packages < <(yq -r ".modules[].packages[]?" "$MODULE_CONFIG" | sort -u | uniq)
+  mapfile -t packages < <(yq -r ".MODULES[].PACKAGES[]?" "$MODULE_CONFIG" | sort -u | uniq)
 
   for pkg in "${packages[@]}"; do
     if ! brew list --formula | grep -q "^$pkg$"; then
@@ -68,19 +67,19 @@ delete_and_regenerate_cmake_files() {
   echo "$INFO  Replacing all module-level CMakeLists.txt and test CMake files from templates..."
   echo "---------------------------------------------"
 
-  local version=$(get_project_metadata "$MODULE_CONFIG" "version")
-  local project_name=$(get_project_metadata "$MODULE_CONFIG" "project")
+  local version=$(get_project_metadata "$MODULE_CONFIG" "VERSION")
+  local project_name=$(get_project_metadata "$MODULE_CONFIG" "PROJECT")
 
   if [ -z "$version" ] || [ -z "$project_name" ]; then
-    echo "$FAIL Missing cmake.version or cmake.project in $MODULE_CONFIG."
+    echo "$FAIL Missing CMAKE.VERSION or CMAKE.PROJECT in $MODULE_CONFIG."
     ALL_PRESENT=false
     return
   fi
 
   get_modules_json "$MODULE_CONFIG" | jq -c '.[]' | while read -r module; do
-    local name=$(echo "$module" | jq -r '.name')
-    local type=$(echo "$module" | jq -r '.type')
-    local has_test=$(echo "$module" | jq -r '.test // false')
+    local name=$(echo "$module" | jq -r '.NAME')
+    local type=$(echo "$module" | jq -r '.TYPE')
+    local has_test=$(echo "$module" | jq -r '.TEST // false')
 
     local module_dir="$ROOT_DIR/$name"
     local cmake_file="$module_dir/CMakeLists.txt"
@@ -118,7 +117,7 @@ delete_and_regenerate_cmake_files() {
 
   echo ""
   echo "$INFO  Summary of modules:"
-  get_modules_json "$MODULE_CONFIG" | jq -r '.[] | " - \(.name) (\(.type)) [test=\(.test // false)]"'
+  get_modules_json "$MODULE_CONFIG" | jq -r '.[] | " - \(.NAME) (\(.TYPE)) [test=\(.TEST // false)]"'
 }
 
 update_root_cmake() {
@@ -126,19 +125,19 @@ update_root_cmake() {
   echo "$INFO  Regenerating root CMakeLists.txt from template..."
   echo "---------------------------------------------"
 
-  local version=$(get_project_metadata "$MODULE_CONFIG" "version")
-  local project_name=$(get_project_metadata "$MODULE_CONFIG" "project")
+  local version=$(get_project_metadata "$MODULE_CONFIG" "VERSION")
+  local project_name=$(get_project_metadata "$MODULE_CONFIG" "PROJECT")
 
   if [ -z "$version" ] || [ -z "$project_name" ]; then
-    echo "$FAIL Missing cmake.version or cmake.project in $MODULE_CONFIG."
+    echo "$FAIL Missing CMAKE.VERSION or CMAKE.PROJECT in $MODULE_CONFIG."
     ALL_PRESENT=false
     return
   fi
 
   local modules_json=$(get_modules_json "$MODULE_CONFIG" | \
     jq '[.[] | {
-      NAME: .name,
-      HAS_TEST: (.test // false)
+      NAME: .NAME,
+      HAS_TEST: (.TEST // false)
     }]')
 
   local template_data=$(jq -n \

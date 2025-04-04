@@ -1,0 +1,11 @@
+Feature: Handle Templates and Method Autowiring in DI
+
+  Scenario: Support template classes and interfaces
+    Given a class uses C++ templates
+    When the DI parser analyzes it
+    Then it should register the concrete implementation against the correct interface
+
+  Scenario: Autowire public methods
+    Given a service class has public methods
+    When the DI module processes the file
+    Then it should collect method signatures for use in code generation

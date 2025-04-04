@@ -1,0 +1,11 @@
+Feature: Support Testing and Debugging of DI System
+
+  Scenario: Support testing by mocking dependencies
+    Given a class has dependencies
+    When running in test mode
+    Then the DI system should allow mocks to be injected for isolated testing
+
+  Scenario: Enable debug output for DI resolution
+    Given the DI container is in debug mode
+    When resolving a class
+    Then it should print which concrete implementation was used

@@ -1,4 +1,4 @@
-Feature: Handle event publishing and subscribing
+Feature: Handle Event Publishing and Subscribing
 
   Scenario: Publish events to backend
     Given an agent status or action occurs

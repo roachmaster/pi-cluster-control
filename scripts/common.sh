@@ -1,12 +1,16 @@
 #!/bin/bash
 
-# ── Emojis for consistent UX ─────────────────────────────
+# ── Root Project Path ──────────────────────────────────────
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# ── Emojis for consistent UX ───────────────────────────────
 SUCCESS="✅"
 FAIL="❌"
 INFO="🔍"
 DONE="🎉"
 
-# ── Mustache Template Renderer ───────────────────────────
+# ── Mustache Template Renderer ─────────────────────────────
 # Usage: render_template "$json_input" "$template_path" "$output_path"
 render_template() {
   local json_input="$1"
@@ -21,24 +25,24 @@ render_template() {
   echo "$json_input" | mustache - "$template_file" > "$output_file"
 }
 
-# ── Project Metadata Extractor ───────────────────────────
-# Usage: get_project_metadata "modules.yaml" "version"
+# ── Project Metadata Extractor ─────────────────────────────
+# Usage: get_project_metadata "modules.yaml" "VERSION"
 get_project_metadata() {
   local config_file="$1"
   local key="$2"
-  yq -r ".cmake.${key}" "$config_file"
+  yq -r ".CMAKE.${key}" "$config_file"
 }
 
-# ── Load Module List as JSON ─────────────────────────────
+# ── Load Module List as JSON ───────────────────────────────
 # Usage: get_modules_json "modules.yaml"
 get_modules_json() {
   local config="$1"
-  yq -o=json ".modules" "$config"
+  yq -o=json ".MODULES" "$config"
 }
 
-# ── Safe Path to Template ────────────────────────────────
+# ── Safe Path to Template ──────────────────────────────────
 # Usage: get_template_path "main.cpp.mustache"
 get_template_path() {
   local filename="$1"
-  echo "$(dirname "$0")/templates/$filename"
+  echo "$ROOT_DIR/templates/$filename"
 }

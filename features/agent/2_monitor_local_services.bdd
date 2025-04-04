@@ -1,4 +1,5 @@
-Feature: Monitor local services
+Feature: Monitor Local Services
+
   Scenario: Docker is active
     Given Docker is installed
     When the agent checks for running services

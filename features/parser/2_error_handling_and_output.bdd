@@ -1,0 +1,13 @@
+Feature: Handle invalid annotations and emit metadata
+
+  Scenario: Detect invalid or missing annotations
+    Given a C++ source file with incorrect or missing macro annotations
+    When the parser scans the file
+    Then it should ignore those classes or report a warning
+    And it should continue processing the rest of the file
+
+  Scenario: Output intermediate JSON metadata
+    Given a valid annotated source file
+    When parsing completes
+    Then the parser should emit a JSON file with class metadata
+    And the JSON should include class name, namespace, dependencies, and public methods

@@ -1,0 +1,16 @@
+Feature: Backend Interactivity and CI Integration
+
+  Scenario: Stream real-time cluster updates
+    Given the user is viewing the dashboard
+    When new data is available
+    Then the backend should push updates using WebSockets
+
+  Scenario: Run regression checks on upstream modules
+    Given changes are pushed to agent or master modules
+    When the backend test suite is triggered
+    Then it should validate no critical paths are broken
+
+  Scenario: Handle script and config uploads
+    Given a user uploads a new Ansible playbook or shell script
+    When the backend receives the file
+    Then it should store it and make it available for execution

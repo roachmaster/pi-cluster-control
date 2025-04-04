@@ -1,4 +1,4 @@
-Feature: Execute commands on remote agent
+Feature: Execute Commands on Remote Agent
 
   Scenario: Execute shell command on a single agent
     Given an active agent is registered

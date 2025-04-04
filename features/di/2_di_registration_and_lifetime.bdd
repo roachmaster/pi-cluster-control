@@ -1,0 +1,11 @@
+Feature: Register DI Components and Manage Lifetimes
+
+  Scenario: Register components in the container
+    Given extracted class and metadata
+    When the DI module generates the container code
+    Then it should include bindings for the class and its dependencies
+
+  Scenario: Support singleton and scoped lifetimes
+    Given a class is marked with a singleton macro
+    When the container is initialized
+    Then only one instance of the class should be created and shared

@@ -1,0 +1,24 @@
+Feature: Remote Command Execution Core
+
+  Scenario: Execute shell command on target node
+    Given the master sends a command "ls -la" to the agent
+    When the agent receives the request
+    Then it should execute the command in a secure subprocess
+    And it should capture stdout and stderr
+
+  Scenario: Return execution result to master
+    Given the command has been executed
+    When the output is available
+    Then the agent should send the result and exit code back to the master
+
+  Scenario: Handle command timeouts
+    Given a command exceeds the maximum allowed time
+    When the agent detects the timeout
+    Then it should terminate the process
+    And return a timeout error to the master
+
+  Scenario: Sanitize and validate incoming commands
+    Given the master sends a command string
+    When the agent receives the command
+    Then it should validate the command against a safe list or policy
+    And reject potentially harmful operations like "rm -rf /"

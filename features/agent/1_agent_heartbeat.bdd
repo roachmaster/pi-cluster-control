@@ -1,4 +1,5 @@
-Feature: Agent heartbeat
+Feature: Agent Heartbeat
+
   Scenario: Agent sends heartbeat
     Given the agent is running
     When 5 seconds pass

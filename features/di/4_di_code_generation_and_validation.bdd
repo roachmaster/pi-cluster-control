@@ -1,0 +1,11 @@
+Feature: Generate and Validate DI Artifacts
+
+  Scenario: Generate DI registration code before compilation
+    Given a module uses DI macros
+    When the DI generator runs
+    Then it should output registration C++ files used during build time
+
+  Scenario: Validate binding graph for consistency
+    Given multiple modules define interdependent services
+    When the DI container is generated
+    Then it should fail if required bindings are missing or circular

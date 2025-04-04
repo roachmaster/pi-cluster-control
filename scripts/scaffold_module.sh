@@ -1,36 +1,74 @@
 #!/bin/bash
+set -e
 
-source "$(dirname "$0")/common.sh"
+# ── Resolve Root Path from common.sh ─────────────────────────
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/common.sh"
 
-ROOT_DIR="$(dirname "$0")/.."
 MODULE_CONFIG="$ROOT_DIR/modules.yaml"
+ONLY_CMAKE=false
+DRY_RUN=false
+
+# ── Parse Arguments ──────────────────────────────────────────
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --only-cmake)
+      ONLY_CMAKE=true
+      shift
+      ;;
+    --dry-run)
+      DRY_RUN=true
+      shift
+      ;;
+    *)
+      echo "$FAIL Unknown argument: $1"
+      exit 1
+      ;;
+  esac
+done
 
 print_intro() {
   echo ""
   echo "$INFO  Scaffolding modules from $MODULE_CONFIG..."
+  echo "Options: ONLY_CMAKE=$ONLY_CMAKE, DRY_RUN=$DRY_RUN"
   echo "---------------------------------------------"
+}
+
+maybe_render() {
+  local json="$1"
+  local template="$2"
+  local output="$3"
+
+  if $DRY_RUN; then
+    echo "🔍 Would render $output using template $template"
+  else
+    render_template "$json" "$template" "$output"
+    echo "$SUCCESS Created $output"
+  fi
 }
 
 create_directory_structure() {
   local name="$1"
-  mkdir -p "$ROOT_DIR/$name/include" "$ROOT_DIR/$name/src"
+  if $DRY_RUN; then
+    echo "🔍 Would create: $ROOT_DIR/$name/include, $ROOT_DIR/$name/src"
+  else
+    mkdir -p "$ROOT_DIR/$name/include" "$ROOT_DIR/$name/src"
+  fi
 }
 
 generate_cmake_file() {
   local name="$1" type="$2" version="$3" project_name="$4"
-
+  local cmake_path="$ROOT_DIR/$name/CMakeLists.txt"
   local template_file="$(get_template_path CMakeLists.txt.mustache)"
   if [ "$type" == "lib" ]; then
     template_file="$(get_template_path CMakeLists-lib.mustache)"
   fi
 
-  local cmake_path="$ROOT_DIR/$name/CMakeLists.txt"
-  if [ ! -f "$cmake_path" ]; then
-    render_template \
+  if [ ! -f "$cmake_path" ] || $DRY_RUN; then
+    maybe_render \
       "$(jq -n --arg name "$name" --arg version "$version" --arg project "$project_name" \
         '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project}')" \
       "$template_file" "$cmake_path"
-    echo "$SUCCESS Created $cmake_path"
   fi
 }
 
@@ -39,11 +77,10 @@ generate_main_cpp() {
   local output="$ROOT_DIR/$name/src/main.cpp"
   local template_file="$(get_template_path main.cpp.mustache)"
 
-  if [ ! -f "$output" ]; then
-    render_template \
+  if [ ! -f "$output" ] || $DRY_RUN; then
+    maybe_render \
       "$(jq -n --arg name "$name" '{MODULE_NAME: $name}')" \
       "$template_file" "$output"
-    echo "$SUCCESS Created $output"
   fi
 }
 
@@ -54,14 +91,12 @@ generate_class_stub() {
   local template_cpp="$(get_template_path class.cpp.mustache)"
   local template_hpp="$(get_template_path class.hpp.mustache)"
 
-  if [ ! -f "$src_file" ]; then
-    render_template "$(jq -n --arg name "$name" '{MODULE_NAME: $name}')" "$template_cpp" "$src_file"
-    echo "$SUCCESS Created $src_file"
+  if [ ! -f "$src_file" ] || $DRY_RUN; then
+    maybe_render "$(jq -n --arg name "$name" '{MODULE_NAME: $name}')" "$template_cpp" "$src_file"
   fi
 
-  if [ ! -f "$hpp_file" ]; then
-    render_template "$(jq -n --arg name "$name" '{MODULE_NAME: $name}')" "$template_hpp" "$hpp_file"
-    echo "$SUCCESS Created $hpp_file"
+  if [ ! -f "$hpp_file" ] || $DRY_RUN; then
+    maybe_render "$(jq -n --arg name "$name" '{MODULE_NAME: $name}')" "$template_hpp" "$hpp_file"
   fi
 }
 
@@ -71,21 +106,23 @@ generate_test_files() {
   local test_cmake="$test_dir/CMakeLists.txt"
   local test_main="$test_dir/test_main.cpp"
 
-  mkdir -p "$test_dir"
+  if $DRY_RUN; then
+    echo "🔍 Would create test dir: $test_dir"
+  else
+    mkdir -p "$test_dir"
+  fi
 
-  if [ ! -f "$test_cmake" ]; then
-    render_template \
+  if [ ! -f "$test_cmake" ] || $DRY_RUN; then
+    maybe_render \
       "$(jq -n --arg name "$name" --arg version "$version" --arg project "$project_name" \
         '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project}')" \
       "$(get_template_path test-CMakeLists.txt.mustache)" "$test_cmake"
-    echo "$SUCCESS Created $test_cmake"
   fi
 
-  if [ ! -f "$test_main" ]; then
-    render_template \
+  if [ ! -f "$test_main" ] || $DRY_RUN; then
+    maybe_render \
       "$(jq -n --arg name "$name" '{MODULE_NAME: $name}')" \
       "$(get_template_path test-main.cpp.mustache)" "$test_main"
-    echo "$SUCCESS Created $test_main"
   fi
 }
 
@@ -95,44 +132,49 @@ generate_feature_file() {
   local feature_file="$feature_dir/$name.feature"
   local template_file="$(get_template_path feature.mustache)"
 
-  mkdir -p "$feature_dir/steps"
+  if $DRY_RUN; then
+    echo "🔍 Would create: $feature_file"
+  else
+    mkdir -p "$feature_dir/steps"
+  fi
 
-  if [ ! -f "$feature_file" ]; then
-    render_template \
+  if [ ! -f "$feature_file" ] || $DRY_RUN; then
+    maybe_render \
       "$(jq -n --arg name "$name" '{MODULE_NAME: $name}')" \
       "$template_file" "$feature_file"
-    echo "$SUCCESS Created $feature_file"
   fi
 }
 
 scaffold_modules() {
   local version
   local project_name
-  version=$(get_project_metadata "$MODULE_CONFIG" "version")
-  project_name=$(get_project_metadata "$MODULE_CONFIG" "project")
+  version=$(get_project_metadata "$MODULE_CONFIG" "VERSION")
+  project_name=$(get_project_metadata "$MODULE_CONFIG" "PROJECT")
 
   get_modules_json "$MODULE_CONFIG" | jq -c '.[]' | while read -r module; do
     local name
     local type
     local has_test
-    name=$(echo "$module" | jq -r '.name')
-    type=$(echo "$module" | jq -r '.type')
-    has_test=$(echo "$module" | jq -r '.test // false')
+    name=$(echo "$module" | jq -r '.NAME')
+    type=$(echo "$module" | jq -r '.TYPE')
+    has_test=$(echo "$module" | jq -r '.TEST // false')
 
     create_directory_structure "$name"
     generate_cmake_file "$name" "$type" "$version" "$project_name"
 
-    if [ "$type" == "exe" ]; then
-      generate_main_cpp "$name"
-    elif [ "$type" == "lib" ]; then
-      generate_class_stub "$name"
-    fi
+    if ! $ONLY_CMAKE; then
+      if [ "$type" == "exe" ]; then
+        generate_main_cpp "$name"
+      elif [ "$type" == "lib" ]; then
+        generate_class_stub "$name"
+      fi
 
-    if [ "$has_test" == "true" ]; then
-      generate_test_files "$name" "$version" "$project_name"
-    fi
+      if [ "$has_test" == "true" ]; then
+        generate_test_files "$name" "$version" "$project_name"
+      fi
 
-    generate_feature_file "$name"
+      generate_feature_file "$name"
+    fi
   done
 }
 

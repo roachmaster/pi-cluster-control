@@ -1,0 +1,5 @@
+GRAMMAR_NAME: BDD
+GRAMMAR_FILE: bdd/BDD.g4
+PARSER_DIR: bdd.parser
+VISITOR_SCRIPT: bdd/bdd_to_yaml.py
+YAML_TO_JSON_SCRIPT: bdd/convert_bdd_yaml_to_step_json.py

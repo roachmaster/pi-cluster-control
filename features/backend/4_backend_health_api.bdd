@@ -1,0 +1,6 @@
+Feature: Provide System Health API for Dashboard
+
+  Scenario: Serve aggregated telemetry metrics
+    Given multiple agents are reporting telemetry
+    When the dashboard client requests system health data
+    Then the backend should return aggregated CPU, memory, and disk metrics

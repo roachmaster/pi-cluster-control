@@ -1,0 +1,11 @@
+Feature: Parse DI Metadata and Resolve Constructors
+
+  Scenario: Parse source files for DI metadata
+    Given a source file with DI macros or annotations
+    When the DI module scans the project
+    Then it should detect and extract all DI-related tags
+
+  Scenario: Resolve constructor dependencies
+    Given a class is annotated for DI
+    When the DI module processes the file
+    Then it should extract the constructor and identify required dependencies

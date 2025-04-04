@@ -1,0 +1,16 @@
+Feature: Backend Access and Telemetry
+
+  Scenario: Authenticate and authorize users
+    Given a user attempts to access the dashboard
+    When the backend validates their credentials
+    Then access should be granted or denied based on roles
+
+  Scenario: Expose service API endpoints
+    Given the system exposes REST or gRPC endpoints
+    When a client sends a request to control an agent
+    Then the backend should route the request appropriately
+
+  Scenario: Collect and store agent telemetry
+    Given agents send periodic metrics
+    When the backend receives these metrics
+    Then it should store them in a database for future analysis

@@ -1,4 +1,5 @@
-Feature: Package reporting
+Feature: Package Reporting
+
   Scenario: Agent lists all packages
     Given the agent is running
     When it scans for installed packages

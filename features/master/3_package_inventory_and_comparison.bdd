@@ -1,4 +1,4 @@
-Feature: Collect and compare package inventories
+Feature: Collect and Compare Package Inventories
 
   Scenario: Agent reports installed packages
     Given an agent is registered

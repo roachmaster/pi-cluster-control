@@ -1,4 +1,4 @@
-Feature: Control services on agents
+Feature: Control Services on Agents
 
   Scenario: Restart service remotely
     Given an agent is running a service

@@ -1,0 +1,16 @@
+Feature: Backend Logging and Automation
+
+  Scenario: Log events and errors
+    Given events and failures occur in the system
+    When the backend detects them
+    Then it should log them persistently and timestamp them
+
+  Scenario: Trigger rule-based automation
+    Given a rule is configured for temperature thresholds
+    When an agent reports temperature above 90°C
+    Then the backend should issue a reboot command
+
+  Scenario: Notify on critical conditions
+    Given a Pi node goes offline
+    When no heartbeat is received for X seconds
+    Then the backend should notify the admin via alert channels
