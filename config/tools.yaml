@@ -1,0 +1,13 @@
+REQUIRED_TOOLS:
+  - name: jq
+    version: "1.6"
+  - name: yq
+    version: "4.34.1"
+  - name: cmake
+    version: "3.21"
+  - name: mustache
+    version: "1.0.0"
+  - name: brew
+    version: "latest"
+  - name: bash
+    version: "4.+"

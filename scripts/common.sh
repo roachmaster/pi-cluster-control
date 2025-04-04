@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ── Root Project Path ──────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -11,7 +11,6 @@ INFO="🔍"
 DONE="🎉"
 
 # ── Mustache Template Renderer ─────────────────────────────
-# Usage: render_template "$json_input" "$template_path" "$output_path"
 render_template() {
   local json_input="$1"
   local template_file="$2"
@@ -26,7 +25,6 @@ render_template() {
 }
 
 # ── Project Metadata Extractor ─────────────────────────────
-# Usage: get_project_metadata "modules.yaml" "VERSION"
 get_project_metadata() {
   local config_file="$1"
   local key="$2"
@@ -34,15 +32,75 @@ get_project_metadata() {
 }
 
 # ── Load Module List as JSON ───────────────────────────────
-# Usage: get_modules_json "modules.yaml"
 get_modules_json() {
   local config="$1"
   yq -o=json ".MODULES" "$config"
 }
 
 # ── Safe Path to Template ──────────────────────────────────
-# Usage: get_template_path "main.cpp.mustache"
 get_template_path() {
   local filename="$1"
   echo "$ROOT_DIR/templates/$filename"
+}
+
+# ── Suggest Install Command Based on OS ────────────────────
+suggest_install() {
+  local tool="$1"
+  uname_out="$(uname -s)"
+
+  echo "   To install '$tool':"
+  case "${uname_out}" in
+    Darwin*)
+      echo "   ➤ brew install $tool"
+      ;;
+    Linux*)
+      if command -v apt-get >/dev/null; then
+        echo "   ➤ sudo apt-get install $tool"
+      elif command -v dnf >/dev/null; then
+        echo "   ➤ sudo dnf install $tool"
+      elif command -v pacman >/dev/null; then
+        echo "   ➤ sudo pacman -S $tool"
+      else
+        echo "   ➤ Please use your distro’s package manager to install '$tool'"
+      fi
+      ;;
+    *)
+      echo "   ➤ Unsupported OS. Please install '$tool' manually."
+      ;;
+  esac
+}
+
+# ── Validate Tool Availability and Version ──────────────────
+check_tool() {
+  local tool="$1"
+  local required_version="$2"
+
+  if ! command -v "$tool" >/dev/null 2>&1; then
+    echo "$FAIL Missing: $tool"
+    suggest_install "$tool"
+    ALL_PRESENT=false
+    return
+  fi
+
+  local current_version
+  case "$tool" in
+    bash)
+      current_version="$BASH_VERSION"
+      ;;
+    *)
+      current_version=$("$tool" --version 2>/dev/null | head -n 1 | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -n 1)
+      ;;
+  esac
+
+  local required_major="${required_version%%.*}"
+  local current_major="${current_version%%.*}"
+
+  if [[ -n "$required_major" && "$current_major" -lt "$required_major" ]]; then
+    echo "$FAIL $tool version $required_version or higher is required. Found: $current_version"
+    suggest_install "$tool"
+    ALL_PRESENT=false
+    return
+  fi
+
+  echo "$SUCCESS Found: $tool ($current_version)"
 }

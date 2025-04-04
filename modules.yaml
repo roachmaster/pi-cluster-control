@@ -3,7 +3,13 @@ CMAKE:
   PROJECT: pi_cluster_control
   CXX_STANDARD: 17
 
-TEST_DEPENDENCIES:
+GLOBAL_PACKAGES:
+  - NAME: spdlog
+    URL: https://github.com/gabime/spdlog.git
+  - NAME: fmt
+    URL: https://github.com/fmtlib/fmt.git
+
+GLOBAL_TEST_PACKAGES:
   - NAME: googletest
     URL: https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip
 
@@ -41,3 +47,8 @@ MODULES:
     PACKAGES:
       - crow
       - nlohmann-json
+
+  - NAME: frontend
+    TYPE: react
+    TEST: false
+    PACKAGES: []

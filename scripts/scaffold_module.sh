@@ -12,18 +12,9 @@ DRY_RUN=false
 # ── Parse Arguments ──────────────────────────────────────────
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --only-cmake)
-      ONLY_CMAKE=true
-      shift
-      ;;
-    --dry-run)
-      DRY_RUN=true
-      shift
-      ;;
-    *)
-      echo "$FAIL Unknown argument: $1"
-      exit 1
-      ;;
+    --only-cmake) ONLY_CMAKE=true; shift ;;
+    --dry-run) DRY_RUN=true; shift ;;
+    *) echo "$FAIL Unknown argument: $1"; exit 1 ;;
   esac
 done
 
@@ -99,12 +90,19 @@ generate_class_stub() {
     maybe_render "$(jq -n --arg name "$name" '{MODULE_NAME: $name}')" "$template_hpp" "$hpp_file"
   fi
 }
-
 generate_test_files() {
   local name="$1" version="$2" project_name="$3"
   local test_dir="$ROOT_DIR/$name/test"
   local test_cmake="$test_dir/CMakeLists.txt"
   local test_main="$test_dir/test_main.cpp"
+  local cxx_standard=$(get_project_metadata "$MODULE_CONFIG" "CXX_STANDARD")
+  local test_deps=$(yq -o=json '.GLOBAL_TEST_PACKAGES' "$MODULE_CONFIG")
+
+  echo "$INFO Generating test files for module: $name"
+  echo "      Version: $version, Project: $project_name"
+  echo "      CXX_STANDARD: $cxx_standard"
+  echo "      Test dependencies: $test_deps"
+  echo "      Target test CMake file: $test_cmake"
 
   if $DRY_RUN; then
     echo "🔍 Would create test dir: $test_dir"
@@ -112,18 +110,25 @@ generate_test_files() {
     mkdir -p "$test_dir"
   fi
 
-  if [ ! -f "$test_cmake" ] || $DRY_RUN; then
-    maybe_render \
-      "$(jq -n --arg name "$name" --arg version "$version" --arg project "$project_name" \
-        '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project}')" \
-      "$(get_template_path test-CMakeLists.txt.mustache)" "$test_cmake"
-  fi
+  local template_data
+  template_data=$(jq -n \
+    --arg name "$name" \
+    --arg version "$version" \
+    --arg project "$project_name" \
+    --argjson deps "$test_deps" \
+    --arg cxx "$cxx_standard" \
+    '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project, CXX_STANDARD: $cxx|tonumber, GLOBAL_TEST_PACKAGES: $deps}')
 
-  if [ ! -f "$test_main" ] || $DRY_RUN; then
-    maybe_render \
-      "$(jq -n --arg name "$name" '{MODULE_NAME: $name}')" \
-      "$(get_template_path test-main.cpp.mustache)" "$test_main"
-  fi
+  echo "$INFO Rendering test CMake with data:"
+  echo "$template_data" | jq .
+
+  maybe_render \
+    "$template_data" \
+    "$(get_template_path test-CMakeLists.txt.mustache)" "$test_cmake"
+
+  maybe_render \
+    "$(jq -n --arg name "$name" '{MODULE_NAME: $name}')" \
+    "$(get_template_path test-main.cpp.mustache)" "$test_main"
 }
 
 generate_feature_file() {
@@ -146,18 +151,14 @@ generate_feature_file() {
 }
 
 scaffold_modules() {
-  local version
-  local project_name
+  local version project_name
   version=$(get_project_metadata "$MODULE_CONFIG" "VERSION")
   project_name=$(get_project_metadata "$MODULE_CONFIG" "PROJECT")
 
   get_modules_json "$MODULE_CONFIG" | jq -c '.[]' | while read -r module; do
-    local name
-    local type
-    local has_test
-    name=$(echo "$module" | jq -r '.NAME')
-    type=$(echo "$module" | jq -r '.TYPE')
-    has_test=$(echo "$module" | jq -r '.TEST // false')
+    local name=$(echo "$module" | jq -r '.NAME')
+    local type=$(echo "$module" | jq -r '.TYPE')
+    local has_test=$(echo "$module" | jq -r '.TEST // false')
 
     create_directory_structure "$name"
     generate_cmake_file "$name" "$type" "$version" "$project_name"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Prevent bootstrap.sh from being executed as a git hook symlink
 if [[ "$0" == *".git/hooks/pre-commit"* ]]; then
@@ -6,39 +6,49 @@ if [[ "$0" == *".git/hooks/pre-commit"* ]]; then
   exit 1
 fi
 
-# Resolve shared paths and utilities
+# ── Resolve Paths and Shared Logic ─────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/common.sh"
-
+ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+TOOL_CONFIG="$ROOT_DIR/config/tools.yaml"
 MODULE_CONFIG="$ROOT_DIR/modules.yaml"
 ROOT_CMAKE="$ROOT_DIR/CMakeLists.txt"
 ALL_PRESENT=true
 
-# Optional help flag
-if [[ "$1" == "--help" ]]; then
-  echo "Usage: ./scripts/bootstrap.sh"
-  echo "Scans modules.yaml, regenerates CMake files, and validates dependencies."
-  exit 0
+source "$SCRIPT_DIR/common.sh"
+
+# ── Bash Version Enforcement ───────────────────────────────────
+required_bash_version=$(yq -r '.REQUIRED_TOOLS[] | select(.name == "bash") | .version' "$TOOL_CONFIG")
+required_bash_major="${required_bash_version%%.*}"
+current_bash_major="${BASH_VERSINFO[0]}"
+
+if [[ "$current_bash_major" -lt "$required_bash_major" ]]; then
+  echo "❌ Bash version $required_bash_version or higher is required. Current version: $BASH_VERSION"
+  suggest_install "bash"
+  exit 1
 fi
 
+# ── Intro ──────────────────────────────────────────────────────
 print_intro() {
   echo ""
   echo "$INFO  Verifying base environment for macOS..."
   echo "---------------------------------------------"
 }
 
+# ── Tool Checker ───────────────────────────────────────────────
 check_required_tools() {
-  for tool in "${REQUIRED_TOOLS[@]}"; do
-    if ! command -v "$tool" >/dev/null 2>&1; then
-      echo "$FAIL Missing: $tool"
-      echo "     Install with: brew install $tool"
-      ALL_PRESENT=false
-    else
-      echo "$SUCCESS Found: $tool"
-    fi
+  echo ""
+  echo "$INFO  Checking required tools from $TOOL_CONFIG..."
+  echo "---------------------------------------------"
+
+  mapfile -t tools < <(yq -r '.REQUIRED_TOOLS[].name' "$TOOL_CONFIG")
+
+  for tool in "${tools[@]}"; do
+    version=$(yq -r ".REQUIRED_TOOLS[] | select(.name == \"$tool\") | .version" "$TOOL_CONFIG")
+    check_tool "$tool" "$version"
   done
 }
 
+# ── Module Package Checker ─────────────────────────────────────
 check_module_packages() {
   echo ""
   echo "$INFO  Checking module-specific packages from $MODULE_CONFIG..."
@@ -49,12 +59,14 @@ check_module_packages() {
     return
   fi
 
-  mapfile -t packages < <(yq -r ".MODULES[].PACKAGES[]?" "$MODULE_CONFIG" | sort -u | uniq)
+  mapfile -t global_packages < <(yq -r '.GLOBAL_PACKAGES[].NAME' "$MODULE_CONFIG")
+  mapfile -t module_packages < <(yq -r '.MODULES[].PACKAGES[]?' "$MODULE_CONFIG")
+  packages=($(printf "%s\n" "${global_packages[@]}" "${module_packages[@]}" | sort -u))
 
   for pkg in "${packages[@]}"; do
     if ! brew list --formula | grep -q "^$pkg$"; then
       echo "$FAIL Missing package: $pkg"
-      echo "     Install with: brew install $pkg"
+      suggest_install "$pkg"
       ALL_PRESENT=false
     else
       echo "$SUCCESS Found package: $pkg"
@@ -62,64 +74,14 @@ check_module_packages() {
   done
 }
 
-delete_and_regenerate_cmake_files() {
+scaffold_all_modules() {
   echo ""
-  echo "$INFO  Replacing all module-level CMakeLists.txt and test CMake files from templates..."
+  echo "$INFO  Scaffolding all modules from modules.yaml..."
   echo "---------------------------------------------"
-
-  local version=$(get_project_metadata "$MODULE_CONFIG" "VERSION")
-  local project_name=$(get_project_metadata "$MODULE_CONFIG" "PROJECT")
-
-  if [ -z "$version" ] || [ -z "$project_name" ]; then
-    echo "$FAIL Missing CMAKE.VERSION or CMAKE.PROJECT in $MODULE_CONFIG."
-    ALL_PRESENT=false
-    return
-  fi
-
-  get_modules_json "$MODULE_CONFIG" | jq -c '.[]' | while read -r module; do
-    local name=$(echo "$module" | jq -r '.NAME')
-    local type=$(echo "$module" | jq -r '.TYPE')
-    local has_test=$(echo "$module" | jq -r '.TEST // false')
-
-    local module_dir="$ROOT_DIR/$name"
-    local cmake_file="$module_dir/CMakeLists.txt"
-    local cmake_template="$(get_template_path CMakeLists.txt.mustache)"
-    if [ "$type" == "lib" ]; then
-      cmake_template="$(get_template_path CMakeLists-lib.mustache)"
-    fi
-
-    mkdir -p "$module_dir"
-    rm -f "$cmake_file"
-
-    render_template \
-      "$(jq -n --arg name "$name" --arg version "$version" --arg project "$project_name" \
-        '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project}')" \
-      "$cmake_template" "$cmake_file"
-
-    echo "$SUCCESS Regenerated $cmake_file"
-
-    if [ "$has_test" == "true" ]; then
-      local test_dir="$module_dir/test"
-      local test_cmake="$test_dir/CMakeLists.txt"
-      local test_template="$(get_template_path test-CMakeLists.txt.mustache)"
-
-      mkdir -p "$test_dir"
-      rm -f "$test_cmake"
-
-      render_template \
-        "$(jq -n --arg name "$name" --arg version "$version" --arg project "$project_name" \
-          '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project}')" \
-        "$test_template" "$test_cmake"
-
-      echo "$SUCCESS Regenerated $test_cmake"
-    fi
-  done
-
-  echo ""
-  echo "$INFO  Summary of modules:"
-  get_modules_json "$MODULE_CONFIG" | jq -r '.[] | " - \(.NAME) (\(.TYPE)) [test=\(.TEST // false)]"'
+  "$SCRIPT_DIR/scaffold_module.sh"
 }
 
+# ── Root CMake Generator ───────────────────────────────────────
 update_root_cmake() {
   echo ""
   echo "$INFO  Regenerating root CMakeLists.txt from template..."
@@ -134,8 +96,9 @@ update_root_cmake() {
     return
   fi
 
+  # Filter only modules with TYPE of exe or lib (exclude e.g. react)
   local modules_json=$(get_modules_json "$MODULE_CONFIG" | \
-    jq '[.[] | {
+    jq '[.[] | select(.TYPE == "exe" or .TYPE == "lib") | {
       NAME: .NAME,
       HAS_TEST: (.TEST // false)
     }]')
@@ -151,6 +114,7 @@ update_root_cmake() {
   echo "$SUCCESS Root CMakeLists.txt fully regenerated from template."
 }
 
+# ── Final Status Report ────────────────────────────────────────
 report_final_status() {
   echo "---------------------------------------------"
   if [ "$ALL_PRESENT" = true ]; then
@@ -162,10 +126,10 @@ report_final_status() {
   fi
 }
 
-# ── Entry Point ─────────────────────────────
+# ── Run Setup ──────────────────────────────────────────────────
 print_intro
 check_required_tools
 check_module_packages
-delete_and_regenerate_cmake_files
+scaffold_all_modules
 update_root_cmake
 report_final_status
