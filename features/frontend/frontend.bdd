@@ -1,0 +1,62 @@
+Feature: Frontend Responsibilities for Pi Cluster Control
+
+  Scenario: Display real-time agent status
+    Given the user is logged into the dashboard
+    When agent heartbeats are received via WebSocket
+    Then the UI should update the agent status indicators in real time
+
+  Scenario: Show aggregated system metrics
+    Given system telemetry is available from the backend
+    When the user views the cluster dashboard
+    Then the UI should display CPU, memory, and disk usage graphs per agent
+
+  Scenario: Register a new agent
+    Given an unregistered agent connects
+    When the backend accepts the registration
+    Then the frontend should show the new agent in the list with a "New" badge
+
+  Scenario: Execute remote shell command from UI
+    Given an agent is selected by the user
+    When the user inputs a shell command
+    Then the command is sent to the backend
+    And the output is displayed in a terminal view on the dashboard
+
+  Scenario: Compare package inventories across agents
+    Given the user selects two or more agents
+    When the user opens the package comparison view
+    Then the frontend displays a diff of installed packages between agents
+
+  Scenario: Restart service from the UI
+    Given an agent is running Docker or k3s
+    When the user clicks "Restart Service"
+    Then the request is sent to the backend
+    And the frontend updates the service status accordingly
+
+  Scenario: Upload script or configuration
+    Given the user has a local file to upload
+    When the user uploads an Ansible or shell script
+    Then the file is sent to the backend
+    And it appears in the executable scripts panel
+
+  Scenario: Show error and event logs
+    Given the backend provides system logs
+    When the user opens the "Events & Logs" panel
+    Then the frontend lists recent errors, warnings, and system events with timestamps
+
+  Scenario: Trigger automation rules manually
+    Given the backend has rule-based automations
+    When the user clicks "Trigger Rule" on a threshold policy
+    Then the backend should execute the associated action
+    And the frontend should show the result of the trigger
+
+  Scenario: Receive alerts for critical conditions
+    Given a Pi node goes offline or reports overheating
+    When the backend triggers an alert
+    Then the frontend displays a critical notification to the user
+    And optionally plays an alert sound or flash indicator
+
+  Scenario: Authenticate users
+    Given a user is not logged in
+    When they open the dashboard
+    Then they are redirected to the login page
+    And after authentication, gain access to role-appropriate views

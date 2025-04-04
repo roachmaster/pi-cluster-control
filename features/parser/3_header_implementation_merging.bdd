@@ -1,0 +1,7 @@
+Feature: Support header and implementation file pairs
+
+  Scenario: Support header and implementation file pairs
+    Given a pair of header (.hpp) and implementation (.cpp) files
+    When the parser processes them together
+    Then it should merge metadata from both files
+    And associate method definitions in .cpp with declarations in .hpp
