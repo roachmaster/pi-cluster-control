@@ -22,10 +22,11 @@ class stub_notify_on_critical_conditions_steps : public cppforge_notify_on_criti
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_notify_on_critical_conditions_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_notify_on_critical_conditions_test, ExecutesFullScenario) {
     stub_notify_on_critical_conditions_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_notify_on_critical_conditions_test ===" << std::endl;
     std::cout << "[GIVEN] Given a Pi node goes offline" << std::endl;
     steps.given_a_pi_node_goes_offline();
     std::cout << "[WHEN] When no heartbeat is received for X seconds" << std::endl;

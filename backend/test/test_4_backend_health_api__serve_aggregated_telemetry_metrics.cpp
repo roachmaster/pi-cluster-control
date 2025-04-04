@@ -22,10 +22,11 @@ class stub_serve_aggregated_telemetry_metrics_steps : public cppforge_serve_aggr
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_serve_aggregated_telemetry_metrics_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_serve_aggregated_telemetry_metrics_test, ExecutesFullScenario) {
     stub_serve_aggregated_telemetry_metrics_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_serve_aggregated_telemetry_metrics_test ===" << std::endl;
     std::cout << "[GIVEN] Given multiple agents are reporting telemetry" << std::endl;
     steps.given_multiple_agents_are_reporting_telemetry();
     std::cout << "[WHEN] When the dashboard client requests system health data" << std::endl;

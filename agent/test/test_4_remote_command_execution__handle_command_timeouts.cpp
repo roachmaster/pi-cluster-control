@@ -25,10 +25,11 @@ class stub_handle_command_timeouts_steps : public cppforge_handle_command_timeou
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_handle_command_timeouts_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_handle_command_timeouts_test, ExecutesFullScenario) {
     stub_handle_command_timeouts_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_handle_command_timeouts_test ===" << std::endl;
     std::cout << "[GIVEN] Given a command exceeds the maximum allowed time" << std::endl;
     steps.given_a_command_exceeds_the_maximum_allowed_time();
     std::cout << "[WHEN] When the agent detects the timeout" << std::endl;

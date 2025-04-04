@@ -28,10 +28,11 @@ class stub_parse_a_source_file_containing_annotated_classes_steps : public cppfo
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_parse_a_source_file_containing_annotated_classes_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_parse_a_source_file_containing_annotated_classes_test, ExecutesFullScenario) {
     stub_parse_a_source_file_containing_annotated_classes_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_parse_a_source_file_containing_annotated_classes_test ===" << std::endl;
     std::cout << "[GIVEN] Given a C++ source file with DI-related macros" << std::endl;
     steps.given_a_c_source_file_with_di_related_macros();
     std::cout << "[WHEN] When the parser scans the file" << std::endl;

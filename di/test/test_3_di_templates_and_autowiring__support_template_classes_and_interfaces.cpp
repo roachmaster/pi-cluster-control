@@ -22,10 +22,11 @@ class stub_support_template_classes_and_interfaces_steps : public cppforge_suppo
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_support_template_classes_and_interfaces_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_support_template_classes_and_interfaces_test, ExecutesFullScenario) {
     stub_support_template_classes_and_interfaces_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_support_template_classes_and_interfaces_test ===" << std::endl;
     std::cout << "[GIVEN] Given a class uses C++ templates" << std::endl;
     steps.given_a_class_uses_c_templates();
     std::cout << "[WHEN] When the DI parser analyzes it" << std::endl;

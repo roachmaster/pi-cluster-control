@@ -22,10 +22,11 @@ class stub_log_events_and_errors_steps : public cppforge_log_events_and_errors_s
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_log_events_and_errors_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_log_events_and_errors_test, ExecutesFullScenario) {
     stub_log_events_and_errors_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_log_events_and_errors_test ===" << std::endl;
     std::cout << "[GIVEN] Given events and failures occur in the system" << std::endl;
     steps.given_events_and_failures_occur_in_the_system();
     std::cout << "[WHEN] When the backend detects them" << std::endl;

@@ -22,10 +22,11 @@ class stub_agent_reports_installed_packages_steps : public cppforge_agent_report
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_agent_reports_installed_packages_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_agent_reports_installed_packages_test, ExecutesFullScenario) {
     stub_agent_reports_installed_packages_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_agent_reports_installed_packages_test ===" << std::endl;
     std::cout << "[GIVEN] Given an agent is registered" << std::endl;
     steps.given_an_agent_is_registered();
     std::cout << "[WHEN] When the master requests a package inventory" << std::endl;

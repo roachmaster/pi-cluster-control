@@ -22,10 +22,11 @@ class stub_skip_generating_tests_for_module_with_test_false_steps : public cppfo
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_skip_generating_tests_for_module_with_test_false_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_skip_generating_tests_for_module_with_test_false_test, ExecutesFullScenario) {
     stub_skip_generating_tests_for_module_with_test_false_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_skip_generating_tests_for_module_with_test_false_test ===" << std::endl;
     std::cout << "[GIVEN] Given the module "logging" has test disabled" << std::endl;
     steps.given_the_module_logging_has_test_disabled();
     std::cout << "[WHEN] When I run the cppforge scaffolding tool" << std::endl;

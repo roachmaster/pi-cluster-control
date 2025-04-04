@@ -22,10 +22,11 @@ class stub_generate_di_registration_code_before_compilation_steps : public cppfo
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_generate_di_registration_code_before_compilation_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_generate_di_registration_code_before_compilation_test, ExecutesFullScenario) {
     stub_generate_di_registration_code_before_compilation_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_generate_di_registration_code_before_compilation_test ===" << std::endl;
     std::cout << "[GIVEN] Given a module uses DI macros" << std::endl;
     steps.given_a_module_uses_di_macros();
     std::cout << "[WHEN] When the DI generator runs" << std::endl;

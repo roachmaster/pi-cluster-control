@@ -22,10 +22,11 @@ class stub_validate_binding_graph_for_consistency_steps : public cppforge_valida
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_validate_binding_graph_for_consistency_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_validate_binding_graph_for_consistency_test, ExecutesFullScenario) {
     stub_validate_binding_graph_for_consistency_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_validate_binding_graph_for_consistency_test ===" << std::endl;
     std::cout << "[GIVEN] Given multiple modules define interdependent services" << std::endl;
     steps.given_multiple_modules_define_interdependent_services();
     std::cout << "[WHEN] When the DI container is generated" << std::endl;

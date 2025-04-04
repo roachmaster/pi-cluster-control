@@ -22,10 +22,11 @@ class stub_collect_and_store_agent_telemetry_steps : public cppforge_collect_and
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_collect_and_store_agent_telemetry_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_collect_and_store_agent_telemetry_test, ExecutesFullScenario) {
     stub_collect_and_store_agent_telemetry_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_collect_and_store_agent_telemetry_test ===" << std::endl;
     std::cout << "[GIVEN] Given agents send periodic metrics" << std::endl;
     steps.given_agents_send_periodic_metrics();
     std::cout << "[WHEN] When the backend receives these metrics" << std::endl;

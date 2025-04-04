@@ -22,10 +22,11 @@ class stub_k3s_is_inactive_steps : public cppforge_k3s_is_inactive_steps {
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_k3s_is_inactive_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_k3s_is_inactive_test, ExecutesFullScenario) {
     stub_k3s_is_inactive_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_k3s_is_inactive_test ===" << std::endl;
     std::cout << "[GIVEN] Given k3s is not running" << std::endl;
     steps.given_k3s_is_not_running();
     std::cout << "[WHEN] When the agent checks for running services" << std::endl;

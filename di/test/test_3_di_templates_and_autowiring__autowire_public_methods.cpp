@@ -22,10 +22,11 @@ class stub_autowire_public_methods_steps : public cppforge_autowire_public_metho
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_autowire_public_methods_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_autowire_public_methods_test, ExecutesFullScenario) {
     stub_autowire_public_methods_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_autowire_public_methods_test ===" << std::endl;
     std::cout << "[GIVEN] Given a service class has public methods" << std::endl;
     steps.given_a_service_class_has_public_methods();
     std::cout << "[WHEN] When the DI module processes the file" << std::endl;

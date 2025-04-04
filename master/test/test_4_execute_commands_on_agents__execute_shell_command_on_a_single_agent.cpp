@@ -25,10 +25,11 @@ class stub_execute_shell_command_on_a_single_agent_steps : public cppforge_execu
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_execute_shell_command_on_a_single_agent_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_execute_shell_command_on_a_single_agent_test, ExecutesFullScenario) {
     stub_execute_shell_command_on_a_single_agent_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_execute_shell_command_on_a_single_agent_test ===" << std::endl;
     std::cout << "[GIVEN] Given an active agent is registered" << std::endl;
     steps.given_an_active_agent_is_registered();
     std::cout << "[WHEN] When the master sends a shell command to the agent" << std::endl;

@@ -25,10 +25,11 @@ class stub_sanitize_and_validate_incoming_commands_steps : public cppforge_sanit
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_sanitize_and_validate_incoming_commands_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_sanitize_and_validate_incoming_commands_test, ExecutesFullScenario) {
     stub_sanitize_and_validate_incoming_commands_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_sanitize_and_validate_incoming_commands_test ===" << std::endl;
     std::cout << "[GIVEN] Given the master sends a command string" << std::endl;
     steps.given_the_master_sends_a_command_string();
     std::cout << "[WHEN] When the agent receives the command" << std::endl;

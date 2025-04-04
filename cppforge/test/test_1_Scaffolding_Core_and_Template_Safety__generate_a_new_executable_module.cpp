@@ -34,10 +34,11 @@ class stub_generate_a_new_executable_module_steps : public cppforge_generate_a_n
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_generate_a_new_executable_module_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_generate_a_new_executable_module_test, ExecutesFullScenario) {
     stub_generate_a_new_executable_module_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_generate_a_new_executable_module_test ===" << std::endl;
     std::cout << "[GIVEN] Given a module name "monitor"" << std::endl;
     steps.given_a_module_name_monitor();
     std::cout << "[AND] And the module type is "exe"" << std::endl;

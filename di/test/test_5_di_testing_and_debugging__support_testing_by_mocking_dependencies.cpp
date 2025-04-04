@@ -22,10 +22,11 @@ class stub_support_testing_by_mocking_dependencies_steps : public cppforge_suppo
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_support_testing_by_mocking_dependencies_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_support_testing_by_mocking_dependencies_test, ExecutesFullScenario) {
     stub_support_testing_by_mocking_dependencies_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_support_testing_by_mocking_dependencies_test ===" << std::endl;
     std::cout << "[GIVEN] Given a class has dependencies" << std::endl;
     steps.given_a_class_has_dependencies();
     std::cout << "[WHEN] When running in test mode" << std::endl;

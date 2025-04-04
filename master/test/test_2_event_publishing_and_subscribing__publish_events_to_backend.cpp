@@ -22,10 +22,11 @@ class stub_publish_events_to_backend_steps : public cppforge_publish_events_to_b
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_publish_events_to_backend_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_publish_events_to_backend_test, ExecutesFullScenario) {
     stub_publish_events_to_backend_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_publish_events_to_backend_test ===" << std::endl;
     std::cout << "[GIVEN] Given an agent status or action occurs" << std::endl;
     steps.given_an_agent_status_or_action_occurs();
     std::cout << "[WHEN] When the master generates an event" << std::endl;

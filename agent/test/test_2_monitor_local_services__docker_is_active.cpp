@@ -22,10 +22,11 @@ class stub_docker_is_active_steps : public cppforge_docker_is_active_steps {
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_docker_is_active_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_docker_is_active_test, ExecutesFullScenario) {
     stub_docker_is_active_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_docker_is_active_test ===" << std::endl;
     std::cout << "[GIVEN] Given Docker is installed" << std::endl;
     steps.given_docker_is_installed();
     std::cout << "[WHEN] When the agent checks for running services" << std::endl;

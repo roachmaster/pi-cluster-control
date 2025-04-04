@@ -181,7 +181,8 @@ scaffold_modules() {
 
     [[ "$type" == "exe" ]] && generate_main_cpp "$name"
     [[ "$type" == "lib" ]] && generate_class_stub "$name"
-     generate_test_files "$name" "$version" "$project"
+    [[ "$has_test" != "true" ]] &&  generate_test_files "$name" "$version" "$project"
+    echo "$INFO : done generating test dir has_test=$has_test, type=$type for module $name"
   done
 }
 

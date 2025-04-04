@@ -22,10 +22,11 @@ class stub_detect_missing_source_files_in_cmakelists_txt_steps : public cppforge
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_detect_missing_source_files_in_cmakelists_txt_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_detect_missing_source_files_in_cmakelists_txt_test, ExecutesFullScenario) {
     stub_detect_missing_source_files_in_cmakelists_txt_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_detect_missing_source_files_in_cmakelists_txt_test ===" << std::endl;
     std::cout << "[GIVEN] Given a module has source files not listed in its CMakeLists.txt" << std::endl;
     steps.given_a_module_has_source_files_not_listed_in_its_cmakelists_txt();
     std::cout << "[WHEN] When I run cppforge validate" << std::endl;

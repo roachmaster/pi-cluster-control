@@ -22,10 +22,11 @@ class stub_stream_real_time_cluster_updates_steps : public cppforge_stream_real_
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_stream_real_time_cluster_updates_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_stream_real_time_cluster_updates_test, ExecutesFullScenario) {
     stub_stream_real_time_cluster_updates_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_stream_real_time_cluster_updates_test ===" << std::endl;
     std::cout << "[GIVEN] Given the user is viewing the dashboard" << std::endl;
     steps.given_the_user_is_viewing_the_dashboard();
     std::cout << "[WHEN] When new data is available" << std::endl;

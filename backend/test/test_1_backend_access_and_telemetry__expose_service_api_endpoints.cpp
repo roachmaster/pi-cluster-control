@@ -22,10 +22,11 @@ class stub_expose_service_api_endpoints_steps : public cppforge_expose_service_a
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_expose_service_api_endpoints_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_expose_service_api_endpoints_test, ExecutesFullScenario) {
     stub_expose_service_api_endpoints_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_expose_service_api_endpoints_test ===" << std::endl;
     std::cout << "[GIVEN] Given the system exposes REST or gRPC endpoints" << std::endl;
     steps.given_the_system_exposes_rest_or_grpc_endpoints();
     std::cout << "[WHEN] When a client sends a request to control an agent" << std::endl;

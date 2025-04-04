@@ -25,10 +25,11 @@ class stub_generate_yaml_metadata_for_source_files_steps : public cppforge_gener
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_generate_yaml_metadata_for_source_files_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_generate_yaml_metadata_for_source_files_test, ExecutesFullScenario) {
     stub_generate_yaml_metadata_for_source_files_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_generate_yaml_metadata_for_source_files_test ===" << std::endl;
     std::cout << "[GIVEN] Given a set of source files exist in a module" << std::endl;
     steps.given_a_set_of_source_files_exist_in_a_module();
     std::cout << "[WHEN] When I run cppforge analyze" << std::endl;

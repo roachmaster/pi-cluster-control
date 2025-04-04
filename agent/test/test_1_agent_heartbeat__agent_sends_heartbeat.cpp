@@ -22,10 +22,11 @@ class stub_agent_sends_heartbeat_steps : public cppforge_agent_sends_heartbeat_s
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_agent_sends_heartbeat_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_agent_sends_heartbeat_test, ExecutesFullScenario) {
     stub_agent_sends_heartbeat_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_agent_sends_heartbeat_test ===" << std::endl;
     std::cout << "[GIVEN] Given the agent is running" << std::endl;
     steps.given_the_agent_is_running();
     std::cout << "[WHEN] When 5 seconds pass" << std::endl;

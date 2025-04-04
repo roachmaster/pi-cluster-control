@@ -1,0 +1,5 @@
+Feature: Skip non-C++ modules in scaffolding
+  Scenario: Do not generate test directory for non-exe/lib modules
+    Given a module type "react"
+    When I run the scaffolding tool
+    Then the module should not have a test directory

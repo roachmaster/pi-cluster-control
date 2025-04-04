@@ -22,10 +22,11 @@ class stub_trigger_rule_based_automation_steps : public cppforge_trigger_rule_ba
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_trigger_rule_based_automation_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_trigger_rule_based_automation_test, ExecutesFullScenario) {
     stub_trigger_rule_based_automation_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_trigger_rule_based_automation_test ===" << std::endl;
     std::cout << "[GIVEN] Given a rule is configured for temperature thresholds" << std::endl;
     steps.given_a_rule_is_configured_for_temperature_thresholds();
     std::cout << "[WHEN] When an agent reports temperature above 90°C" << std::endl;

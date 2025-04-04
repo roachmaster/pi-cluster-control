@@ -25,10 +25,11 @@ class stub_execute_command_on_multiple_agents_steps : public cppforge_execute_co
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_execute_command_on_multiple_agents_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_execute_command_on_multiple_agents_test, ExecutesFullScenario) {
     stub_execute_command_on_multiple_agents_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_execute_command_on_multiple_agents_test ===" << std::endl;
     std::cout << "[GIVEN] Given multiple agents are registered" << std::endl;
     steps.given_multiple_agents_are_registered();
     std::cout << "[WHEN] When the master sends a batch command" << std::endl;

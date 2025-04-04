@@ -25,10 +25,11 @@ class stub_restart_service_remotely_steps : public cppforge_restart_service_remo
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_restart_service_remotely_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_restart_service_remotely_test, ExecutesFullScenario) {
     stub_restart_service_remotely_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_restart_service_remotely_test ===" << std::endl;
     std::cout << "[GIVEN] Given an agent is running a service" << std::endl;
     steps.given_an_agent_is_running_a_service();
     std::cout << "[WHEN] When the master sends a restart service command" << std::endl;

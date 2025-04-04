@@ -25,10 +25,11 @@ class stub_detect_invalid_or_missing_annotations_steps : public cppforge_detect_
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_detect_invalid_or_missing_annotations_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_detect_invalid_or_missing_annotations_test, ExecutesFullScenario) {
     stub_detect_invalid_or_missing_annotations_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_detect_invalid_or_missing_annotations_test ===" << std::endl;
     std::cout << "[GIVEN] Given a C++ source file with incorrect or missing macro annotations" << std::endl;
     steps.given_a_c_source_file_with_incorrect_or_missing_macro_annotations();
     std::cout << "[WHEN] When the parser scans the file" << std::endl;

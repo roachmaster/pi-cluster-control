@@ -25,10 +25,11 @@ class stub_support_header_and_implementation_file_pairs_steps : public cppforge_
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_support_header_and_implementation_file_pairs_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_support_header_and_implementation_file_pairs_test, ExecutesFullScenario) {
     stub_support_header_and_implementation_file_pairs_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_support_header_and_implementation_file_pairs_test ===" << std::endl;
     std::cout << "[GIVEN] Given a pair of header (.hpp) and implementation (.cpp) files" << std::endl;
     steps.given_a_pair_of_header_hpp_and_implementation_cpp_files();
     std::cout << "[WHEN] When the parser processes them together" << std::endl;

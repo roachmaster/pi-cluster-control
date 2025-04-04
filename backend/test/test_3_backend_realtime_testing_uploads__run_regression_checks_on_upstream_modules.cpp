@@ -22,10 +22,11 @@ class stub_run_regression_checks_on_upstream_modules_steps : public cppforge_run
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_run_regression_checks_on_upstream_modules_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_run_regression_checks_on_upstream_modules_test, ExecutesFullScenario) {
     stub_run_regression_checks_on_upstream_modules_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_run_regression_checks_on_upstream_modules_test ===" << std::endl;
     std::cout << "[GIVEN] Given changes are pushed to agent or master modules" << std::endl;
     steps.given_changes_are_pushed_to_agent_or_master_modules();
     std::cout << "[WHEN] When the backend test suite is triggered" << std::endl;

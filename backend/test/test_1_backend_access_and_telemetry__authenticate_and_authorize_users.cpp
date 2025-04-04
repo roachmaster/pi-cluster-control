@@ -22,10 +22,11 @@ class stub_authenticate_and_authorize_users_steps : public cppforge_authenticate
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_authenticate_and_authorize_users_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_authenticate_and_authorize_users_test, ExecutesFullScenario) {
     stub_authenticate_and_authorize_users_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_authenticate_and_authorize_users_test ===" << std::endl;
     std::cout << "[GIVEN] Given a user attempts to access the dashboard" << std::endl;
     steps.given_a_user_attempts_to_access_the_dashboard();
     std::cout << "[WHEN] When the backend validates their credentials" << std::endl;

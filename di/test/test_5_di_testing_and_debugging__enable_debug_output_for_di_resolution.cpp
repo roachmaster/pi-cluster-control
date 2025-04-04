@@ -22,10 +22,11 @@ class stub_enable_debug_output_for_di_resolution_steps : public cppforge_enable_
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_enable_debug_output_for_di_resolution_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_enable_debug_output_for_di_resolution_test, ExecutesFullScenario) {
     stub_enable_debug_output_for_di_resolution_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_enable_debug_output_for_di_resolution_test ===" << std::endl;
     std::cout << "[GIVEN] Given the DI container is in debug mode" << std::endl;
     steps.given_the_di_container_is_in_debug_mode();
     std::cout << "[WHEN] When resolving a class" << std::endl;

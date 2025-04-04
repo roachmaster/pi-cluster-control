@@ -25,10 +25,11 @@ class stub_agent_initiates_registration_steps : public cppforge_agent_initiates_
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_agent_initiates_registration_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_agent_initiates_registration_test, ExecutesFullScenario) {
     stub_agent_initiates_registration_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_agent_initiates_registration_test ===" << std::endl;
     std::cout << "[GIVEN] Given an agent connects to the master for the first time" << std::endl;
     steps.given_an_agent_connects_to_the_master_for_the_first_time();
     std::cout << "[WHEN] When the agent sends registration metadata" << std::endl;

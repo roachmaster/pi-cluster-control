@@ -16,10 +16,14 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
-# === Test Executable ===
-add_executable(test_master
-    test_main.cpp
+# === Collect All Test Sources ===
+file(GLOB_RECURSE TEST_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp
 )
+
+# === Test Executable ===
+add_executable(test_master ${TEST_SOURCES})
 
 target_link_libraries(test_master PRIVATE
     master

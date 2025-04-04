@@ -22,10 +22,11 @@ class stub_support_singleton_and_scoped_lifetimes_steps : public cppforge_suppor
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_support_singleton_and_scoped_lifetimes_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_support_singleton_and_scoped_lifetimes_test, ExecutesFullScenario) {
     stub_support_singleton_and_scoped_lifetimes_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_support_singleton_and_scoped_lifetimes_test ===" << std::endl;
     std::cout << "[GIVEN] Given a class is marked with a singleton macro" << std::endl;
     steps.given_a_class_is_marked_with_a_singleton_macro();
     std::cout << "[WHEN] When the container is initialized" << std::endl;

@@ -25,10 +25,11 @@ class stub_generate_tests_for_a_module_with_test_true_steps : public cppforge_ge
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_generate_tests_for_a_module_with_test_true_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_generate_tests_for_a_module_with_test_true_test, ExecutesFullScenario) {
     stub_generate_tests_for_a_module_with_test_true_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_generate_tests_for_a_module_with_test_true_test ===" << std::endl;
     std::cout << "[GIVEN] Given the module "network" has test enabled" << std::endl;
     steps.given_the_module_network_has_test_enabled();
     std::cout << "[WHEN] When I run the cppforge scaffolding tool" << std::endl;

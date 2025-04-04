@@ -25,10 +25,11 @@ class stub_resolve_local_inter_module_dependencies_steps : public cppforge_resol
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_resolve_local_inter_module_dependencies_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_resolve_local_inter_module_dependencies_test, ExecutesFullScenario) {
     stub_resolve_local_inter_module_dependencies_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_resolve_local_inter_module_dependencies_test ===" << std::endl;
     std::cout << "[GIVEN] Given module A depends on module B" << std::endl;
     steps.given_module_a_depends_on_module_b();
     std::cout << "[WHEN] When I run the cppforge bootstrap command" << std::endl;

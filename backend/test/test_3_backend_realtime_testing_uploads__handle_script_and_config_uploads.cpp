@@ -22,10 +22,11 @@ class stub_handle_script_and_config_uploads_steps : public cppforge_handle_scrip
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_handle_script_and_config_uploads_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_handle_script_and_config_uploads_test, ExecutesFullScenario) {
     stub_handle_script_and_config_uploads_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_handle_script_and_config_uploads_test ===" << std::endl;
     std::cout << "[GIVEN] Given a user uploads a new Ansible playbook or shell script" << std::endl;
     steps.given_a_user_uploads_a_new_ansible_playbook_or_shell_script();
     std::cout << "[WHEN] When the backend receives the file" << std::endl;

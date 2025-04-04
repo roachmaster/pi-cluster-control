@@ -25,10 +25,11 @@ class stub_execute_shell_command_on_target_node_steps : public cppforge_execute_
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_execute_shell_command_on_target_node_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_execute_shell_command_on_target_node_test, ExecutesFullScenario) {
     stub_execute_shell_command_on_target_node_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_execute_shell_command_on_target_node_test ===" << std::endl;
     std::cout << "[GIVEN] Given the master sends a command "ls -la" to the agent" << std::endl;
     steps.given_the_master_sends_a_command_ls_la_to_the_agent();
     std::cout << "[WHEN] When the agent receives the request" << std::endl;

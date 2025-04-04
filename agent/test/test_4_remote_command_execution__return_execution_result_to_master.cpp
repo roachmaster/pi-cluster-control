@@ -22,10 +22,11 @@ class stub_return_execution_result_to_master_steps : public cppforge_return_exec
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_return_execution_result_to_master_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_return_execution_result_to_master_test, ExecutesFullScenario) {
     stub_return_execution_result_to_master_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_return_execution_result_to_master_test ===" << std::endl;
     std::cout << "[GIVEN] Given the command has been executed" << std::endl;
     steps.given_the_command_has_been_executed();
     std::cout << "[WHEN] When the output is available" << std::endl;

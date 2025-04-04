@@ -47,8 +47,7 @@ MODULES:
     PACKAGES:
       - crow
       - nlohmann-json
-
-  - NAME: frontend
-    TYPE: react
-    TEST: false
-    PACKAGES: []
+#  - NAME: frontend
+#    TYPE: react
+#    TEST: false
+#    PACKAGES: []

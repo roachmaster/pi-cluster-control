@@ -25,10 +25,11 @@ class stub_output_intermediate_json_metadata_steps : public cppforge_output_inte
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_output_intermediate_json_metadata_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_output_intermediate_json_metadata_test, ExecutesFullScenario) {
     stub_output_intermediate_json_metadata_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_output_intermediate_json_metadata_test ===" << std::endl;
     std::cout << "[GIVEN] Given a valid annotated source file" << std::endl;
     steps.given_a_valid_annotated_source_file();
     std::cout << "[WHEN] When parsing completes" << std::endl;

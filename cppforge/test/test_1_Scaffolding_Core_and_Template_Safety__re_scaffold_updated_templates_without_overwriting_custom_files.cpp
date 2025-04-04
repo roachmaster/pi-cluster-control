@@ -28,10 +28,11 @@ class stub_re_scaffold_updated_templates_without_overwriting_custom_files_steps 
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_re_scaffold_updated_templates_without_overwriting_custom_files_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_re_scaffold_updated_templates_without_overwriting_custom_files_test, ExecutesFullScenario) {
     stub_re_scaffold_updated_templates_without_overwriting_custom_files_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_re_scaffold_updated_templates_without_overwriting_custom_files_test ===" << std::endl;
     std::cout << "[GIVEN] Given templates have been modified" << std::endl;
     steps.given_templates_have_been_modified();
     std::cout << "[AND] And existing module directories contain user changes" << std::endl;

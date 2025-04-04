@@ -22,10 +22,11 @@ class stub_resolve_constructor_dependencies_steps : public cppforge_resolve_cons
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_resolve_constructor_dependencies_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_resolve_constructor_dependencies_test, ExecutesFullScenario) {
     stub_resolve_constructor_dependencies_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_resolve_constructor_dependencies_test ===" << std::endl;
     std::cout << "[GIVEN] Given a class is annotated for DI" << std::endl;
     steps.given_a_class_is_annotated_for_di();
     std::cout << "[WHEN] When the DI module processes the file" << std::endl;

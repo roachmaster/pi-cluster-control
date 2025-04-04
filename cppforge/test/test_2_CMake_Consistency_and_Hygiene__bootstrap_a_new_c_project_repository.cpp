@@ -28,10 +28,11 @@ class stub_bootstrap_a_new_c_project_repository_steps : public cppforge_bootstra
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_bootstrap_a_new_c_project_repository_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_bootstrap_a_new_c_project_repository_test, ExecutesFullScenario) {
     stub_bootstrap_a_new_c_project_repository_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_bootstrap_a_new_c_project_repository_test ===" << std::endl;
     std::cout << "[GIVEN] Given a valid modules.yaml file exists" << std::endl;
     steps.given_a_valid_modules_yaml_file_exists();
     std::cout << "[WHEN] When I run the cppforge bootstrap command" << std::endl;

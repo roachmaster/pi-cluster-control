@@ -22,10 +22,11 @@ class stub_register_components_in_the_container_steps : public cppforge_register
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_register_components_in_the_container_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_register_components_in_the_container_test, ExecutesFullScenario) {
     stub_register_components_in_the_container_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_register_components_in_the_container_test ===" << std::endl;
     std::cout << "[GIVEN] Given extracted class and metadata" << std::endl;
     steps.given_extracted_class_and_metadata();
     std::cout << "[WHEN] When the DI module generates the container code" << std::endl;

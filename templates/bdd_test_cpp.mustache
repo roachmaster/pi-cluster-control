@@ -18,10 +18,11 @@ class {{stub_class_name}} : public {{interface_class_name}} {
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST({{test_class_name}}, executes_scenario) {
+// BDD Scenario Test
+TEST({{test_class_name}}, ExecutesFullScenario) {
     {{stub_class_name}} steps;
 
+    std::cout << "\n=== Running BDD Scenario: {{test_class_name}} ===" << std::endl;
 {{#steps}}
     std::cout << "[{{prefix}}] {{{step_text}}}" << std::endl;
     steps.{{method_name}}();

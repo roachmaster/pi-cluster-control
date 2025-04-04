@@ -20,10 +20,14 @@ FetchContent_Declare(
 FetchContent_MakeAvailable({{NAME}})
 {{/GLOBAL_TEST_PACKAGES}}
 
-# === Test Executable ===
-add_executable(test_{{MODULE_NAME}}
-    test_main.cpp
+# === Collect All Test Sources ===
+file(GLOB_RECURSE TEST_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp
 )
+
+# === Test Executable ===
+add_executable(test_{{MODULE_NAME}} ${TEST_SOURCES})
 
 target_link_libraries(test_{{MODULE_NAME}} PRIVATE
     {{MODULE_NAME}}

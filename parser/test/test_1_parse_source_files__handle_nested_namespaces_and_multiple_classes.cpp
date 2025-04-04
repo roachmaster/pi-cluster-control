@@ -25,10 +25,11 @@ class stub_handle_nested_namespaces_and_multiple_classes_steps : public cppforge
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_handle_nested_namespaces_and_multiple_classes_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_handle_nested_namespaces_and_multiple_classes_test, ExecutesFullScenario) {
     stub_handle_nested_namespaces_and_multiple_classes_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_handle_nested_namespaces_and_multiple_classes_test ===" << std::endl;
     std::cout << "[GIVEN] Given a C++ source file with nested namespaces and multiple class definitions" << std::endl;
     steps.given_a_c_source_file_with_nested_namespaces_and_multiple_class_definitions();
     std::cout << "[WHEN] When the parser processes the file" << std::endl;

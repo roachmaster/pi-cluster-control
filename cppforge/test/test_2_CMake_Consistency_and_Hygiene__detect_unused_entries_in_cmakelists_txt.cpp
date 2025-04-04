@@ -22,10 +22,11 @@ class stub_detect_unused_entries_in_cmakelists_txt_steps : public cppforge_detec
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_detect_unused_entries_in_cmakelists_txt_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_detect_unused_entries_in_cmakelists_txt_test, ExecutesFullScenario) {
     stub_detect_unused_entries_in_cmakelists_txt_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_detect_unused_entries_in_cmakelists_txt_test ===" << std::endl;
     std::cout << "[GIVEN] Given a module’s CMakeLists.txt lists non-existent files" << std::endl;
     steps.given_a_module_s_cmakelists_txt_lists_non_existent_files();
     std::cout << "[WHEN] When I run cppforge validate" << std::endl;

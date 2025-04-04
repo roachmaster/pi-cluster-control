@@ -22,10 +22,11 @@ class stub_receive_instructions_from_backend_steps : public cppforge_receive_ins
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_receive_instructions_from_backend_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_receive_instructions_from_backend_test, ExecutesFullScenario) {
     stub_receive_instructions_from_backend_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_receive_instructions_from_backend_test ===" << std::endl;
     std::cout << "[GIVEN] Given a backend system sends a command" << std::endl;
     steps.given_a_backend_system_sends_a_command();
     std::cout << "[WHEN] When the master receives the instruction" << std::endl;

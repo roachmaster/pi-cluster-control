@@ -22,10 +22,11 @@ class stub_agent_lists_simplified_packages_steps : public cppforge_agent_lists_s
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_agent_lists_simplified_packages_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_agent_lists_simplified_packages_test, ExecutesFullScenario) {
     stub_agent_lists_simplified_packages_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_agent_lists_simplified_packages_test ===" << std::endl;
     std::cout << "[GIVEN] Given the agent is configured with a simplified list" << std::endl;
     steps.given_the_agent_is_configured_with_a_simplified_list();
     std::cout << "[WHEN] When it scans for installed packages" << std::endl;

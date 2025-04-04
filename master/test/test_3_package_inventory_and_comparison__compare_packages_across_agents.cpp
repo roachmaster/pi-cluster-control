@@ -22,10 +22,11 @@ class stub_compare_packages_across_agents_steps : public cppforge_compare_packag
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_compare_packages_across_agents_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_compare_packages_across_agents_test, ExecutesFullScenario) {
     stub_compare_packages_across_agents_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_compare_packages_across_agents_test ===" << std::endl;
     std::cout << "[GIVEN] Given package data from multiple agents" << std::endl;
     steps.given_package_data_from_multiple_agents();
     std::cout << "[WHEN] When the master compares versions" << std::endl;

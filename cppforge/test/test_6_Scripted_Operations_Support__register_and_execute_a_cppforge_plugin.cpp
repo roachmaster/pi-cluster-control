@@ -22,10 +22,11 @@ class stub_register_and_execute_a_cppforge_plugin_steps : public cppforge_regist
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// Test Case
-TEST(cppforge_register_and_execute_a_cppforge_plugin_test, executes_scenario) {
+// BDD Scenario Test
+TEST(cppforge_register_and_execute_a_cppforge_plugin_test, ExecutesFullScenario) {
     stub_register_and_execute_a_cppforge_plugin_steps steps;
 
+    std::cout << "\n=== Running BDD Scenario: cppforge_register_and_execute_a_cppforge_plugin_test ===" << std::endl;
     std::cout << "[GIVEN] Given a plugin implements the cppforge plugin interface" << std::endl;
     steps.given_a_plugin_implements_the_cppforge_plugin_interface();
     std::cout << "[WHEN] When I run cppforge with the plugin flag" << std::endl;
