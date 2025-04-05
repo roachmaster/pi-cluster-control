@@ -57,8 +57,10 @@ cmd_convert_bdd() {
 
 
 cmd_test() {
-  echo "🧪 Running tests..."
-  cmake --build "$ROOT_DIR/build" && ctest --test-dir "$ROOT_DIR/build"
+  echo "🧪 Rebuilding and running tests..."
+  cmake -S "$ROOT_DIR" -B "$ROOT_DIR/build"
+  cmake --build "$ROOT_DIR/build"
+  ctest --test-dir "$ROOT_DIR/build" --output-on-failure
 }
 
 # ── Command Router ───────────────────────────────────────────

@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
+enable_testing()
 
 # === Global Test Dependencies ===
 FetchContent_Declare(
@@ -16,19 +17,24 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
-# === Test Executable ===
-add_executable(test_backend
-    test_main.cpp
+# === Collect All Test Sources ===
+file(GLOB_RECURSE TEST_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp
 )
 
+# === Test Executable ===
+add_executable(test_backend ${TEST_SOURCES})
+
 target_link_libraries(test_backend PRIVATE
-    backend
+    backend_lib
     gtest
     gtest_main
 )
-
 include(GoogleTest)
 gtest_discover_tests(test_backend)
+
+add_test(NAME test_backend COMMAND test_backend)
 
 set_target_properties(test_backend PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin

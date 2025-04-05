@@ -14,3 +14,5 @@ add_subdirectory(agent)
 add_subdirectory(master)
 add_subdirectory(backend/test)
 add_subdirectory(backend)
+
+enable_testing()

@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD {{CXX_STANDARD}})
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
+enable_testing()
 
 # === Global Test Dependencies ===
 {{#GLOBAL_TEST_PACKAGES}}
@@ -30,13 +31,14 @@ file(GLOB_RECURSE TEST_SOURCES
 add_executable(test_{{MODULE_NAME}} ${TEST_SOURCES})
 
 target_link_libraries(test_{{MODULE_NAME}} PRIVATE
-    {{MODULE_NAME}}
+    {{MODULE_NAME}}_lib
     gtest
     gtest_main
 )
-
 include(GoogleTest)
 gtest_discover_tests(test_{{MODULE_NAME}})
+
+add_test(NAME test_{{MODULE_NAME}} COMMAND test_{{MODULE_NAME}})
 
 set_target_properties(test_{{MODULE_NAME}} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin

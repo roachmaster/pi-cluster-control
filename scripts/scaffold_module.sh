@@ -16,6 +16,10 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+pascal_case() {
+  python3 -c "import sys; print(''.join(w.capitalize() for w in sys.argv[1].split('_')))" "$1"
+}
+
 print_intro() {
   echo ""
   echo "$INFO  Scaffolding modules from $MODULE_CONFIG..."
@@ -47,9 +51,28 @@ create_directory_structure() {
 
 generate_main_cpp() {
   local name="$1"
-  echo "$INFO Generating main.cpp for $name"
-  maybe_render "$(jq -n --arg name "$name" '{MODULE_NAME: $name}')" \
-    "$(get_template_path main.cpp.mustache)" "$ROOT_DIR/$name/src/main.cpp"
+  local class_name
+  echo "⚙️ Raw name for pascal_case: ${name}_app"
+  class_name="$(pascal_case "${name}_app")"
+  echo "⚙️ pascal_case name : $class_name"
+
+  local interface_header="${name}.hpp"
+  local factory_header="${name}_factory.hpp"
+
+  echo "$INFO Generating main.cpp and adapter stubs for $name"
+
+  local base_json
+  base_json=$(jq -n \
+    --arg name "$name" \
+    --arg class "$class_name" \
+    --arg interface "$interface_header" \
+    --arg factory "$factory_header" \
+    '{MODULE_NAME: $name, MODULE_CLASS: $class, MODULE_INTERFACE: $interface, MODULE_FACTORY: $factory}')
+  echo "leo look:\n $base_json"
+  maybe_render "$base_json" "$(get_template_path main.cpp.mustache)" "$ROOT_DIR/$name/src/main.cpp"
+  maybe_render "$base_json" "$(get_template_path module_interface.hpp.mustache)" "$ROOT_DIR/$name/include/$interface_header"
+  maybe_render "$base_json" "$(get_template_path module_interface_factory.hpp.mustache)" "$ROOT_DIR/$name/include/$factory_header"
+  maybe_render "$base_json" "$(get_template_path module_impl.cpp.mustache)" "$ROOT_DIR/$name/src/${name}.cpp"
 }
 
 generate_class_stub() {
@@ -144,7 +167,6 @@ generate_feature_tests() {
   echo "$SUCCESS Done rendering BDD tests for $name"
 }
 
-
 generate_modules_feature_tests() {
   echo ""
   echo "$INFO  Rendering BDD-based feature tests for all modules..."
@@ -181,7 +203,7 @@ scaffold_modules() {
 
     [[ "$type" == "exe" ]] && generate_main_cpp "$name"
     [[ "$type" == "lib" ]] && generate_class_stub "$name"
-    [[ "$has_test" != "true" ]] &&  generate_test_files "$name" "$version" "$project"
+    generate_test_files "$name" "$version" "$project"
     echo "$INFO : done generating test dir has_test=$has_test, type=$type for module $name"
   done
 }
@@ -217,7 +239,6 @@ cleanup_feature_meta() {
 
   echo "$SUCCESS Deleted $count metadata files."
 }
-
 
 # ── Run All Steps ──────────────────────────
 print_intro

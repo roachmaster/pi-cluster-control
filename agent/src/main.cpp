@@ -1,6 +1,7 @@
-#include <iostream>
+#include "agent_factory.hpp"
 
-int main() {
-    std::cout << "agent module running..." << std::endl;
+int main(int argc, char** argv) {
+    auto app = create_agent_app();
+    app->run();
     return 0;
 }

@@ -7,3 +7,5 @@ project({{CMAKE_PROJECT}})
 {{#HAS_TEST}}add_subdirectory({{NAME}}/test)
 {{/HAS_TEST}}add_subdirectory({{NAME}})
 {{/MODULES}}
+
+enable_testing()

@@ -6,7 +6,7 @@ class {{interface_class_name}} {
 public:
 {{#steps}}
     virtual void {{method_name}}() {
-        FAIL() << "[STEP NOT IMPLEMENTED] {{{step_text}}}";
+        FAIL() << "[STEP NOT IMPLEMENTED] {{{escaped_step_text}}}";
     }
 {{/steps}}
 
@@ -18,13 +18,12 @@ class {{stub_class_name}} : public {{interface_class_name}} {
     // No overrides – just uses FAIL() behavior from base class
 };
 
-// BDD Scenario Test
-TEST({{test_class_name}}, ExecutesFullScenario) {
+// Test Case
+TEST({{test_class_name}}, executes_scenario) {
     {{stub_class_name}} steps;
 
-    std::cout << "\n=== Running BDD Scenario: {{test_class_name}} ===" << std::endl;
 {{#steps}}
-    std::cout << "[{{prefix}}] {{{step_text}}}" << std::endl;
+    std::cout << "[{{prefix}}] {{{escaped_step_text}}}" << std::endl;
     steps.{{method_name}}();
 {{/steps}}
 }
