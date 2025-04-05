@@ -56,11 +56,12 @@ cmd_convert_bdd() {
 }
 
 
+BUILD_DIR="$ROOT_DIR/cmake-build-debug"
+
 cmd_test() {
-  echo "🧪 Rebuilding and running tests..."
-  cmake -S "$ROOT_DIR" -B "$ROOT_DIR/build"
-  cmake --build "$ROOT_DIR/build"
-  ctest --test-dir "$ROOT_DIR/build" --output-on-failure
+  echo "🧪 Running tests..."
+  cmake --build "$BUILD_DIR"
+  ctest --test-dir "$BUILD_DIR"
 }
 
 # ── Command Router ───────────────────────────────────────────
