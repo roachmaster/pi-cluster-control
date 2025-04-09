@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(pi_cluster_control_TESTS)
+project(pi_cluster_control)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -17,9 +17,8 @@ FetchContent_MakeAvailable(googletest)
 
 # === Collect All Test Sources ===
 file(GLOB_RECURSE TEST_SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_registrar.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/../src/scenario_forge_test.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_scenario_*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../test_scenario_*.cpp
 )
 message(STATUS "Test sources: ${TEST_SOURCES}")
 
@@ -36,8 +35,6 @@ target_link_libraries(test_forge_core_tests PRIVATE
 target_include_directories(test_forge_core_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../include
-    ${CMAKE_SOURCE_DIR}/forge-core/include
-    ${CMAKE_SOURCE_DIR}/forge-core/include
 )
 
 include(GoogleTest)

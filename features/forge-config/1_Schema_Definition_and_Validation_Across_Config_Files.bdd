@@ -1,0 +1,20 @@
+Feature: Schema Definition and Validation Across Config Files
+  Scenario: Successful Schema Validation (Happy Path)
+    Given a well-formed YAML configuration file "config/example.yaml" that conforms to the schema and has some optional keys missing
+    When the file is loaded into the system
+    Then the contents are validated against the predefined schema and default values are applied with no errors reported
+
+  Scenario: Schema Validation Failure Due To Missing Required Keys
+    Given a YAML configuration file "config/example.yaml" that is missing one or more required keys
+    When the file is loaded into the system
+    Then an error is returned indicating that required keys are missing
+
+  Scenario: Schema Validation Failure Due To Invalid Values
+    Given a YAML configuration file "config/example.yaml" that contains invalid values for required keys
+    When the file is loaded into the system
+    Then an error is returned indicating that some values are invalid
+
+  Scenario: Empty File Scenario
+    Given an empty YAML configuration file "config/example.yaml"
+    When the file is loaded into the system
+    Then an error is returned indicating that the file is empty or a default configuration is generated

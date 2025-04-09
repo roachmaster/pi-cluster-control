@@ -113,33 +113,47 @@ generate_cmake_file() {
     "$template" "$ROOT_DIR/$name/CMakeLists.txt"
 }
 
-
-
 generate_test_files() {
   local name="$1" version="$2" project_name="$3" depends="$4"
   # Convert dashes in the module name to underscores.
-  local module_name=$(python3 -c "import sys; print(sys.argv[1].replace('-', '_'))" "$name")
+  local module_name
+  module_name=$(python3 -c "import sys; print(sys.argv[1].replace('-', '_'))" "$name")
 
   echo "$INFO Generating test support for $name"
   local test_dir="$ROOT_DIR/$name/test"
   mkdir -p "$test_dir"
 
   # Extract global test packages from MODULE_CONFIG.
-  local deps=$(yq -o=json '.GLOBAL_TEST_PACKAGES' "$MODULE_CONFIG")
-  local cxx=$(get_project_metadata "$MODULE_CONFIG" "CXX_STANDARD")
+  local global_test_packages
+  global_test_packages=$(yq -o=json '.GLOBAL_TEST_PACKAGES' "$MODULE_CONFIG")
 
-  local data=$(jq -n \
+  # Get the C++ standard value.
+  local cxx
+  cxx=$(get_project_metadata "$MODULE_CONFIG" "CXX_STANDARD")
+
+  # Extract the TEST_DEPENDS_ON field for this module from MODULES.
+  local test_depends
+  test_depends=$(yq -o=json '.MODULES[] | select(.NAME == "'"$name"'") | .TEST_DEPENDS_ON' "$MODULE_CONFIG")
+
+  # Transform TEST_DEPENDS_ON entries by replacing dashes with underscores and appending _test_lib.
+  local test_depends_lib
+  test_depends_lib=$(python3 -c "import sys, json; deps = json.load(sys.stdin); print(json.dumps([dep.replace('-', '_') + '_test_lib' for dep in deps]))" <<< "$test_depends")
+
+  # Build the JSON data to be injected into the template.
+  local data
+  data=$(jq -n \
     --arg name "$module_name" \
     --arg version "$version" \
     --arg project "$project_name" \
-    --argjson deps "$deps" \
+    --argjson deps "$global_test_packages" \
     --arg cxx "$cxx" \
     --argjson depends "$depends" \
-    '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project, CXX_STANDARD: ($cxx|tonumber), GLOBAL_TEST_PACKAGES: $deps, DEPENDS_ON: $depends}') \
+    --argjson test_depends_lib "$test_depends_lib" \
+    '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project, CXX_STANDARD: ($cxx|tonumber), GLOBAL_TEST_PACKAGES: $deps, DEPENDS_ON: $depends, TEST_DEPENDS_LIB: $test_depends_lib}')
 
   maybe_render "$data" "$(get_template_path test-CMakeLists.txt.mustache)" "$test_dir/CMakeLists.txt"
   maybe_render "$(jq -n --arg name "$module_name" '{MODULE_NAME: $name}')" \
-    "$(get_template_path test-main.cpp.mustache)" "$test_dir/test_main.cpp"
+    "$(get_template_path test-main.cpp.mustache)" "$test_dir/test_scenario_main.cpp"
 }
 
 generate_feature_meta() {

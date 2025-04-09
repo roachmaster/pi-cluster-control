@@ -30,22 +30,27 @@ MODULES:
         INCLUDE: "googletest/include"
     DEPENDS_ON:
       - forge-core
+    TEST_DEPENDS_ON: []
     RESPONSIBILITY: >
       Contains the comprehensive testing infrastructure for the Forge modules,
       including scenario implementations, test runners, integration tests, and supportive
       test utilities. This module leverages GoogleTest and other tools to validate the correctness
       and functionality of all Forge components in the system.
-#
+
 #  - NAME: forge-config
 #    TYPE: lib
 #    TEST: true
 #    PACKAGES: []
+#    DEPENDS_ON:
+#      - forge-core
+#    TEST_DEPENDS_ON:
+#      - forge-core
+#      - forge-core-tests
 #    RESPONSIBILITY: >
 #      Handles loading, parsing, validation, and lifecycle management of all YAML-based
 #      configuration files in the system, including modules.yaml, backlog.yaml, goals.yaml,
 #      and workflow.yaml. Responsible for providing schema validation, defaults, and
 #      structured access to config data across the Forge system.
-#
 #  - NAME: forge-templates
 #    TYPE: lib
 #    TEST: true

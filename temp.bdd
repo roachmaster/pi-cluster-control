@@ -1,0 +1,94 @@
+Feature: Schema Definition and Validation Across Config Files
+  Scenario: Enforce Schema for YAML Files
+    Given Any YAML configuration file (e.g., cppforge.yaml, modules.yaml, workflow.yaml, backlog.yaml)
+    When The file is loaded into the system
+    Then The contents are validated against a predefined schema, and defaults are applied where needed. Errors are returned (or exceptions thrown) if required keys are missing or if values are invalid
+
+Feature: YAML-Driven Module, Workflow, and Backlog Configuration
+  Scenario: Load and Parse modules.yaml
+    Given A file config/modules.yaml exists
+    When The configuration tool loads it
+    Then It returns a structured ModulesConfig DTO with all declared modules, ensuring defaults are applied and mandatory fields are present
+
+  Scenario: Load and Parse workflow.yaml
+    Given A file config/workflow.yaml exists
+    When It is loaded and parsed
+    Then A WorkflowConfig DTO is produced, with validation ensuring all required workflows and steps are present
+
+  Scenario: Load and Parse backlog.yaml
+    Given A file config/backlog.yaml exists
+    When It is processed
+    Then A BacklogConfig DTO is provided, enabling structured access to backlog items for use in integration or CI tools
+
+Feature: Backlog System Integration
+  Scenario: Load and Validate Backlog Configuration
+    Given A populated config/backlog.yaml exists
+    When The configuration system processes it
+    Then It is validated against its schema, and its structured representation can be used by backlog management or integration tools
+
+Feature: Routing Configuration Management
+  Scenario: Routing File Auto-Generation
+    Given The configuration file config/cppforge.yaml does not exist
+    When The routing setup tool is run
+    Then A file named cppforge.yaml should be created in the config directory containing default routing entries (with keys: name, path, help text, and optional flags)
+
+  Scenario: Validate Routing Entry – Required Key “name”
+    Given A populated config/cppforge.yaml with routing entries
+    When I inspect the file
+    Then Each routing entry must include a "name" key; otherwise, a validation error is raised
+
+  Scenario: Validate Routing Entry – Required Key “path”
+    Given A populated config/cppforge.yaml
+    When I inspect its contents
+    Then Every entry must include the key "path"
+
+  Scenario: Validate Routing Entry – Required Key “help text”
+    Given A populated config/cppforge.yaml
+    When The configuration is validated
+    Then Each entry must include the key "help text"
+
+  Scenario: Validate Routing Entry – Required Key “optional flags”
+    Given A populated config/cppforge.yaml
+    When The configuration is inspected
+    Then Each routing entry must include the key "optional flags"
+
+Feature: Routing Table Generation
+  Scenario: Generate CLI Routing Table
+    Given A valid config/cppforge.yaml is present
+    When The routing table generator runs (as part of bootstrap or a separate step)
+    Then A routing table (e.g., for cppforge.sh) is generated that accurately reflects the routing entries defined in the YAML file
+
+Feature: Script Entry Linting and Validation
+  Scenario: Lint Routing/Script Entries for Completeness
+    Given A populated config/cppforge.yaml with routing/script entries
+    When The lint tool is executed
+    Then It verifies that each entry includes all required keys ("name", "path", "help text", "optional flags") and that there are no duplicate or badly formatted entries
+
+Feature: CMake Consistency & Hygiene for Configuration
+  Scenario: Validate and Enforce CMake Consistency in Configurations
+    Given The build system configuration (CMakeLists.txt) that references configuration directories and files
+    When The project is bootstrapped or built
+    Then The system validates that all required configuration files (e.g., in config/) are present and that module directories are correctly referenced. If inconsistencies are detected, descriptive warnings or errors are generated
+
+Feature: Generate JSON Schema for Mustache Templates
+  In order to automate configuration management and reduce manual errors
+  As a developer or build system
+  I want the forge-config module to generate a JSON schema from a Mustache template
+
+  Scenario: Successful Schema Generation
+    Given a valid Mustache template file "template.mustache" that contains placeholders such as {{PROJECT}}, {{CXX_STANDARD}}, and {{MODULE_NAME}}
+    When I run the schema generation tool on "template.mustache"
+    Then a JSON schema should be generated that includes properties for "PROJECT", "CXX_STANDARD", and "MODULE_NAME"
+      And each property should have the type "string"
+      And each property should be marked as required
+
+  Scenario: Template with Additional Annotations
+    Given a Mustache template file "annotated_template.mustache" with placeholders annotated with default values and type information (e.g. {{PROJECT:string:MyProject}})
+    When I run the schema generation tool on "annotated_template.mustache"
+    Then the generated JSON schema should include the property "PROJECT" with type "string" and a default value "MyProject"
+      And the schema should reflect similar type and default information for all annotated placeholders
+
+  Scenario: Error Handling with Malformed Template
+    Given a malformed Mustache template file "malformed.mustache"
+    When I run the schema generation tool on "malformed.mustache"
+    Then an error should be reported indicating that the template is malformed
