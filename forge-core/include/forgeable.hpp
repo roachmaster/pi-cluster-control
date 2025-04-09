@@ -3,9 +3,7 @@
 
 #include <string>
 
-namespace cppforge {
-    namespace core {
-        namespace forge {
+namespace cppforge::core::forge {
 
 /**
  * @brief The Forgeable interface.
@@ -17,36 +15,34 @@ namespace cppforge {
  * @note Derived classes must override the pure virtual functions to provide their
  * specific behavior.
  */
-            class Forgeable {
-            public:
-                /**
-                 * @brief Retrieves the scenario name.
-                 *
-                 * This method should return a descriptive name for the scenario or component.
-                 *
-                 * @return std::string The scenario name.
-                 */
-                virtual std::string scenarioName() const = 0;
+    class Forgeable {
+    public:
+        /**
+         * @brief Retrieves the scenario name.
+         *
+         * This method should return a descriptive name for the scenario or component.
+         *
+         * @return std::string The scenario name.
+         */
+        virtual std::string scenarioName() const = 0;
 
-                /**
-                 * @brief Performs the "smelt" operation.
-                 *
-                 * This method should implement the core behavior of the component.
-                 * Essentially, it "smelts" the component, which is a metaphor for creating or processing
-                 * the component's functionality.
-                 */
-                virtual void smelt() = 0;
+        /**
+         * @brief Performs the "smelt" operation.
+         *
+         * This method should implement the core behavior of the component.
+         * Essentially, it "smelts" the component, which is a metaphor for creating or processing
+         * the component's functionality.
+         */
+        virtual void smelt() = 0;
 
-                /**
-                 * @brief Virtual destructor.
-                 *
-                 * Ensures that derived class destructors are called properly. Marked noexcept for safety.
-                 */
-                virtual ~Forgeable() noexcept = default;
-            };
+        /**
+         * @brief Virtual destructor.
+         *
+         * Ensures that derived class destructors are called properly. Marked noexcept for safety.
+         */
+        virtual ~Forgeable() noexcept = default;
+    };
 
-        } // namespace forge
-    } // namespace core
 } // namespace cppforge
 
 #endif // FORGEABLE_HPP

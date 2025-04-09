@@ -10,9 +10,22 @@ add_library(forge_core_tests_lib
     src/scenario_forge_test.cpp
 )
 
+# === Module Package Dependencies ===
+include(FetchContent)
+
+FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip
+)
+
+FetchContent_MakeAvailable(
+    googletest
+)
+
 target_include_directories(forge_core_tests_lib PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/forge-core/include
+    ${CMAKE_BINARY_DIR}/_deps/googletest-src/googletest/include
 )
 
 set_target_properties(forge_core_tests_lib PROPERTIES

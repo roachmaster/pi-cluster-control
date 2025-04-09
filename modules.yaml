@@ -27,6 +27,7 @@ MODULES:
     PACKAGES:
       - NAME: googletest
         URL: https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip
+        INCLUDE: "googletest/include"
     DEPENDS_ON:
       - forge-core
     RESPONSIBILITY: >

@@ -94,9 +94,10 @@ update_root_cmake() {
 
   local version=$(get_project_metadata "$MODULE_CONFIG" "VERSION")
   local project_name=$(get_project_metadata "$MODULE_CONFIG" "PROJECT")
+  local cxx_standard=$(get_project_metadata "$MODULE_CONFIG" "CXX_STANDARD")  # New: Retrieve CXX_STANDARD
 
-  if [ -z "$version" ] || [ -z "$project_name" ]; then
-    echo "$FAIL Missing CMAKE.VERSION or CMAKE.PROJECT in $MODULE_CONFIG."
+  if [ -z "$version" ] || [ -z "$project_name" ] || [ -z "$cxx_standard" ]; then
+    echo "$FAIL Missing CMAKE.VERSION, CMAKE.PROJECT, or CXX_STANDARD in $MODULE_CONFIG."
     ALL_PRESENT=false
     return
   fi
@@ -111,8 +112,9 @@ update_root_cmake() {
   local template_data=$(jq -n \
     --arg version "$version" \
     --arg project "$project_name" \
+    --arg cxx_standard "$cxx_standard" \
     --argjson modules "$modules_json" \
-    '{ CMAKE_VERSION: $version, CMAKE_PROJECT: $project, MODULES: $modules }')
+    '{ CMAKE_VERSION: $version, CMAKE_PROJECT: $project, CXX_STANDARD: $cxx_standard, MODULES: $modules }')
 
   render_template "$template_data" "$(get_template_path root-CMakeLists.txt.mustache)" "$ROOT_CMAKE"
 

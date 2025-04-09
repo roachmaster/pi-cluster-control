@@ -6,15 +6,12 @@
 #include "forge_log.hpp"                        // Provides logging.
 #include "test_config.hpp"                      // Test configuration DTO.
 #include "forge_bench.hpp"                      // The test bench.
-#include "abstract_forgeable_scenario.hpp"      // Base class for scenarios.
 #include "forge_registrar.hpp"                  // The new header for ForgeRegistrar.
 
 #include <memory>
-#include <vector>
 #include <string>
 
 // --- Test Fixture for ScenarioForge ---
-
 /**
  * @brief Test fixture for running forgeable scenarios.
  *
@@ -47,7 +44,6 @@ protected:
 };
 
 // --- Test Case: Run All Forgeable Scenarios ---
-
 /**
  * @brief Executes all registered Forgeable scenarios.
  *
@@ -55,6 +51,7 @@ protected:
  * ForgeableScenarioProvider and iterates through each scenario,
  * calling its smelt() method while logging progress and failures.
  */
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-throwing-throw)
 TEST_F(ScenarioForgeTest, RunAllForgeableScenarios) {
     cppforge::logging::ForgeLog::info("🧲 Discovering all Forgeable scenario components...");
     auto scenarios = cppforge::scenarios::ForgeableScenarioProvider::getAll();
@@ -65,6 +62,7 @@ TEST_F(ScenarioForgeTest, RunAllForgeableScenarios) {
     for (const auto& scenario : scenarios) {
         cppforge::logging::ForgeLog::info("🔥 [" + std::to_string(index) + "] Running scenario: " + scenario->scenarioName());
         try {
+            // Run scenario functionality.
             scenario->smelt();
             cppforge::logging::ForgeLog::info("✅ [" + std::to_string(index) + "] Passed: " + scenario->scenarioName());
         } catch (const std::exception& e) {

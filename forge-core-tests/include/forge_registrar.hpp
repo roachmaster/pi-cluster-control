@@ -5,9 +5,7 @@
 #include "forge_registry.hpp"
 #include "forge_bench.hpp"  // This header should define the ForgeBench class.
 
-namespace cppforge {
-    namespace core {
-        namespace registry {
+namespace cppforge::core::registry {
 
 /**
  * @brief The ForgeRegistrar is responsible for initializing the
@@ -20,20 +18,18 @@ namespace cppforge {
  * @note Ensure that the ForgeBench contains and properly creates all
  * desired Forgeable components before calling initialize().
  */
-            class ForgeRegistrar {
-            public:
-                /**
-                 * @brief Initializes the global forge registry.
-                 *
-                 * Registers forges from the given ForgeBench into the global registry.
-                 *
-                 * @param bench A shared pointer to the ForgeBench instance containing the available forges.
-                 */
-                static void initialize(const std::shared_ptr<cppforge::scenarios::ForgeBench>& bench);
-            };
+    class ForgeRegistrar {
+    public:
+        /**
+         * @brief Initializes the global forge registry.
+         *
+         * Registers forges from the given ForgeBench into the global registry.
+         *
+         * @param bench A shared pointer to the ForgeBench instance containing the available forges.
+         */
+        static void initialize(const std::shared_ptr<cppforge::scenarios::ForgeBench> &bench);
+    };
 
-        } // namespace registry
-    } // namespace core
-} // namespace cppforge
+} // namespace cppforge::core::registry
 
 #endif // FORGE_REGISTRAR_HPP

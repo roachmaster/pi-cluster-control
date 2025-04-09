@@ -86,7 +86,7 @@ generate_class_stub() {
 }
 
 generate_cmake_file() {
-  local name="$1" type="$2" version="$3" project_name="$4" depends="$5"
+  local name="$1" type="$2" version="$3" project_name="$4" depends="$5" packages="$6"
 
   # Replace dashes with underscores for MODULE_NAME.
   local module_name=$(python3 -c "import sys; print(sys.argv[1].replace('-', '_'))" "$name")
@@ -95,6 +95,9 @@ generate_cmake_file() {
   local cxx=$(get_project_metadata "$MODULE_CONFIG" "CXX_STANDARD")
   local template="$(get_template_path CMakeLists.txt.mustache)"
   [ "$type" == "lib" ] && template="$(get_template_path CMakeLists-lib.mustache)"
+
+  # Create a JSON object for packages that includes HAS_PACKAGES and the packages list.
+  local packages_json_processed=$(python3 -c "import sys, json; pkgs=json.loads(sys.argv[1]); print(json.dumps({'HAS_PACKAGES': bool(pkgs), 'PACKAGES': pkgs}))" "$packages")
 
   # Extract all source files under root_dir/module/src/
   local source_files_json=$(python3 -c "import os, json; print(json.dumps([f for f in os.listdir('$ROOT_DIR/$name/src') if f.endswith('.cpp')]))")
@@ -105,7 +108,8 @@ generate_cmake_file() {
                        --arg cxx "$cxx" \
                        --argjson depends "$depends" \
                        --argjson source_files "$source_files_json" \
-    '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project, CXX_STANDARD: ($cxx|tonumber), DEPENDS_ON: $depends, SOURCE_FILES: $source_files}')" \
+                       --argjson packages "$packages_json_processed" \
+    '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project, CXX_STANDARD: ($cxx|tonumber), DEPENDS_ON: $depends, SOURCE_FILES: $source_files, PACKAGES: $packages.PACKAGES, HAS_PACKAGES: $packages.HAS_PACKAGES}')" \
     "$template" "$ROOT_DIR/$name/CMakeLists.txt"
 }
 
@@ -218,11 +222,12 @@ scaffold_modules() {
     local has_test=$(echo "$module" | jq -r '.TEST // false')
     # Extract DEPENDS_ON field; default to empty JSON array if missing.
     local depends=$(echo "$module" | jq -c '.DEPENDS_ON // []')
+    local packages=$(echo "$module" | jq -c '.PACKAGES // []')
 
     echo "$INFO Processing module: $name ($type)"
     create_directory_structure "$name"
     # Pass the dependencies variable as the fifth parameter.
-    generate_cmake_file "$name" "$type" "$version" "$project" "$depends"
+    generate_cmake_file "$name" "$type" "$version" "$project" "$depends" "$packages"
     echo "$INFO DEBUG: has_test=$has_test, type=$type for module $name"
 
     [[ "$type" == "exe" ]] && generate_main_cpp "$name"

@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD {{CXX_STANDARD}})
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
+
 enable_testing()
 
 # === Global Test Dependencies ===
@@ -17,8 +18,10 @@ FetchContent_MakeAvailable(googletest)
 # === Collect All Test Sources ===
 file(GLOB_RECURSE TEST_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/test_main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_registrar.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../src/scenario_forge_test.cpp
 )
+message(STATUS "Test sources: ${TEST_SOURCES}")
 
 # === Test Executable ===
 add_executable(test_{{MODULE_NAME}} ${TEST_SOURCES})
@@ -29,18 +32,18 @@ target_link_libraries(test_{{MODULE_NAME}} PRIVATE
     gtest_main
 )
 
-# Add the test module's own include directory
+# Add the test module's own include directories along with any dependent modules.
 target_include_directories(test_{{MODULE_NAME}} PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../include
-{{#DEPENDS_ON}}
+    ${CMAKE_SOURCE_DIR}/forge-core/include
+    {{#DEPENDS_ON}}
     ${CMAKE_SOURCE_DIR}/{{.}}/include
-{{/DEPENDS_ON}}
+    {{/DEPENDS_ON}}
 )
 
 include(GoogleTest)
 gtest_discover_tests(test_{{MODULE_NAME}})
-
-add_test(NAME test_{{MODULE_NAME}} COMMAND test_{{MODULE_NAME}})
 
 set_target_properties(test_{{MODULE_NAME}} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin

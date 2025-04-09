@@ -56,17 +56,15 @@ cmd_convert_bdd() {
   "$BDD_TO_YAML_SCRIPT" "$file"
 }
 
-
-
 cmd_build() {
-  echo "🧪 Running tests..."
-  cmake --build "$BUILD_DIR"
+  echo "🧪 Running build..."
+  cmake --build "$BUILD_DIR" --verbose
 }
 
 cmd_test() {
   echo "🧪 Running tests..."
   cmake --build "$BUILD_DIR"
-  ctest --test-dir "$BUILD_DIR"
+  ctest --test-dir "$BUILD_DIR" --output-on-failure --verbose
 }
 
 # ── Command Router ───────────────────────────────────────────

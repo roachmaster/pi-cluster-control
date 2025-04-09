@@ -4,9 +4,9 @@
 #include "test_config.hpp"  // Defines the TestConfig DTO.
 #include "forge_log.hpp"    // Defines the logging class.
 #include <string>
+#include <utility>
 
-namespace cppforge {
-    namespace scenarios {
+namespace cppforge::scenarios {
 
 /**
  * @brief ForgeBench serves as the factory bench or context for running scenarios.
@@ -21,8 +21,8 @@ namespace cppforge {
              *
              * @param config The TestConfig instance containing configuration details.
              */
-            explicit ForgeBench(const TestConfig& config)
-                    : config_(config)
+            explicit ForgeBench(TestConfig  config)
+                    : config_(std::move(config))
             {
                 cppforge::logging::ForgeLog::info("🧰 ForgeBench initialized");
                 cppforge::logging::ForgeLog::info("📂 Feature Directory: " + config_.featuresDirectory);
@@ -33,14 +33,13 @@ namespace cppforge {
              *
              * @return const TestConfig& The test configuration used to initialize ForgeBench.
              */
-            const TestConfig& getConfig() const { return config_; }
+            [[nodiscard]] const TestConfig& getConfig() const { return config_; }
 
         private:
             // Test configuration stored by value.
             TestConfig config_;
         };
 
-    } // namespace scenarios
 } // namespace cppforge
 
 #endif // FORGE_BENCH_HPP

@@ -8,6 +8,7 @@ add_library(forge_core_lib
     src/forge_core.cpp
 )
 
+
 target_include_directories(forge_core_lib PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
