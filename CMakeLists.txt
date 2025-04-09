@@ -9,5 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_subdirectory(forge-core)
 add_subdirectory(forge-core-tests/test)
 add_subdirectory(forge-core-tests)
+add_subdirectory(forge-config/test)
+add_subdirectory(forge-config)
 
 enable_testing()
