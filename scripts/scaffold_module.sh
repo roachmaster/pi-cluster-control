@@ -52,9 +52,9 @@ create_directory_structure() {
 generate_main_cpp() {
   local name="$1"
   local class_name
-  echo "⚙️ Raw name for pascal_case: ${name}_app"
+  echo "Raw name for pascal_case: ${name}_app"
   class_name="$(pascal_case "${name}_app")"
-  echo "⚙️ pascal_case name : $class_name"
+  echo "pascal_case name : $class_name"
 
   local interface_header="${name}.hpp"
   local factory_header="${name}_factory.hpp"
@@ -92,17 +92,23 @@ generate_cmake_file() {
   local module_name=$(python3 -c "import sys; print(sys.argv[1].replace('-', '_'))" "$name")
 
   echo "$INFO Generating CMakeLists.txt for $name"
-
+  local cxx=$(get_project_metadata "$MODULE_CONFIG" "CXX_STANDARD")
   local template="$(get_template_path CMakeLists.txt.mustache)"
   [ "$type" == "lib" ] && template="$(get_template_path CMakeLists-lib.mustache)"
+
+  # Extract all source files under root_dir/module/src/
+  local source_files_json=$(python3 -c "import os, json; print(json.dumps([f for f in os.listdir('$ROOT_DIR/$name/src') if f.endswith('.cpp')]))")
 
   maybe_render "$(jq -n --arg name "$module_name" \
                        --arg version "$version" \
                        --arg project "$project_name" \
+                       --arg cxx "$cxx" \
                        --argjson depends "$depends" \
-    '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project, DEPENDS_ON: $depends}')" \
+                       --argjson source_files "$source_files_json" \
+    '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project, CXX_STANDARD: ($cxx|tonumber), DEPENDS_ON: $depends, SOURCE_FILES: $source_files}')" \
     "$template" "$ROOT_DIR/$name/CMakeLists.txt"
 }
+
 
 
 generate_test_files() {
