@@ -59,11 +59,15 @@ check_module_packages() {
     return
   fi
 
-  mapfile -t global_packages < <(yq -r '.GLOBAL_PACKAGES[].NAME' "$MODULE_CONFIG")
-  mapfile -t module_packages < <(yq -r '.MODULES[].PACKAGES[]?' "$MODULE_CONFIG")
+  # Extract global and module-specific packages correctly
+  mapfile -t global_packages < <(yq -r '.GLOBAL_PACKAGES[] | select(.NAME) | .NAME' "$MODULE_CONFIG")
+  mapfile -t module_packages < <(yq -r '.MODULES[].PACKAGES[]? | select(.NAME) | .NAME' "$MODULE_CONFIG")
   packages=($(printf "%s\n" "${global_packages[@]}" "${module_packages[@]}" | sort -u))
 
   for pkg in "${packages[@]}"; do
+    if [[ -z "$pkg" ]]; then  # Skip empty entries
+      continue
+    fi
     if ! brew list --formula | grep -q "^$pkg$"; then
       echo "$FAIL Missing package: $pkg"
       suggest_install "$pkg"
@@ -73,6 +77,7 @@ check_module_packages() {
     fi
   done
 }
+
 
 scaffold_all_modules() {
   echo ""

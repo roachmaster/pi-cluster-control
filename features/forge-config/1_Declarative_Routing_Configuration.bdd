@@ -1,0 +1,25 @@
+Feature: Declarative Routing Configuration
+  Scenario: Generate the routing configuration file
+    Given the config/cppforge.yaml file does not exist
+    When I run the routing setup tool
+    Then a file named "cppforge.yaml" should be created in the config directory
+
+  Scenario: Validate that each routing entry contains the key "name"
+    Given a populated config/cppforge.yaml with routing entries
+    When I inspect the routing configuration file
+    Then every routing entry should include the key "name"
+
+  Scenario: Validate that each routing entry contains the key "path"
+    Given a populated config/cppforge.yaml with routing entries
+    When I inspect the routing configuration file
+    Then every routing entry should include the key "path"
+
+  Scenario: Validate that each routing entry contains the key "help text"
+    Given a populated config/cppforge.yaml with routing entries
+    When I inspect the routing configuration file
+    Then every routing entry should include the key "help text"
+
+  Scenario: Validate that each routing entry contains the key "optional flags"
+    Given a populated config/cppforge.yaml with routing entries
+    When I inspect the routing configuration file
+    Then every routing entry should include the key "optional flags"

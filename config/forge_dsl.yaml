@@ -1,0 +1,48 @@
+top_level_keywords:
+  project: "Defines project-level metadata like name, version, and primary language (e.g., C++)."
+  module: "Declares an individual C++ module, including its features, dependencies, and packages."
+  workflow: "Describes a sequence of development steps or operations needed to implement a feature."
+  script: "Defines executable tooling scripts and CLI routing logic for automation tasks."
+  backlog: "Represents granular development work items, often derived from workflows or goals."
+  goals: "High-level initiatives that guide the vision and architecture of the CppForge system."
+  feature: "Defines a user-facing capability, testable scenario, or acceptance criterion typically written in BDD style."
+
+workflow_keywords:
+  id: "A unique identifier for the workflow or step."
+  name: "Human-readable name for the workflow."
+  steps: "Ordered list of steps to complete the workflow (each a set of actionable items)."
+  description: "What the workflow aims to achieve in the system."
+  action: "A single operation that may be manual, scripted, or auto-generated."
+  target: "The file, config, or script affected by the step."
+  status: "One of: planned, in_progress, done, or backlog – indicates implementation state."
+
+script_keywords:
+  entrypoint: "Main executable script path for the tool."
+  routes: "CLI subcommands mapped to scripts or handlers."
+  args: "Named or positional arguments the script can receive."
+  description: "Description of what the script automates or manipulates."
+
+backlog_keywords:
+  id: "Unique identifier that links to a workflow, goal, or module."
+  title: "Short title of the task."
+  category: "Domain classification (e.g., scripting, config, di)."
+  status: "One of: planned, in_progress, done, optional, monitoring."
+  priority: "One of: highest, high, medium, low."
+  description: "Purpose and expected behavior of this task."
+  goal_ids: "List of related goal identifiers that this backlog supports (NEW)."
+  tags: "Optional labels for filtering or grouping."
+  featureTest: "Reference to the feature or acceptance test file that validates this backlog item."
+
+goal_keywords:
+  id: "Unique identifier that represents an overarching initiative or system capability."
+  title: "Human-readable title for the goal."
+  priority: "One of: highest, high, medium, low."
+  description: "Strategic value of the goal to the architecture or developer experience."
+  status: "Current state (planned, active, completed)."
+
+feature_keywords:
+  id: "Unique identifier for the feature scenario."
+  title: "Short description of the user-facing behavior."
+  scenarios: "List of Gherkin scenarios that validate this feature."
+  acceptanceTest: "Name or path of the acceptance test suite this feature belongs to."
+  links: "Backlog or goal IDs that this feature helps fulfill."

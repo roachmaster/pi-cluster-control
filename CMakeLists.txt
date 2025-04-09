@@ -3,16 +3,11 @@
 cmake_minimum_required(VERSION 3.21)
 project(pi_cluster_control)
 
-add_subdirectory(cppforge/test)
-add_subdirectory(cppforge)
-add_subdirectory(parser/test)
-add_subdirectory(parser)
-add_subdirectory(di/test)
-add_subdirectory(di)
-add_subdirectory(agent/test)
-add_subdirectory(agent)
-add_subdirectory(master)
-add_subdirectory(backend/test)
-add_subdirectory(backend)
+set(CMAKE_CXX_STANDARD )
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+add_subdirectory(forge-core)
+add_subdirectory(forge-core-tests/test)
+add_subdirectory(forge-core-tests)
 
 enable_testing()

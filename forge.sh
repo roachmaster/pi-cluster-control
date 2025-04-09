@@ -10,6 +10,7 @@ BDD_TO_YAML_SCRIPT="$SCRIPTS_DIR/convert_bdd.sh"
 
 SCAFFOLD_SCRIPT="$SCRIPTS_DIR/scaffold_module.sh"
 BOOTSTRAP_SCRIPT="$SCRIPTS_DIR/bootstrap.sh"
+BUILD_DIR="$ROOT_DIR/cmake-build-debug"
 
 # ── Usage Help ───────────────────────────────────────────────
 usage() {
@@ -56,7 +57,11 @@ cmd_convert_bdd() {
 }
 
 
-BUILD_DIR="$ROOT_DIR/cmake-build-debug"
+
+cmd_build() {
+  echo "🧪 Running tests..."
+  cmake --build "$BUILD_DIR"
+}
 
 cmd_test() {
   echo "🧪 Running tests..."
@@ -74,6 +79,7 @@ main() {
     scaffold)       cmd_scaffold "$@" ;;
     convert-bdd)    cmd_convert_bdd "$@" ;;
     test)           cmd_test "$@" ;;
+    build)           cmd_build "$@" ;;
     *)              usage ;;
   esac
 }

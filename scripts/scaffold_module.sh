@@ -68,7 +68,6 @@ generate_main_cpp() {
     --arg interface "$interface_header" \
     --arg factory "$factory_header" \
     '{MODULE_NAME: $name, MODULE_CLASS: $class, MODULE_INTERFACE: $interface, MODULE_FACTORY: $factory}')
-  echo "leo look:\n $base_json"
   maybe_render "$base_json" "$(get_template_path main.cpp.mustache)" "$ROOT_DIR/$name/src/main.cpp"
   maybe_render "$base_json" "$(get_template_path module_interface.hpp.mustache)" "$ROOT_DIR/$name/include/$interface_header"
   maybe_render "$base_json" "$(get_template_path module_interface_factory.hpp.mustache)" "$ROOT_DIR/$name/include/$factory_header"
@@ -77,43 +76,59 @@ generate_main_cpp() {
 
 generate_class_stub() {
   local name="$1"
+  local module_name=$(python3 -c "import sys; print(sys.argv[1].replace('-', '_'))" "$name")
+
   echo "$INFO Generating class stubs for $name"
-  maybe_render "$(jq -n --arg name "$name" '{MODULE_NAME: $name}')" \
-    "$(get_template_path class.cpp.mustache)" "$ROOT_DIR/$name/src/${name}.cpp"
-  maybe_render "$(jq -n --arg name "$name" '{MODULE_NAME: $name}')" \
-    "$(get_template_path class.hpp.mustache)" "$ROOT_DIR/$name/include/${name}.hpp"
+  maybe_render "$(jq -n --arg name "$module_name" '{MODULE_NAME: $name}')" \
+    "$(get_template_path class.cpp.mustache)" "$ROOT_DIR/$name/src/${module_name}.cpp"
+  maybe_render "$(jq -n --arg name "$module_name" '{MODULE_NAME: $name}')" \
+    "$(get_template_path class.hpp.mustache)" "$ROOT_DIR/$name/include/${module_name}.hpp"
 }
 
 generate_cmake_file() {
-  local name="$1" type="$2" version="$3" project_name="$4"
+  local name="$1" type="$2" version="$3" project_name="$4" depends="$5"
+
+  # Replace dashes with underscores for MODULE_NAME.
+  local module_name=$(python3 -c "import sys; print(sys.argv[1].replace('-', '_'))" "$name")
+
   echo "$INFO Generating CMakeLists.txt for $name"
+
   local template="$(get_template_path CMakeLists.txt.mustache)"
   [ "$type" == "lib" ] && template="$(get_template_path CMakeLists-lib.mustache)"
 
-  maybe_render "$(jq -n --arg name "$name" --arg version "$version" --arg project "$project_name" \
-    '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project}')" \
+  maybe_render "$(jq -n --arg name "$module_name" \
+                       --arg version "$version" \
+                       --arg project "$project_name" \
+                       --argjson depends "$depends" \
+    '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project, DEPENDS_ON: $depends}')" \
     "$template" "$ROOT_DIR/$name/CMakeLists.txt"
 }
 
+
 generate_test_files() {
-  local name="$1" version="$2" project_name="$3"
+  local name="$1" version="$2" project_name="$3" depends="$4"
+  # Convert dashes in the module name to underscores.
+  local module_name=$(python3 -c "import sys; print(sys.argv[1].replace('-', '_'))" "$name")
+
   echo "$INFO Generating test support for $name"
   local test_dir="$ROOT_DIR/$name/test"
   mkdir -p "$test_dir"
 
+  # Extract global test packages from MODULE_CONFIG.
   local deps=$(yq -o=json '.GLOBAL_TEST_PACKAGES' "$MODULE_CONFIG")
   local cxx=$(get_project_metadata "$MODULE_CONFIG" "CXX_STANDARD")
 
   local data=$(jq -n \
-    --arg name "$name" \
+    --arg name "$module_name" \
     --arg version "$version" \
     --arg project "$project_name" \
     --argjson deps "$deps" \
     --arg cxx "$cxx" \
-    '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project, CXX_STANDARD: $cxx|tonumber, GLOBAL_TEST_PACKAGES: $deps}')
+    --argjson depends "$depends" \
+    '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project, CXX_STANDARD: ($cxx|tonumber), GLOBAL_TEST_PACKAGES: $deps, DEPENDS_ON: $depends}') \
 
   maybe_render "$data" "$(get_template_path test-CMakeLists.txt.mustache)" "$test_dir/CMakeLists.txt"
-  maybe_render "$(jq -n --arg name "$name" '{MODULE_NAME: $name}')" \
+  maybe_render "$(jq -n --arg name "$module_name" '{MODULE_NAME: $name}')" \
     "$(get_template_path test-main.cpp.mustache)" "$test_dir/test_main.cpp"
 }
 
@@ -182,7 +197,6 @@ generate_modules_feature_tests() {
 
   echo "$SUCCESS Finished rendering all BDD-based feature tests."
 }
-
 scaffold_modules() {
   echo ""
   echo "$INFO  Creating source tree for modules..."
@@ -191,19 +205,23 @@ scaffold_modules() {
   local version=$(get_project_metadata "$MODULE_CONFIG" "VERSION")
   local project=$(get_project_metadata "$MODULE_CONFIG" "PROJECT")
 
+  # Process each module from the MODULE_CONFIG JSON.
   get_modules_json "$MODULE_CONFIG" | jq -c '.[]' | while read -r module; do
     local name=$(echo "$module" | jq -r '.NAME')
     local type=$(echo "$module" | jq -r '.TYPE')
     local has_test=$(echo "$module" | jq -r '.TEST // false')
+    # Extract DEPENDS_ON field; default to empty JSON array if missing.
+    local depends=$(echo "$module" | jq -c '.DEPENDS_ON // []')
 
     echo "$INFO Processing module: $name ($type)"
     create_directory_structure "$name"
-    generate_cmake_file "$name" "$type" "$version" "$project"
+    # Pass the dependencies variable as the fifth parameter.
+    generate_cmake_file "$name" "$type" "$version" "$project" "$depends"
     echo "$INFO DEBUG: has_test=$has_test, type=$type for module $name"
 
     [[ "$type" == "exe" ]] && generate_main_cpp "$name"
     [[ "$type" == "lib" ]] && generate_class_stub "$name"
-    generate_test_files "$name" "$version" "$project"
+    [[ "$has_test" == "true" ]] && generate_test_files "$name" "$version" "$project" "$depends"
     echo "$INFO : done generating test dir has_test=$has_test, type=$type for module $name"
   done
 }

@@ -1,0 +1,71 @@
+goal_groups:
+  - goal_group: configuration
+    title: Declarative Configuration & Structure
+    goals: [core_config_1, core_config_2, core_config_3, backlog_1, validation_1]
+    supports_backlog:
+      - CFG-AUTO-001
+      - CFG-AUTO-002
+      - CFG-AUTO-003
+      - CFG-AUTO-004
+      - CFG-AUTO-005
+      - CFG-AUTO-006
+      - CFG-AUTO-035
+
+  - goal_group: orchestration
+    title: DAG-Based Execution & Build Intelligence
+    goals: [dag_sort_1, dag_1, perf_1]
+    supports_backlog:
+      - CFG-AUTO-007
+      - CFG-AUTO-008
+      - CFG-AUTO-013
+      - CFG-AUTO-025
+
+  - goal_group: modularity
+    title: Explicit Dependency & Module Boundary Management
+    goals: [di_1, di_2]
+    supports_backlog:
+      - CFG-AUTO-009
+      - CFG-AUTO-024
+      - CFG-AUTO-026
+
+  - goal_group: performance
+    title: Memory & Concurrency Optimization
+    goals: [cache_1, shared_memory_1, threading_1, threading_2, profiling_1]
+    supports_backlog:
+      - CFG-AUTO-010
+      - CFG-AUTO-011
+      - CFG-AUTO-012
+      - CFG-AUTO-013
+      - CFG-AUTO-020
+
+  - goal_group: infrastructure
+    title: Daemonization & IPC
+    goals: [ipc_1]
+    supports_backlog:
+      - CFG-AUTO-014
+      - CFG-AUTO-031
+
+  - goal_group: persistence
+    title: SQL Storage & Sync Engines
+    goals: [persistence_1, sync_1, historical_data_1]
+    supports_backlog:
+      - CFG-AUTO-015
+      - CFG-AUTO-016
+      - CFG-AUTO-032
+
+  - goal_group: ux
+    title: Developer UI & Plugin Tooling
+    goals: [ux_1, tooling_1, ui_1, integration_1]
+    supports_backlog:
+      - CFG-AUTO-017
+      - CFG-AUTO-018
+      - CFG-AUTO-021
+      - CFG-AUTO-023
+
+  - goal_group: architecture
+    title: Maintainability, Performance, & Modularity
+    goals: [architecture_1, perf_2, modularization_1]
+    supports_backlog:
+      - CFG-AUTO-019
+      - CFG-AUTO-020
+      - CFG-AUTO-034

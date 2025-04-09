@@ -1,0 +1,537 @@
+backlog:
+  - id: CFG-AUTO-001
+    title: Move routing to declarative config
+    category: scripting
+    status: planned
+    priority: high
+    goal: core_config_2
+    description: >
+      Create config/cppforge.yaml to declare script entries
+      for routing. This file should include keys like name,
+      path, help text, and optional flags.
+    Features:
+      - "Feature for Move routing to declarative config"
+    modules:
+      - forge-config
+
+  - id: CFG-AUTO-002
+    title: Generate cppforge.sh routing table
+    category: scripting
+    status: planned
+    priority: medium
+    goal: core_config_2
+    description: >
+      Use cppforge.yaml as a source of truth to generate
+      routing logic in the main CLI. This should be part
+      of the bootstrap or a specific generator step.
+    Features:
+      - "Feature for Generate cppforge.sh routing table"
+    modules:
+      - forge-config
+
+  - id: CFG-AUTO-003
+    title: Lint and validate script entries
+    category: scripting
+    status: planned
+    priority: medium
+    goal: core_config_2
+    description: >
+      Add a linting step to validate all scripts declared in
+      cppforge.yaml exist, follow naming conventions, and avoid duplicates.
+    Features:
+      - "Feature for Lint and validate script entries"
+    modules:
+      - forge-config
+
+  - id: CFG-AUTO-004
+    title: Support YAML-driven module and workflow configuration
+    category: config
+    status: planned
+    priority: high
+    goal: core_config_1
+    description: >
+      Enable `modules.yaml`, `workflow.yaml`, and `backlog.yaml` to act as
+      first-class configuration layers with validation, documentation, and lifecycle awareness.
+    Features:
+      - "Feature for Support YAML-driven module and workflow configuration"
+    modules:
+      - forge-config
+
+  - id: CFG-AUTO-005
+    title: Define and apply schema constraints for config YAML
+    category: validation
+    status: planned
+    priority: high
+    goal: core_config_3
+    description: >
+      Create schema definitions for each YAML file (e.g., backlog, workflow, scripts)
+      and apply runtime or CI-time validation against these rules.
+    Features:
+      - "Feature for Define and apply schema constraints for config YAML"
+    modules:
+      - forge-config
+
+  - id: CFG-AUTO-006
+    title: Backlog System Integration
+    category: backlog
+    status: planned
+    priority: highest
+    goal: backlog_1
+    description: >
+      Implement a YAML-based backlog system that tracks pending features, automation needs,
+      and unimplemented behavior across modules, scripts, and features. Should integrate 
+      directly with workflows and feature files.
+    Features:
+      - "Feature for Backlog System Integration"
+    modules:
+      - forge-config
+      - forge-backlog
+
+  - id: CFG-AUTO-007
+    title: File Hashing for Module Change Detection
+    category: performance
+    status: planned
+    priority: high
+    goal: perf_1
+    description: >
+      Add support for calculating and storing hashes of module files. During analysis or 
+      generation, compare current hashes to cached values to determine if a module needs
+      to be rebuilt or updated.
+    Features:
+      - "Feature for File Hashing for Module Change Detection"
+    modules:
+      - forge-cli
+
+  - id: CFG-AUTO-008
+    title: DAG Construction for Module Dependencies
+    category: orchestration
+    status: planned
+    priority: high
+    goal: dag_1
+    description: >
+      Parse `modules.yaml` and build a DAG representing module dependencies. This graph will 
+      be used to determine correct topological order for execution, generation, or rebuild.
+    Features:
+      - "Feature for DAG Construction for Module Dependencies"
+    modules:
+      - forge-dag
+
+  - id: CFG-AUTO-009
+    title: Enforce Explicit Dependency Wiring
+    category: di
+    status: planned
+    priority: high
+    goal: di_1
+    description: >
+      Require developers to declare module-level dependencies and validate their correctness
+      against actual source usage. Provide error messages when undeclared or unused dependencies
+      are detected to enforce discipline in module boundaries.
+    acceptanceTest:
+      - "3_Local_Dependency_Management.bdd"
+      - "6_Scripted_Operations_Support.bdd"
+    Features:
+      - "Local Dependency Management"
+    modules:
+      - forge-di
+
+  - id: CFG-AUTO-010
+    title: Source Code Caching in Memory
+    category: performance
+    status: planned
+    priority: high
+    goal: cache_1
+    description: >
+      Cache parsed representations of source code in memory to avoid repeated disk access
+      and parsing during generation, analysis, or linting steps. Integrate with the file
+      change detection system for cache invalidation.
+    Features:
+      - "Feature for Source Code Caching in Memory"
+    modules:
+      - forge-cli
+
+  - id: CFG-AUTO-011
+    title: Shared Memory Data Layer
+    category: performance
+    status: planned
+    priority: high
+    goal: shared_memory_1
+    description: >
+      Establish a shared memory structure for long-lived services and threads to access
+      real-time system data without redundant disk or I/O calls. This will power daemons,
+      real-time validation, and coordination services.
+    Features:
+      - "Feature for Shared Memory Data Layer"
+    modules:
+      - forge-cli
+
+  - id: CFG-AUTO-012
+    title: Thread Pool and Task Queue Infrastructure
+    category: concurrency
+    status: planned
+    priority: medium
+    goal: threading_1
+    description: >
+      Introduce a centralized thread pool system to allow asynchronous task execution.
+      Tasks will be submitted to queues, and thread workers will process them efficiently
+      using dynamic load balancing if needed.
+    Features:
+      - "Feature for Thread Pool and Task Queue Infrastructure"
+    modules:
+      - forge-cli
+
+  - id: CFG-AUTO-013
+    title: Parallel Module Task Execution via DAG
+    category: concurrency
+    status: planned
+    priority: medium
+    goal: threading_2
+    description: >
+      Analyze the module dependency DAG and schedule tasks such that independent modules
+      are processed in parallel. Use topological sorting and dependency resolution to avoid
+      conflicts and ensure correctness.
+    Features:
+      - "Feature for Parallel Module Task Execution via DAG"
+    modules:
+      - forge-orchestrator
+
+  - id: CFG-AUTO-014
+    title: Daemon and IPC System
+    category: system
+    status: planned
+    priority: medium
+    goal: ipc_1
+    description: >
+      Build a long-running daemon to manage background processes like file watching,
+      test monitoring, and feedback loops. Enable IPC to communicate between tools,
+      plugins, or the CLI and the daemon.
+    Features:
+      - "Feature for Daemon and IPC System"
+    modules:
+      - forge-daemon
+
+  - id: CFG-AUTO-015
+    title: SQL Persistence Layer
+    category: persistence
+    status: optional
+    priority: medium
+    goal: persistence_1
+    description: >
+      Add support for storing backlog, script metadata, and config artifacts in a
+      lightweight SQL database. Enable querying, historical tracking, and multi-user
+      collaboration features.
+    Features:
+      - "Feature for SQL Persistence Layer"
+    modules:
+      - forge-persistence
+
+  - id: CFG-AUTO-016
+    title: YAML to SQL Synchronization Engine
+    category: persistence
+    status: planned
+    priority: medium
+    goal: sync_1
+    description: >
+      Develop a synchronization mechanism that mirrors YAML-based configuration into
+      the SQL store and vice versa. This will ensure data consistency, support live
+      editor tools, and act as the foundation for dashboards or analytics.
+    Features:
+      - "Feature for YAML to SQL Synchronization Engine"
+    modules:
+      - forge-persistence
+
+  - id: CFG-AUTO-017
+    title: IDE Plugin Integration
+    category: ux
+    status: optional
+    priority: low
+    goal: ux_1
+    description: >
+      Create plugins or extensions for CLion/IntelliJ to allow visualization of modules,
+      workflows, and backlogs. Add run buttons, validation feedback, and scenario triggers
+      directly inside the IDE.
+    Features:
+      - "Feature for IDE Plugin Integration"
+    modules:
+      - forge-plugin
+
+  - id: CFG-AUTO-018
+    title: Specialized YAML Tooling Support
+    category: tooling
+    status: optional
+    priority: low
+    goal: tooling_1
+    description: >
+      Build or integrate a live YAML editing system with schema validation, completion hints,
+      preview mode, and real-time feedback for users editing cppforge YAML files.
+    Features:
+      - "Feature for Specialized YAML Tooling Support"
+    modules:
+      - forge-ui
+
+  - id: CFG-AUTO-019
+    title: Modularize Forge Architecture
+    category: architecture
+    status: long-term
+    priority: low
+    goal: architecture_1
+    description: >
+      Refactor internal systems into clearly defined layers for config, processing, and runtime
+      orchestration. Improve testability, parallelism, and plugin integration by reducing coupling
+      between core components.
+    Features:
+      - "Feature for Modularize Forge Architecture"
+    modules:
+      - forge-architecture
+
+  - id: CFG-AUTO-020
+    title: Git Repository Performance Watchdog
+    category: performance
+    status: monitoring
+    priority: low
+    goal: perf_2
+    description: >
+      Create tooling or CI steps to analyze repository growth, detect excessive YAML/data bloat,
+      and provide suggestions for optimization. Track large binary additions, unused files, or
+      overly large configurations.
+    Features:
+      - "Feature for Git Repository Performance Watchdog"
+    modules:
+      - forge-cli
+
+  - id: CFG-AUTO-021
+    title: GUI YAML Editor
+    category: ui
+    status: planned
+    priority: medium
+    goal: ui_1
+    description: >
+      Build a GUI that allows developers to view and manage cppforge YAML files (e.g., workflow,
+      backlog, script routing) visually. The tool should allow creation, deletion, editing,
+      and validation of entries with live syncing to disk and schema integrity enforcement.
+    Features:
+      - "Feature for GUI YAML Editor"
+    modules:
+      - forge-ui
+
+  - id: CFG-AUTO-022
+    title: Skip Test Generation for Non-C++ Modules
+    category: scaffolding
+    status: planned
+    priority: medium
+    goal_ids: [scaffolding_1]
+    tags: [scaffolding, language-aware]
+    description: >
+      Ensure the scaffolding tool skips generating test directories for module types
+      that are not C++ (e.g., React or frontend modules).
+    Features:
+      - "Skip non-C++ modules in scaffolding"
+    modules:
+      - forge-scaffold
+
+  - id: CFG-AUTO-023
+    title: Register and Execute Plugins via CLI
+    category: plugin
+    status: planned
+    priority: high
+    goal_ids: [plugin_1]
+    tags: [plugin, extensibility]
+    description: >
+      Support registration and execution of plugins that conform to the CppForge plugin interface
+      via CLI flags or hooks.
+    Features:
+      - "Plugin Architecture"
+    modules:
+      - forge-plugin
+
+  - id: CFG-AUTO-024
+    title: Parse DI Metadata from Source Files
+    category: di
+    status: planned
+    priority: high
+    goal_ids: [di_1]
+    tags: [di, parsing]
+    description: >
+      Add the ability to scan source files and extract DI annotations or macros to identify
+      injectable classes and constructors.
+    Features:
+      - "Parse DI Metadata and Resolve Constructors"
+      - "Parse C++ source files for DI metadata"
+    modules:
+      - forge-parser
+
+  - id: CFG-AUTO-025
+    title: Generate DI Registration Code
+    category: di
+    status: planned
+    priority: high
+    goal_ids: [di_1]
+    tags: [di, codegen]
+    description: >
+      Automatically generate DI container code from parsed metadata before compilation
+      to register bindings and enforce graph consistency.
+    Features:
+      - "Generate and Validate DI Artifacts"
+    modules:
+      - forge-di
+
+  - id: CFG-AUTO-026
+    title: Validate DI Binding Graph
+    category: di
+    status: planned
+    priority: high
+    goal_ids: [di_1]
+    tags: [di, validation]
+    description: >
+      Ensure the DI system validates the dependency graph to prevent missing or circular dependencies
+      across modules.
+    Features:
+      - "Generate and Validate DI Artifacts"
+    modules:
+      - forge-di
+
+  - id: CFG-AUTO-027
+    title: Enable DI Debug Mode and Logging
+    category: di
+    status: planned
+    priority: medium
+    goal_ids: [di_2]
+    tags: [di, debug]
+    description: >
+      Provide verbose DI logs showing which bindings were selected, how dependencies were resolved,
+      and assist developers in debugging injection issues.
+    Features:
+      - "Support Testing and Debugging of DI System"
+    modules:
+      - forge-di
+
+  - id: CFG-AUTO-028
+    title: Support Testing with DI Mocks
+    category: testing
+    status: planned
+    priority: high
+    goal_ids: [testing_1]
+    tags: [di, testing]
+    description: >
+      Allow the DI system to accept test-specific mock overrides for classes during test execution.
+      Support scoped mocks and isolated DI contexts.
+    Features:
+      - "Support Testing and Debugging of DI System"
+    modules:
+      - forge-di
+
+  - id: CFG-AUTO-029
+    title: Handle Template Classes in DI System
+    category: di
+    status: planned
+    priority: medium
+    goal_ids: [di_1]
+    tags: [di, templates]
+    description: >
+      Extend the DI parser and container to register and resolve template classes with concrete
+      type specializations.
+    Features:
+      - "Handle Templates and Method Autowiring in DI"
+    modules:
+      - forge-templates
+
+  - id: CFG-AUTO-030
+    title: Autowire Public Methods for DI Metadata
+    category: di
+    status: optional
+    priority: medium
+    goal_ids: [di_1]
+    tags: [di, autowiring]
+    description: >
+      Collect method signatures during DI parsing for use in metadata and future service routing
+      or method invocation engines.
+    Features:
+      - "Handle Templates and Method Autowiring in DI"
+    modules:
+      - forge-di
+
+  - id: CFG-AUTO-031
+    title: Handle Invalid DI Annotations Gracefully
+    category: di
+    status: planned
+    priority: medium
+    goal_ids: [di_1]
+    tags: [di, validation]
+    description: >
+      The DI parser should skip or warn when encountering unrecognized, malformed, or missing
+      annotations, and continue processing the file.
+    Features:
+      - "Handle invalid annotations and emit metadata"
+    modules:
+      - forge-parser
+
+  - id: CFG-AUTO-032
+    title: Emit DI Metadata as JSON
+    category: tooling
+    status: planned
+    priority: medium
+    goal_ids: [tooling_1]
+    tags: [di, json, metadata]
+    description: >
+      Emit parsed DI class metadata as JSON files for external tools, IDE integration,
+      or build-time analysis.
+    Features:
+      - "Handle invalid annotations and emit metadata"
+    modules:
+      - forge-persistence
+
+  - id: CFG-AUTO-033
+    title: Support Header/Source File Pair Merging
+    category: parsing
+    status: planned
+    priority: high
+    goal_ids: [parser_1]
+    tags: [parser, di, hpp-cpp]
+    description: >
+      Allow the parser to merge constructor and method metadata from corresponding .hpp and .cpp
+      files into a unified representation for DI and codegen use.
+    Features:
+      - "Support header and implementation file pairs"
+    modules:
+      - forge-templates
+
+  - id: CFG-AUTO-034
+    title: Implement Scaffolding Core and Template Safety
+    category: scaffolding
+    status: planned
+    priority: high
+    goal: scaffolding_1
+    description: >
+      Add robust module scaffolding for both executables and libraries including test generation rules
+      and regeneration without overwriting custom changes.
+    Features:
+      - "Scaffolding Core and Template Safety"
+    modules:
+      - forge-scaffold
+
+  - id: CFG-AUTO-035
+    title: Enforce CMake Consistency & Hygiene
+    category: config
+    status: planned
+    priority: medium
+    goal: cmake_1
+    description: >
+      Create a reliable CMake configuration validation and bootstrapping process ensuring all module directories
+      are correctly referenced and CMakeLists.txt reflects accurate project settings.
+    Features:
+      - "CMake Consistency & Hygiene"
+    modules:
+      - forge-bootstrapper
+
+  - id: CFG-AUTO-036
+    title: Register DI Components and Manage Lifetimes
+    category: di
+    status: planned
+    priority: high
+    goal: di_1
+    description: >
+      Implement the registration of DI components and ensure proper management of lifetimes including singleton
+      and scoped instances.
+    Features:
+      - "Register DI Components and Manage Lifetimes"
+    modules:
+      - forge-di

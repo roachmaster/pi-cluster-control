@@ -1,0 +1,43 @@
+workflow:
+  - id: CFG-WF-001
+    step: Define the new script feature
+    description: Define a CLI script feature in the cppforge feature catalog.
+    tags: [feature, cli, script]
+    status: manual
+    produces: [feature file]
+
+  - id: CFG-WF-002
+    step: Update the CLI script
+    description: Update the cppforge CLI with a new script and associated test stub based on the feature.
+    tags: [script, scaffold]
+    status: manual
+    backlog: CFG-AUTO-002
+    produces: [script file, test file]
+
+  - id: CFG-WF-003
+    step: Update CLI routing
+    description: Update cppforge.sh to support the new script in the command dispatcher.
+    tags: [routing]
+    status: manual
+    backlog: CFG-AUTO-001
+
+  - id: CFG-WF-004
+    step: Update help and metadata
+    description: Add help entry, usage syntax, and metadata for the new script.
+    tags: [help]
+    status: manual
+    backlog: CFG-AUTO-001
+
+  - id: CFG-WF-005
+    step: Write tests
+    description: Add scenario-driven tests for validating the script behavior.
+    tags: [test, bdd]
+    status: manual
+    produces: [scenario test]
+
+  - id: CFG-WF-006
+    step: Validate and commit
+    description: Validate script behavior and commit with backlog reference.
+    tags: [ci, validate]
+    status: manual
+    produces: [commit]

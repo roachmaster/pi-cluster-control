@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <iostream>
+#include <memory>
 
 // Step Interface
 class {{interface_class_name}} {
@@ -18,12 +19,22 @@ class {{stub_class_name}} : public {{interface_class_name}} {
     // No overrides – just uses FAIL() behavior from base class
 };
 
+#ifdef HAS_IMPL_{{interface_class_name}}
+static std::unique_ptr<{{interface_class_name}}> forge_bdd_steps() {
+    return std::make_unique<impl_{{interface_class_name}}>();
+}
+#else
+static std::unique_ptr<{{interface_class_name}}> forge_bdd_steps() {
+    return std::make_unique<{{stub_class_name}}>();
+}
+#endif
+
 // Test Case
 TEST({{test_class_name}}, executes_scenario) {
-    {{stub_class_name}} steps;
+    auto steps = forge_bdd_steps();
 
 {{#steps}}
     std::cout << "[{{prefix}}] {{{escaped_step_text}}}" << std::endl;
-    steps.{{method_name}}();
+    steps->{{method_name}}();
 {{/steps}}
 }

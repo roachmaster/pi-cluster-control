@@ -3,6 +3,9 @@
 cmake_minimum_required(VERSION {{CMAKE_VERSION}})
 project({{CMAKE_PROJECT}})
 
+set(CMAKE_CXX_STANDARD {{CXX_STANDARD}})
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 {{#MODULES}}
 {{#HAS_TEST}}add_subdirectory({{NAME}}/test)
 {{/HAS_TEST}}add_subdirectory({{NAME}})

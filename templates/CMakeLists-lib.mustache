@@ -1,12 +1,18 @@
 cmake_minimum_required(VERSION {{CMAKE_VERSION}})
 project({{CMAKE_PROJECT}})
 
+set(CMAKE_CXX_STANDARD {{CXX_STANDARD}})
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 add_library({{MODULE_NAME}}_lib
     src/{{MODULE_NAME}}.cpp
 )
 
-target_include_directories({{MODULE_NAME}}_lib PRIVATE
+target_include_directories({{MODULE_NAME}}_lib PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
+{{#DEPENDS_ON}}
+    ${CMAKE_SOURCE_DIR}/{{.}}/include
+{{/DEPENDS_ON}}
 )
 
 set_target_properties({{MODULE_NAME}}_lib PROPERTIES
