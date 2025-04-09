@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(forge_core_tests_lib
     src/forge_core_tests.cpp
     src/forgeable_scenario_provider.cpp
+    src/scenario_forge_test.cpp
 )
 
 target_include_directories(forge_core_tests_lib PUBLIC

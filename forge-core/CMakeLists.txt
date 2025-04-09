@@ -5,8 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(forge_core_lib
-    src/forgeable_scenario_provider.cpp
-    src/scenario_forge_test.cpp
     src/forge_core.cpp
 )
 
