@@ -10,17 +10,16 @@ GLOBAL_TEST_PACKAGES:
     URL: https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip
 
 MODULES:
-  # Core & Configuration
-#  - NAME: forge-core
-#    TYPE: lib
-#    TEST: false
-#    PACKAGES: []
-#    DEPENDS_ON: []
-#    RESPONSIBILITY: >
-#      Provides shared interfaces, type definitions, enums, and data transfer objects (DTOs)
-#      used across all Forge modules. This module defines core abstractions and contracts
-#      but contains no business logic or implementations.
-#
+  - NAME: forge-core
+    TYPE: lib
+    TEST: false
+    PACKAGES: []
+    DEPENDS_ON: []
+    RESPONSIBILITY: >
+      Provides shared interfaces, type definitions, enums, and data transfer objects (DTOs)
+      used across all Forge modules. This module defines core abstractions and contracts
+      but contains no business logic or implementations.
+
 #  - NAME: forge-core-tests
 #    TYPE: lib
 #    TEST: true

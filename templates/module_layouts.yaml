@@ -1,0 +1,8 @@
+# module_layouts.yaml
+# Module layout definitions for scaffolding
+layouts:
+  lib: ["src", "include", "test"]
+  exe: ["src", "include"]
+  tool: ["src", "include"]
+  plugin: ["src", "include"]
+  test-only: ["test"]

@@ -33,14 +33,7 @@ usage() {
   exit 1
 }
 
-# ── Subcommand Dispatchers ───────────────────────────────────
-cmd_bootstrap() {
-  "$BOOTSTRAP_SCRIPT" "$@"
-}
 
-cmd_scaffold() {
-  "$SCAFFOLD_SCRIPT" "$@"
-}
 
 cmd_convert_bdd() {
   local file="$1"

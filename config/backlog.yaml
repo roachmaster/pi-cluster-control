@@ -535,3 +535,26 @@ backlog:
       - "Register DI Components and Manage Lifetimes"
     modules:
       - forge-di
+  - id: CFG-AUTO-037
+    title: Resolve Mustache CLI Bootstrap Issue on macOS
+    category: scripting
+    status: done
+    priority: low
+    goal: bootstrap_1
+    description: >
+      During bootstrap on a new macOS system, the script failed because it expected
+      the 'mustache' CLI to be available via Homebrew. However, Homebrew does not 
+      provide the CLI, only the C++ library 'mstch'. The proper tool must be installed 
+      via npm, which was also not present by default. This caused onboarding failures.
+    resolution: >
+      Installed Node.js via Homebrew to gain access to npm, then used
+      'npm install -g mustache' to install the correct CLI. This fixed the issue
+      and allowed the bootstrap process to complete successfully.
+    Features:
+      - "CLI Setup and Tool Detection Improvements"
+    modules:
+      - forge-bootstrapper
+    followUp:
+      - [ ] Add CLI-based check for 'npm' and 'mustache' with fallback instructions
+      - [ ] Update scripts/bootstrap.sh to print correct installation suggestions
+      - [ ] Optionally automate fix with prompt: 'Install now? [y/N]'

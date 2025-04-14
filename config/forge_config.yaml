@@ -1,0 +1,6 @@
+template_dir: templates
+template_files:
+  layout_yaml_file: module_layouts.yaml
+  lib_cmake_template: lib_cmakelists.mustache
+  exe_cmake_template: exe_cmakelists.mustache
+  entrypoint_template: entrypoint_main.cpp.mustache
