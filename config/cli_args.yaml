@@ -1,0 +1,9 @@
+description: "Forge Module Scaffolder"
+arguments:
+  - name: "name"
+    positional: true
+    help: "Module name (e.g., bdd-runner)"
+  - name: "--type"
+    choices: ["lib", "exe", "tool", "plugin", "test-only"]
+    default: "lib"
+    help: "Module type"
