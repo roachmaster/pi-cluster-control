@@ -149,7 +149,8 @@ generate_test_files() {
     --arg cxx "$cxx" \
     --argjson depends "$depends" \
     --argjson test_depends_lib "$test_depends_lib" \
-    '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project, CXX_STANDARD: ($cxx|tonumber), GLOBAL_TEST_PACKAGES: $deps, DEPENDS_ON: $depends, TEST_DEPENDS_LIB: $test_depends_lib}')
+    --argjson test_depends "$test_depends" \
+    '{MODULE_NAME: $name, CMAKE_VERSION: $version, CMAKE_PROJECT: $project, CXX_STANDARD: ($cxx|tonumber), GLOBAL_TEST_PACKAGES: $deps, DEPENDS_ON: $depends, TEST_DEPENDS_LIB: $test_depends_lib, TEST_DEPENDS_ON: $test_depends}')
 
   maybe_render "$data" "$(get_template_path test-CMakeLists.txt.mustache)" "$test_dir/CMakeLists.txt"
   maybe_render "$(jq -n --arg name "$module_name" '{MODULE_NAME: $name}')" \
@@ -221,6 +222,7 @@ generate_modules_feature_tests() {
 
   echo "$SUCCESS Finished rendering all BDD-based feature tests."
 }
+
 scaffold_modules() {
   echo ""
   echo "$INFO  Creating source tree for modules..."

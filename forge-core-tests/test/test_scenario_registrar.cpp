@@ -2,7 +2,7 @@
 #include "forge_registry.hpp"
 #include "include/dummy_scenario.hpp"  // Contains the DummyScenarioForge definition.
 #include "include/dummy_scenario_forge.hpp"  // Contains the DummyScenarioForge definition.
-#include "forge_log.hpp"
+#include "cppforge/core/forge/forge_log.hpp"
 
 #include <memory>
 

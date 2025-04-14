@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <string>
-#include "forge_log.hpp"  // For logging purposes.
+#include "cppforge/core/forge/forge_log.hpp"  // For logging purposes.
 
 namespace cppforge::scenarios {
 

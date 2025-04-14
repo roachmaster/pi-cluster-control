@@ -3,7 +3,7 @@
 // Include required headers from your forge-core module.
 #include "scenario_forge.hpp"                   // Contains the ScenarioForge test runner.
 #include "forgeable_scenario_provider.hpp"      // Provides getAll() for scenarios.
-#include "forge_log.hpp"                        // Provides logging.
+#include "cppforge/core/forge/forge_log.hpp"                        // Provides logging.
 #include "test_config.hpp"                      // Test configuration DTO.
 #include "forge_bench.hpp"                      // The test bench.
 #include "forge_registrar.hpp"                  // The new header for ForgeRegistrar.

@@ -19,6 +19,8 @@ FetchContent_MakeAvailable(googletest)
 file(GLOB_RECURSE TEST_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/test_scenario_*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../test_scenario_*.cpp
+    ${CMAKE_SOURCE_DIR}/forge-core/src/test_scenario_*.cpp
+    ${CMAKE_SOURCE_DIR}/forge-core-tests/src/test_scenario_*.cpp
 )
 message(STATUS "Test sources: ${TEST_SOURCES}")
 
@@ -37,6 +39,8 @@ target_link_libraries(test_forge_config PRIVATE
 target_include_directories(test_forge_config PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../include
+    ${CMAKE_SOURCE_DIR}/forge-core/include
+    ${CMAKE_SOURCE_DIR}/forge-core-tests/include
 )
 
 include(GoogleTest)

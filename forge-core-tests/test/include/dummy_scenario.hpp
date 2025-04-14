@@ -2,7 +2,7 @@
 #define DUMMY_SCENARIO_HPP
 
 #include "abstract_forgeable_scenario.hpp"  // Defines AbstractForgeableScenario.
-#include "forge_log.hpp"                    // Provides logging.
+#include "cppforge/core/forge/forge_log.hpp"                    // Provides logging.
 
 #include <memory>
 #include <string>

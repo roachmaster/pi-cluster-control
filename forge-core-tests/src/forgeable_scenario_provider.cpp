@@ -1,7 +1,7 @@
 #include "forgeable_scenario_provider.hpp"
 #include "abstract_forgeable_scenario.hpp"  // Provides the definition of AbstractForgeableScenario.
 #include "forge_registry.hpp"              // Provides access to the global registry.
-#include "forge_log.hpp"                   // Provides logging.
+#include "cppforge/core/forge/forge_log.hpp"                   // Provides logging.
 #include <vector>
 #include <memory>
 #include <exception>

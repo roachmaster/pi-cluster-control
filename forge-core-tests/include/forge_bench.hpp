@@ -2,7 +2,7 @@
 #define FORGE_BENCH_HPP
 
 #include "test_config.hpp"  // Defines the TestConfig DTO.
-#include "forge_log.hpp"    // Defines the logging class.
+#include "cppforge/core/forge/forge_log.hpp"    // Defines the logging class.
 #include <string>
 #include <utility>
 
