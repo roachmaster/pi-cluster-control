@@ -1,0 +1,43 @@
+PHASE: 0
+GOAL_GROUP: forge-config
+BACKLOG:
+  - task: Create YamlForgeApi and YamlForgeAdapter for config ingestion
+    description: Define APIs and adapters to read YAML-based module inputs and convert
+      them into ForgeDTO.
+    tags:
+      - yaml
+      - adapter
+      - api
+      - ingestion
+
+  - task: Support JSON, YAML, and BDD (gherkin) ingestion formats
+    description: Enable flexible input format support for all major test definitions
+      and configuration types.
+    tags:
+      - json
+      - yaml
+      - gherkin
+      - flexible-input
+
+  - task: Normalize all inputs into ForgeDTO
+    description: Ensure that all ingestion routes result in a standardized ForgeDTO
+      for execution.
+    tags:
+      - dto
+      - normalization
+      - ingestion
+
+  - task: Automatically assign FORGE_ID, DAG_ID, and REQUEST_ID to inputs
+    description: Auto-generate and inject routing and tracking metadata into every ForgeDTO.
+    tags:
+      - metadata
+      - ids
+      - tracking
+
+  - task: Add support for runtime transformation of values via injected lambdas
+    description: Allow dynamic config transformation using user-defined lambdas for
+      value substitution or derivation.
+    tags:
+      - lambda
+      - transformation
+      - runtime

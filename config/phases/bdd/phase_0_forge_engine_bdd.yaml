@@ -1,0 +1,49 @@
+PHASE: 0
+GOAL_GROUP: forge-engine
+BDD_SCENARIOS:
+  - task: Implement the DAG executor that walks a topologically sorted queue of Forgeables
+    SET_UP:
+      - Define a list of Forgeables with dependency metadata
+      - Sort the nodes topologically based on dependencies
+    EXECUTE: Traverse and execute the Forgeables in order
+    VERIFY:
+      - All Forgeables are executed once and in the correct order
+      - Circular dependencies throw an exception
+
+  - task: Support ON_SUCCESS, ON_FAILURE, and conditional branches in DAG execution
+    SET_UP:
+      - Create a DAG with nodes defining ON_SUCCESS and ON_FAILURE paths
+      - Simulate both passing and failing Forgeables
+    EXECUTE: Run the DAG executor and observe branching behavior
+    VERIFY:
+      - Success nodes follow ON_SUCCESS path
+      - Failure nodes trigger ON_FAILURE
+      - Unreachable branches are not executed
+
+  - task: Allow DSL-driven thread execution via declarative YAML
+    SET_UP:
+      - Write a YAML file defining DAG structure and threading model
+      - Parse the YAML into ForgeDTO objects
+    EXECUTE: Dispatch DAG execution across defined threads
+    VERIFY:
+      - Each thread runs independently with correct node assignment
+      - Malformed YAML raises validation errors
+
+  - task: Emit detailed runtime trace of each DAG evaluation (for debugging and audit)
+    SET_UP:
+      - Enable tracing in DAG executor
+      - Set up a logging sink to collect output
+    EXECUTE: Run DAG with trace mode enabled
+    VERIFY:
+      - Each node's execution is logged with timestamp and outcome
+      - Logs include thread ID and DAG state transitions
+
+  - task: Support fire-and-forget, batch execution, and callbacks
+    SET_UP:
+      - Configure the engine to support fire-and-forget and batch input
+      - Attach success and error callbacks to nodes
+    EXECUTE: Submit multiple DAGs with mixed execution modes
+    VERIFY:
+      - Fire-and-forget DAGs complete without blocking
+      - Callbacks are invoked with correct results
+      - Batch DAGs respect order and isolation

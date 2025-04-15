@@ -1,0 +1,12 @@
+PHASE: 0
+GOAL_GROUP: forge-dto
+BDD_SCENARIOS:
+  - task: Create ForgeDTO to act as the canonical input object across modules
+    SET_UP:
+      - Define the ForgeDTO struct with fields for metadata and payload
+      - Implement helper methods for ID generation and type resolution
+    EXECUTE: Construct ForgeDTO from multiple sources (YAML, JSON, BDD)
+    VERIFY:
+      - ForgeDTO structure is consistent across input formats
+      - IDs (FORGE_ID, DAG_ID, REQUEST_ID) are always present
+      - DTO is serializable and testable independently

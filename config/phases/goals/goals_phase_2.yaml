@@ -1,0 +1,28 @@
+PHASE: 2
+NAME: Local Clustering
+GOAL: Deploy Forge executables as microservices on a single machine or LAN.
+GOALS:
+  architecture:
+    - Define service boundaries for forge-goal, forge-bdd, forge-config, etc.
+    - Specify cluster-local API contract for task exchange
+    - Design internal ForgeService metadata block for each instance
+
+  messaging:
+    - Implement IPC-based ForgeMessenger (Unix domain sockets or named pipes)
+    - Allow ForgeApi to enqueue tasks from another Forge
+    - Support JSON-based schema for internal service messages
+
+  deployment:
+    - Package each Forge module as a standalone executable
+    - Write local launcher that spins up named Forge services
+    - Enable CLI-based DAG submission to a selected local service
+
+  runtime:
+    - Implement dynamic dispatch of work between local services
+    - Enable forge-core to remain minimal while forwarding to local daemons
+    - Add runtime validation of ForgeApi contracts between services
+
+  integration:
+    - Test forge-config ingestion triggering forge-goal execution
+    - Validate BDD scenarios flowing from forge-bdd → forge-core
+    - Create cluster-local registry of active Forge services

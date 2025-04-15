@@ -1,0 +1,39 @@
+PHASE: 0
+NAME: The Core
+GOAL: Establish a type-safe, lambda-driven declarative system for Forgeables.
+GOALS:
+  forge-core:
+    - Define IForgeable interface using CRTP for performance (no virtuals)
+    - Implement ForgeRegistry, ForgeResolver, and ForgeProvider interfaces
+    - Create unified ForgeablePtr alias for memory safety and type consistency
+    - Introduce ForgeableLifecycle enum and default transient behavior
+    - Implement ForgeManager that encapsulates Registry + Resolver logic
+    - Add ForgeDTO to act as the canonical input object across modules
+
+  forge-engine:
+    - Implement the DAG executor that walks a topologically sorted queue of Forgeables
+    - Support ON_SUCCESS, ON_FAILURE, and conditional branches in DAG execution
+    - Allow DSL-driven thread execution via declarative YAML
+    - Emit detailed runtime trace of each DAG evaluation (for debugging and audit)
+    - Support fire-and-forget, batch execution, and callbacks
+
+  forge-config:
+    - Create YamlForgeApi and YamlForgeAdapter for config ingestion
+    - Support JSON, YAML, and BDD (gherkin) ingestion formats
+    - Normalize all inputs into ForgeDTO
+    - Automatically assign FORGE_ID, DAG_ID, and REQUEST_ID to inputs
+    - Add support for runtime transformation of values via injected lambdas
+
+  forge-api:
+    - Define the high-level ForgeApi interface for external triggers
+    - Implement ForgeApiClient that accepts structured payloads (JSON/YAML)
+    - Support fire-and-forget execution as the default
+    - Integrate file-watching and CLI entrypoints to trigger DAGs
+    - Support lambda-driven translation of input → ForgeDTO
+
+  integration:
+    - Create a CLI test runner that executes DAGs using real Forgeables
+    - Ensure registry-based resolution works across threads
+    - Add unit tests for every core interface and execution path
+    - Confirm that all modules can resolve Forgeables from core registry
+    - Generate scaffolded module with cppforge that includes template and layout

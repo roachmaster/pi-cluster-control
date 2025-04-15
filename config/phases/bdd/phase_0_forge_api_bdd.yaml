@@ -1,0 +1,42 @@
+PHASE: 0
+GOAL_GROUP: forge-api
+BDD_SCENARIOS:
+  - task: Define the high-level ForgeApi interface for external triggers
+    SET_UP:
+      - Define a pure virtual interface ForgeApi with trigger() function
+    EXECUTE: Invoke trigger() from a mock client
+    VERIFY:
+      - ForgeApi receives and routes the payload correctly
+      - Missing implementation throws abstract method error
+
+  - task: Implement ForgeApiClient that accepts structured payloads (JSON/YAML)
+    SET_UP:
+      - Create a sample JSON file with DAG input structure
+    EXECUTE: Call the client with the structured file
+    VERIFY:
+      - Client parses and validates the input
+      - ForgeDTO is constructed and passed to ForgeApi
+
+  - task: Support fire-and-forget execution as the default
+    SET_UP:
+      - Register a ForgeDTO with a mock DAG
+    EXECUTE: Send request to ForgeApi and return immediately
+    VERIFY:
+      - Main thread is not blocked
+      - DAG executes in background
+
+  - task: Integrate file-watching and CLI entrypoints to trigger DAGs
+    SET_UP:
+      - Set up a YAML input file and monitor its directory
+    EXECUTE: Save a new file in the watched path
+    VERIFY:
+      - ForgeApiClient detects the file
+      - Trigger is invoked and DAG starts
+
+  - task: "Support lambda-driven translation of input → ForgeDTO"
+    SET_UP:
+      - Define a lambda that parses JSON and maps to ForgeDTO fields
+    EXECUTE: Submit raw JSON through the lambda injection point
+    VERIFY:
+      - ForgeDTO contains all transformed values
+      - Invalid lambda raises a runtime exception

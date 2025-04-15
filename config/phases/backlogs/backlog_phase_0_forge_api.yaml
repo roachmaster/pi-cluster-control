@@ -1,0 +1,43 @@
+PHASE: 0
+GOAL_GROUP: forge-api
+BACKLOG:
+  - task: Define the high-level ForgeApi interface for external triggers
+    description: Create an interface that allows clients to trigger Forge execution
+      externally using simple function calls.
+    tags:
+      - api
+      - interface
+      - external
+
+  - task: Implement ForgeApiClient that accepts structured payloads (JSON/YAML)
+    description: Build a client implementation that parses and validates structured
+      input before invoking the Forge API.
+    tags:
+      - client
+      - json
+      - yaml
+      - validation
+
+  - task: Support fire-and-forget execution as the default
+    description: Enable non-blocking execution where the DAG is submitted and executed
+      without awaiting a response.
+    tags:
+      - async
+      - default
+      - execution
+
+  - task: Integrate file-watching and CLI entrypoints to trigger DAGs
+    description: Allow external triggers like file changes or CLI commands to initiate
+      DAG execution.
+    tags:
+      - watcher
+      - cli
+      - automation
+
+  - task: "Support lambda-driven translation of input → ForgeDTO"
+    description: Allow injected lambdas to convert external input formats into internal
+      ForgeDTOs for routing.
+    tags:
+      - lambda
+      - dto
+      - translation

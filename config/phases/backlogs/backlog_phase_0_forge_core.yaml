@@ -1,0 +1,42 @@
+PHASE: 0
+GOAL_GROUP: forge-core
+BACKLOG:
+  - task: Create IForgeable base class using CRTP
+    description: Use CRTP to define a type-safe IForgeable interface without virtuals.
+    tags: [crtp, interface, core]
+
+  - task: Write example Forgeable implementations for testing CRTP
+    description: Verify that static dispatch works correctly and safely.
+    tags: [crtp, example, test]
+
+  - task: Implement ForgeRegistry to register Forge definitions
+    description: Allow Forges to be registered by ID with basic lifecycle rules.
+    tags: [registry, core]
+
+  - task: Create ForgeResolver to resolve Forgeables by ID
+    description: Resolve registered Forges by ID and return appropriate Forgeable.
+    tags: [resolver, lookup]
+
+  - task: Create ForgeProvider to manage lifecycle resolution
+    description: Resolve and execute Forgeables while managing their lifecycle (transient, thread-local, etc.).
+    tags: [provider, lifecycle]
+
+  - task: Define ForgeableLifecycle enum and integrate into provider
+    description: Track the lifecycle of Forgeables (e.g., TRANSIENT, SINGLETON, THREAD_LOCAL).
+    tags: [lifecycle, enum]
+
+  - task: Unify ForgeablePtr using alias for consistent memory ownership
+    description: Replace raw pointers or unique_ptrs with a unified ForgeablePtr type.
+    tags: [memory, pointer, alias]
+
+  - task: Add ForgeManager to act as unified interface to registry and resolver
+    description: ForgeManager owns both the registry and resolver to provide simplified access.
+    tags: [manager, orchestration]
+
+  - task: Define ForgeDTO and structure its metadata for input
+    description: Represent an input to the Forge system with standardized metadata for processing.
+    tags: [dto, input, standardization]
+
+  - task: Test registration and resolution from ForgeDTO through ForgeManager
+    description: Simulate DAG execution starting from ForgeDTO and traversing through provider resolution.
+    tags: [integration, test]

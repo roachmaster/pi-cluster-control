@@ -1,0 +1,42 @@
+PHASE: 0
+GOAL_GROUP: forge-config
+BDD_SCENARIOS:
+  - task: Create YamlForgeApi and YamlForgeAdapter for config ingestion
+    SET_UP:
+      - Provide a YAML input file with module definitions
+    EXECUTE: Invoke YamlForgeApi to ingest file and create ForgeDTO
+    VERIFY:
+      - ForgeDTO is created with correct data
+      - Missing fields trigger validation errors
+
+  - task: Support JSON, YAML, and BDD (gherkin) ingestion formats
+    SET_UP:
+      - Prepare sample files in JSON, YAML, and Gherkin formats
+    EXECUTE: Pass files to ingestion pipeline
+    VERIFY:
+      - All formats produce a valid ForgeDTO
+      - Malformed files are rejected with meaningful error
+
+  - task: Normalize all inputs into ForgeDTO
+    SET_UP:
+      - Create three types of raw input (yaml/json/bdd)
+    EXECUTE: Route through ingestion adapters
+    VERIFY:
+      - Each raw input produces the same unified ForgeDTO schema
+      - DTOs are valid and type-safe
+
+  - task: Automatically assign FORGE_ID, DAG_ID, and REQUEST_ID to inputs
+    SET_UP:
+      - Prepare raw input without any IDs
+    EXECUTE: Ingest input using YamlForgeApi
+    VERIFY:
+      - FORGE_ID, DAG_ID, REQUEST_ID are populated with valid UUIDs or names
+      - Same input generates different IDs on repeat calls
+
+  - task: Add support for runtime transformation of values via injected lambdas
+    SET_UP:
+      - Inject lambda that transforms a string field to uppercase
+    EXECUTE: Ingest YAML with transformable values
+    VERIFY:
+      - Transformed values appear in ForgeDTO
+      - Transformation is applied at runtime without changing the raw input

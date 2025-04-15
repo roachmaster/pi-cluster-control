@@ -1,0 +1,28 @@
+PHASE: 5
+NAME: Forge Intelligence
+GOAL: Integrate LLMs (Ollama) as execution agents and generators inside Forge.
+GOALS:
+  integration:
+    - Implement ollama_forgeable to invoke LLM endpoints with context
+    - Define ForgeLLM interface with support for prompt, memory, and feedback
+    - Allow Forgeables to emit follow-up tasks based on LLM responses
+
+  generation:
+    - Build DSL-to-code generator using LLM + Mustache templating
+    - Enable regeneration of test scenarios from LLM interpretation of BDD
+    - Allow LLMs to propose auto-healing code based on failure traces
+
+  memory:
+    - Design a prompt memory cache that DAGs can append to or query
+    - Support scenario-long memory or rolling cache for LLM reasoning
+    - Enable persistent memory snapshots scoped to DAG or module
+
+  orchestration:
+    - Let LLMs make decisions about which Forgeables to chain
+    - Support override commands from developer for approval gating
+    - Introduce scoring and retry logic for LLM-generated output quality
+
+  exploration:
+    - Train a fine-tuned model on Forge YAML + DSL corpus
+    - Create a feedback system that scores successful predictions
+    - Simulate test-driven development using AI-assisted Forgeable creation

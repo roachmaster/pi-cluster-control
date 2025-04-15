@@ -1,0 +1,10 @@
+PHASE: 0
+GOAL_GROUP: forge-dto
+BACKLOG:
+  - task: Create ForgeDTO to act as the canonical input object across modules
+    description: Design a unified structure that holds all necessary metadata and payloads to drive Forge execution from any adapter.
+    tags:
+      - dto
+      - input
+      - canonical
+      - metadata

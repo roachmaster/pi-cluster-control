@@ -1,0 +1,28 @@
+PHASE: 4
+NAME: Fault Tolerance & Coordination
+GOAL: Enable self-healing orchestration across a Forge cluster.
+GOALS:
+  detection:
+    - Implement health checks and periodic heartbeats for all Forge nodes
+    - Track active/inactive node state in a central ForgeClusterMonitor
+    - Record cause-of-death signals from terminated Forge instances
+
+  fallback:
+    - Introduce priority levels for Forge instances (primary, secondary, idle)
+    - Enable dynamic reassignment of DAGs to lower-priority backup nodes
+    - Create mechanism for orphaned DAGs to be picked up on failover
+
+  coordination:
+    - Design gossip or leader-election protocol for master node selection
+    - Implement command broadcasting for task redistribution
+    - Support quorum detection before resuming partial execution
+
+  resilience:
+    - Persist retry queue for failed or deferred DAGs
+    - Ensure that all state transitions are idempotent and logged
+    - Simulate node churn and measure recovery response time
+
+  integration:
+    - Demonstrate resilience by terminating and recovering Forge nodes live
+    - Run multi-node stress tests with random failures and long DAG chains
+    - Visualize node lifecycles, failure graphs, and recovery paths

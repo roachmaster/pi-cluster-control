@@ -1,0 +1,98 @@
+PHASE: 0
+GOAL_GROUP: forge-core
+BDD_SCENARIOS:
+  - task: Create IForgeable base class using CRTP
+    SET_UP:
+      - Define a CRTP base template called ForgeableCRTP
+      - Create a concrete class MyForgeable with executeImpl()
+    EXECUTE: Cast MyForgeable to ForgeableCRTP<MyForgeable> and call execute()
+    VERIFY:
+      - The correct executeImpl() method is invoked
+      - Binary shows no virtual function table (vtable)
+      - Attempting to cast unrelated type causes a compile-time error
+
+  - task: Write example Forgeable implementations for testing CRTP
+    SET_UP:
+      - Implement ForgeableA and ForgeableB using ForgeableCRTP
+      - Set up a test framework with type-specific assertions
+    EXECUTE: Run static dispatch unit tests for both classes
+    VERIFY:
+      - Each type returns its own expected result
+      - Invalid casting throws static_assert or fails to compile
+
+  - task: Implement ForgeRegistry to register Forge definitions
+    SET_UP:
+      - Create a ForgeRegistry instance
+      - Define two Forge classes with unique ForgeIDs
+    EXECUTE: Register both forges and query them by ID
+    VERIFY:
+      - Correct Forge is returned for each ID
+      - Re-registering an ID causes a runtime or compile-time error
+
+  - task: Create ForgeResolver to resolve Forgeables by ID
+    SET_UP:
+      - Populate ForgeRegistry with sample Forges
+      - Inject ForgeRegistry into ForgeResolver
+    EXECUTE: Resolve a valid Forge ID and invoke the returned Forgeable
+    VERIFY:
+      - Resolved Forgeable executes successfully
+      - Invalid ID returns null or throws exception
+
+  - task: Create ForgeProvider to manage lifecycle resolution
+    SET_UP:
+      - Define Forgeable with TRANSIENT and SINGLETON lifecycles
+      - Register Forge using ForgeRegistry
+    EXECUTE: Invoke ForgeProvider repeatedly for the same ID
+    VERIFY:
+      - TRANSIENT lifecycle yields new instance each time
+      - SINGLETON lifecycle returns same instance
+      - Mismatched lifecycle throws error or causes invalid behavior
+
+  - task: Define ForgeableLifecycle enum and integrate into provider
+    SET_UP:
+      - Define enum with TRANSIENT, SINGLETON, THREAD_LOCAL
+      - Apply lifecycle to Forgeable metadata
+    EXECUTE: Run provider with all three lifecycle types in parallel threads
+    VERIFY:
+      - TRANSIENT: distinct instances across calls
+      - SINGLETON: shared across threads
+      - THREAD_LOCAL: isolated per thread
+
+  - task: Unify ForgeablePtr using alias for consistent memory ownership
+    SET_UP:
+      - Define ForgeablePtr as unique_ptr<IForgeable, NoOpDeleter>
+      - Use alias in ForgeProvider return types
+    EXECUTE: Return Forgeable from provider and check type
+    VERIFY:
+      - Type is ForgeablePtr
+      - No heap deallocation or leaks occur when pointer goes out of scope
+
+  - task: Add ForgeManager to act as unified interface to registry and resolver
+    SET_UP:
+      - Register Forges and initialize ForgeManager
+      - Pass mock inputs to ForgeManager
+    EXECUTE: Request a Forgeable via ForgeManager using a Forge ID
+    VERIFY:
+      - ForgeManager returns correct Forgeable
+      - Unregistered IDs trigger graceful failure
+      - Registry or Resolver failures are logged and handled
+
+  - task: Define ForgeDTO and structure its metadata for input
+    SET_UP:
+      - Create ForgeDTO with fields: FORGE_ID, REQUEST_ID, PAYLOAD
+      - Create input YAML/JSON and parse into DTO
+    EXECUTE: Pass DTO through provider and log invocation
+    VERIFY:
+      - FORGE_ID routes to the correct Forge
+      - REQUEST_ID is preserved in execution trace
+      - Mismatched or missing metadata causes validation failure
+
+  - task: Test registration and resolution from ForgeDTO through ForgeManager
+    SET_UP:
+      - Create DTO with valid Forge ID
+      - Register Forge in registry
+    EXECUTE: Resolve and execute Forgeable using ForgeManager
+    VERIFY:
+      - Execution succeeds
+      - Correct Forgeable resolved and invoked
+      - Invalid DTOs are rejected with proper error trace

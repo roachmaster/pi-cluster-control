@@ -1,0 +1,28 @@
+PHASE: 3
+NAME: Distributed Memory + Persistence
+GOAL: Build a distributed Forge fabric with global awareness and local consistency.
+GOALS:
+  design:
+    - Define ForgePersistence metadata format
+    - Specify key/value sharding mechanism based on DAG hash or type
+    - Design replication protocol for multi-node consistency
+
+  storage:
+    - Implement write_sharded and read_sharded Forgeables
+    - Introduce local ForgeStore abstraction over SQLite and ForgeDB
+    - Add support for rotating logs and compression for archived DAGs
+
+  distribution:
+    - Create ForgeRouter that can forward based on DAG hash
+    - Implement a discovery service to map DAGs to active nodes
+    - Support peer-to-peer message passing between Forge nodes
+
+  sync:
+    - Enable periodic sync of metadata between nodes
+    - Add diff-checker to detect and resolve conflicts
+    - Integrate rqlite or custom ForgeSync agent for state alignment
+
+  integration:
+    - Validate distributed DAG execution across 3+ nodes
+    - Simulate network latency and test retry policies
+    - Visualize DAG routing and persistence flows for observability

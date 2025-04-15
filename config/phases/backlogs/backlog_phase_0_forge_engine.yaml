@@ -1,0 +1,42 @@
+PHASE: 0
+GOAL_GROUP: forge-engine
+BACKLOG:
+  - task: Implement the DAG executor that walks a topologically sorted queue of Forgeables
+    description: Design a DAG-based executor that traverses Forgeables in dependency order and executes them with thread safety.
+    tags:
+      - dag
+      - executor
+      - topology
+      - core
+
+  - task: Support ON_SUCCESS, ON_FAILURE, and conditional branches in DAG execution
+    description: Add node metadata and branching logic to evaluate success/failure paths within the DAG.
+    tags:
+      - branching
+      - success
+      - failure
+      - conditions
+
+  - task: Allow DSL-driven thread execution via declarative YAML
+    description: Enable Forgeables to be dispatched on threads defined via a YAML-based DSL API.
+    tags:
+      - yaml
+      - dsl
+      - threading
+      - concurrency
+
+  - task: Emit detailed runtime trace of each DAG evaluation (for debugging and audit)
+    description: Log every step of the DAG traversal and execution path with timestamps and node data.
+    tags:
+      - trace
+      - logging
+      - runtime
+      - debug
+
+  - task: Support fire-and-forget, batch execution, and callbacks
+    description: Add asynchronous fire-and-forget, batch DAG support, and post-execution hooks for downstream consumers.
+    tags:
+      - async
+      - callback
+      - batch
+      - engine

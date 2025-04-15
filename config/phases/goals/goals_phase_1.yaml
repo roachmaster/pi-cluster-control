@@ -1,0 +1,33 @@
+PHASE: 1
+NAME: Memory-Mapped Registry
+GOAL: Use memory-mapped .img files to enable near-instant Forge registry loading and zero-latency Forgeable lookup.
+GOALS:
+  design:
+    - Define ForgeRegistryMemoryImage struct with proper alignment
+    - Design offset-based lookup table for Forgeable factories
+    - Specify binary schema for registry image (header, index, forge blocks)
+    - Establish naming and ID convention for binary indexing
+
+  python-tools:
+    - Implement Python script to generate .img layout from YAML
+    - Define Forge metadata YAML format for registry generation
+    - Add checksum validation and layout diffing to generator
+    - Support merge-from-template for new or updated forge entries
+
+  cpp-integration:
+    - Write mmap loader for ForgeRegistryMemoryImage in C++
+    - Implement resolver that uses offset lookups instead of virtual calls
+    - Validate pointer safety and const correctness on loaded memory
+    - Replace in-memory registry forges with image-based resolution
+
+  testing:
+    - Write unit tests for registry layout generation in Python
+    - Create test fixture with precompiled .img file
+    - Validate resolution speed and cold-load benchmarks
+    - Ensure errors from missing or malformed image are safe and logged
+
+  integration:
+    - Allow ForgeManager to fallback between image-based and runtime-registered forges
+    - Create CLI to regenerate image during builds
+    - Enable dry-run validation of .img vs registered registry
+    - Visualize image layout for developer debugging
