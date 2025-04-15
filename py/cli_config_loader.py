@@ -4,6 +4,7 @@ from pathlib import Path
 
 CLI_CONFIG_PATH = Path("config/cli_args.yaml")
 
+
 def load_cli_parser() -> argparse.ArgumentParser:
     with open(CLI_CONFIG_PATH) as f:
         config = yaml.safe_load(f)
