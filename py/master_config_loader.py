@@ -1,7 +1,8 @@
 from pathlib import Path
 import yaml
-from py.template_manifest_loader import load_template_manifest
 import json
+from py.template_manifest_loader import load_template_manifest
+from py.config.master_config import MasterConfigDTO  # <- Import the DTO
 
 MODULES_YAML_FILE = Path("modules.yaml")
 LAYOUT_YAML_FILE = Path("config/module_layouts.yaml")
@@ -20,20 +21,20 @@ def load_layout_definitions(path: Path = LAYOUT_YAML_FILE) -> dict:
 def load_master_config(
         module_file: Path = MODULES_YAML_FILE,
         layout_file: Path = LAYOUT_YAML_FILE
-) -> dict:
+) -> MasterConfigDTO:
     master_config = load_project_config(module_file)
     master_config["TEMPLATES"] = load_template_manifest()
     master_config["LAYOUTS"] = load_layout_definitions(layout_file)
     master_config["GENERATED_MODULES"] = []
-    return master_config
+    return MasterConfigDTO(master_config)
 
 
-def persist_master_config(master_config: dict, filename: str = "scaffold_run.json") -> None:
+def persist_master_config(master_config: MasterConfigDTO, filename: str = "scaffold_run.json") -> None:
     tmp_dir = Path("tmp")
     tmp_dir.mkdir(exist_ok=True)
 
     output_path = tmp_dir / filename
     with open(output_path, "w") as f:
-        json.dump(master_config, f, indent=2, default=str)
+        json.dump(master_config.raw(), f, indent=2, default=str)
 
     print(f"\n🧠 Master config written to: {output_path}")

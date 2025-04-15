@@ -1,21 +1,20 @@
-from py import master_config_loader
 from py.structure_utils import create_directory_structure
+from py.config.master_config import MasterConfigDTO
 
 # 🔒 Internal module cache
 _module_meta_cache = {}
 
 
-def build_module_config(module_name, master_config: dict) -> dict:
+def build_module_config(module_name: str, master_config: MasterConfigDTO) -> dict:
     """
     Construct a per-module configuration dictionary including layout, templates, and inheritance.
-    Uses a local cache to avoid repeated lookups.
+    Uses a local cache to avoid repeated lookups. Relies on MasterConfigDTO for accessors.
     """
     global _module_meta_cache
 
     if not _module_meta_cache:
-        # Prime the cache by scanning all module definitions
-        modules = master_config.get("MODULES", [])
-        for module in modules:
+        # Prime the cache using all defined modules from the DTO
+        for module in master_config.get_modules():
             name = module["NAME"]
             _module_meta_cache[name] = {
                 "module_type": module["TYPE"],
@@ -23,7 +22,7 @@ def build_module_config(module_name, master_config: dict) -> dict:
             }
 
     if module_name not in _module_meta_cache:
-        raise ValueError(f"Module '{module_name}' not found in master_config")
+        raise ValueError(f"❌ Module '{module_name}' not found in master config.")
 
     module_type = _module_meta_cache[module_name]["module_type"]
     module_path = _module_meta_cache[module_name]["module_path"]
@@ -38,22 +37,16 @@ def build_module_config(module_name, master_config: dict) -> dict:
         "SNAKE_UPPERCASE_MODULE_NAME": module_name.replace("-", "_").upper()
     }
 
-    # Merge in all global values for shared context (non-destructive)
-    module_config.update(master_config)
+    # Merge all global values from the master config into the local module_config
+    module_config.update(master_config.raw())
+
     return module_config
 
 
-def register_module_config(module_config: dict, master_config: dict):
+def register_module_config(module_config: dict, master_config: MasterConfigDTO):
     """
     Register the module config into the master config under both dict and list forms.
     """
     name = module_config["module_name"]
-
-    if "MODULE_CONFIGS" not in master_config:
-        master_config["MODULE_CONFIGS"] = {}
-
-    if "MODULE_CONFIG_LIST" not in master_config:
-        master_config["MODULE_CONFIG_LIST"] = []
-
-    master_config["MODULE_CONFIGS"][name] = module_config
-    master_config["MODULE_CONFIG_LIST"].append(module_config)
+    master_config.set_module_configs_entry(name, module_config)
+    master_config.add_module_config_list(module_config)

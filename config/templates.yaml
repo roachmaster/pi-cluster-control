@@ -14,3 +14,10 @@ TEMPLATES:
       template: templates/header_lib.mustache
       output: "{{directories.include}}/{{module_name}}.hpp"
       keys: [module_name, directories]
+
+  py:
+    config:
+      master_config_dto:
+        template: templates/py_dto_class.mustache
+        values: config/dto/master_config_dto.yaml
+        keys: []

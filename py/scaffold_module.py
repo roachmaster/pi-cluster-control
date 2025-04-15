@@ -13,33 +13,35 @@ from py.scaffold_utils import create_module_directory
 
 def scaffold_command():
     def execute():
-        master_config = load_master_config()
-        modules = master_config.get("MODULES", [])
-
-        print(f"🔧 Starting Forge generation for {len(modules)} modules...")
-
-        for module in modules:
-            scaffold_module(module, master_config)
-
-        print("\n✅ All modules processed.\n")
-        persist_master_config(master_config)
-
+        run_scaffold()
     return execute
 
-def scaffold_module(module, master_config: dict) -> bool:
+def run_scaffold():
+    master_config = load_master_config()
+    modules = master_config.get_modules()
+
+    print(f"🔧 Starting Forge generation for {len(modules)} modules...")
+
+    for module in modules:
+        scaffold_per_module(module, master_config)
+
+    print("\n✅ All modules processed.\n")
+    persist_master_config(master_config)
+
+def scaffold_per_module(module, master_config) -> bool:
     """
     Scaffold a new module directory with appropriate layout and build config.
     Updates master_config with new metadata about the generated module.
     """
-
-    print("\nScaffolding module: " + module["NAME"] + "," + module["TYPE"])
+    print(f"\nScaffolding module: {module['NAME']}, {module['TYPE']}")
     module_path = create_module_directory(module["NAME"])
     success = finalize_module(module["NAME"], master_config)
 
     if success:
-        master_config.setdefault("MODULE_OUTPUTS", {})[module["NAME"]] = {
+        master_config.set_module_outputs_entry(module["NAME"], {
             "module_path": str(module_path),
             "type": module["TYPE"]
-        }
-        master_config.setdefault("GENERATED_MODULES", []).append(module["NAME"])
+        })
+        master_config.add_generated_modules(module["NAME"])
+
     return success

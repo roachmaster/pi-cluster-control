@@ -1,0 +1,62 @@
+CLASS: MasterConfigDTO
+SOURCE: master_config
+
+FIELDS:
+  - name: modules
+    type: list
+    key: MODULES
+    default: []
+    isList: true
+
+  - name: templates
+    type: dict
+    key: TEMPLATES
+    default: {}
+    isDict: true
+
+  - name: layouts
+    type: dict
+    key: LAYOUTS
+    default: {}
+    isDict: true
+
+  - name: module_outputs
+    type: dict
+    key: MODULE_OUTPUTS
+    default: {}
+    isDict: true
+
+  - name: generated_modules
+    type: list
+    key: GENERATED_MODULES
+    default: []
+    isList: true
+
+  - name: module_configs
+    type: dict
+    key: MODULE_CONFIGS
+    default: {}
+    isDict: true
+
+  - name: module_config_list
+    type: list
+    key: MODULE_CONFIG_LIST
+    default: []
+    isList: true
+
+METHODS:
+  - name: raw
+    type: passthrough
+    returns: self._config
+
+HELPERS:
+  - name: has_module
+    args: [name]
+    returns: any(m.get("NAME") == name for m in self.get_modules())
+
+  - name: find_module_by_name
+    args: [name]
+    returns: next((m for m in self.get_modules() if m.get("NAME") == name), None)
+
+GETITEM: true
+SETITEM: true

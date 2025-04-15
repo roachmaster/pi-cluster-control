@@ -4,3 +4,7 @@ subcommands:
   scaffold:
     help: "Scaffold all modules defined in the config file"
     arguments: []
+
+  py_scaffold:
+    help: "Generate Python DTOs and other template-based Python files"
+    arguments: []
