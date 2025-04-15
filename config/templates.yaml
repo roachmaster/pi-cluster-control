@@ -1,0 +1,16 @@
+TEMPLATES:
+  lib:
+    cmakelists:
+      template: templates/cmakelists_lib.mustache
+      output: "{{module_path}}/CMakeLists.txt"
+      keys: [module_name, module_type, module_path]
+
+    entrypoint:
+      template: templates/entrypoint_lib.mustache
+      output: "{{directories.src}}/{{module_name}}_lib.cpp"
+      keys: [module_name, directories]
+
+    header:
+      template: templates/header_lib.mustache
+      output: "{{directories.include}}/{{module_name}}.hpp"
+      keys: [module_name, directories]

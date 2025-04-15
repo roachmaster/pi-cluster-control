@@ -1,25 +1,19 @@
-#!/usr/bin/env python3
-"""
-Forge Module Scaffolder
-------------------------
-This script generates C++ module scaffolding based on predefined layouts. 
-It supports different module types (lib, tool, exe, plugin, test-only), each 
-with its own layout and CMakeLists.txt generation using Mustache-style templates.
-"""
-
-from py.finalize_module import finalize_module
-from py.scaffold_utils import create_module_directory
-from py.cli_config_loader import load_cli_parser
+from py.master_config_loader import load_master_config, persist_master_config
+from py.scaffold_module import scaffold_module
 
 
-def scaffold_module(name: str, module_type: str):
-    """Scaffold a new module directory with appropriate layout and build config."""
-    module_path = create_module_directory(name)
-    return finalize_module(module_path, module_type,name)
+def main():
+    master_config = load_master_config()
+    modules = master_config.get("MODULES", [])
 
-def parse_args():
-    return load_cli_parser().parse_args()
+    print(f"🔧 Starting Forge generation for {len(modules)} modules...")
+
+    for module in modules:
+        scaffold_module(module, master_config)
+
+    print("\n✅ All modules processed.\n")
+    persist_master_config(master_config)
+
 
 if __name__ == "__main__":
-    args = parse_args()
-    scaffold_module(args.name, args.type)
+    main()

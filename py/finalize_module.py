@@ -1,16 +1,14 @@
-from structure_utils import create_directory_structure
-from generate_cmakelists import generate_cmakelists
-from generate_entrypoint import generate_entrypoint
+from py.module_config_builder import build_module_config
+from py.template_engine import dispatch_all_templates_for_module
 
-def finalize_module(module_path, module_type, name):
-    """
-    Finalize the module setup by creating structure, CMakeLists, and entrypoint files.
-    Returns True if the module path is valid and setup completes, False otherwise.
-    """
-    if module_path is None:
-        return False
 
-    create_directory_structure(module_path, module_type)
-    generate_cmakelists(name, module_type, module_path)
-    generate_entrypoint(module_path, name, module_type)
+def finalize_module(module_name, master_config: dict) -> bool:
+    """
+    Finalize the module setup by creating structure and generating files using the shared template engine.
+    Accepts a shared master_config and updates it with the module's generation data.
+    """
+    module_config = build_module_config(module_name, master_config)
+    # Automatically dispatch all templates for the given module type
+    dispatch_all_templates_for_module(module_config)
+
     return True
