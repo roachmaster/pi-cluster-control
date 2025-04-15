@@ -1,18 +1,15 @@
-from py.master_config_loader import load_master_config, persist_master_config
-from py.scaffold_module import scaffold_module
+#!/usr/bin/env python3
+
+from py.cli_config_loader import load_cli_parser
+from py.cli_command_factory import get_command_executor
 
 
 def main():
-    master_config = load_master_config()
-    modules = master_config.get("MODULES", [])
+    parser = load_cli_parser()
+    args = parser.parse_args()
 
-    print(f"🔧 Starting Forge generation for {len(modules)} modules...")
-
-    for module in modules:
-        scaffold_module(module, master_config)
-
-    print("\n✅ All modules processed.\n")
-    persist_master_config(master_config)
+    executor = get_command_executor(args.command)
+    executor()  # 🔥 Run the associated CLI command
 
 
 if __name__ == "__main__":

@@ -10,18 +10,23 @@ def load_cli_parser() -> argparse.ArgumentParser:
         config = yaml.safe_load(f)
 
     parser = argparse.ArgumentParser(description=config.get("description", ""))
+    subparsers = parser.add_subparsers(dest="command", required=True)
 
-    for arg in config["arguments"]:
-        name = arg["name"]
-        help_text = arg.get("help", "")
-        if arg.get("positional", False):
-            parser.add_argument(name, help=help_text)
-        else:
-            kwargs = {
-                "help": help_text,
-                "default": arg.get("default"),
-                "choices": arg.get("choices")
-            }
-            parser.add_argument(name, **{k: v for k, v in kwargs.items() if v is not None})
+    for cmd_name, cmd_info in config.get("subcommands", {}).items():
+        subparser = subparsers.add_parser(cmd_name, help=cmd_info.get("help", ""))
+
+        for arg in cmd_info.get("arguments", []):
+            name = arg["name"]
+            help_text = arg.get("help", "")
+            if arg.get("positional", False):
+                subparser.add_argument(name, help=help_text)
+            else:
+                kwargs = {
+                    "help": help_text,
+                    "default": arg.get("default"),
+                    "choices": arg.get("choices"),
+                    "action": arg.get("action")  # e.g. store_true
+                }
+                subparser.add_argument(name, **{k: v for k, v in kwargs.items() if v is not None})
 
     return parser
