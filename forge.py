@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from py.cli_config_loader import load_cli_parser
-from py.cli_command_factory import get_command_executor
+from py.cli.cli_config_loader import load_cli_parser
+from py.cli.cli_command_factory import get_command_executor
 
 
 def main():

@@ -1,23 +1,24 @@
 TEMPLATES:
+  root:
+    cmakelists:
+      template: templates/root/CMakeLists.txt.mustache
+      output: forge/CMakeLists.txt
+
   lib:
     cmakelists:
-      template: templates/cmakelists_lib.mustache
-      output: "{{module_path}}/CMakeLists.txt"
-      keys: [module_name, module_type, module_path]
+      template: templates/lib/CMakelists.txt.mustache
+      output: "forge/{{module_path}}/CMakeLists.txt"
 
     entrypoint:
-      template: templates/entrypoint_lib.mustache
-      output: "{{directories.src}}/{{module_name}}_lib.cpp"
-      keys: [module_name, directories]
+      template: templates/lib/entrypoint_lib.mustache
+      output: "{{DIR_src}}/{{module_name_snake_case}}_lib.cpp"
 
     header:
-      template: templates/header_lib.mustache
-      output: "{{directories.include}}/{{module_name}}.hpp"
-      keys: [module_name, directories]
+      template: templates/lib/header_lib.mustache
+      output: "{{DIR_include}}/{{module_name_snake_case}}.hpp"
 
   py:
     config:
       master_config_dto:
-        template: templates/py_dto_class.mustache
+        template: templates/py/py_dto_class.mustache
         values: config/dto/master_config_dto.yaml
-        keys: []

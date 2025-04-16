@@ -2,6 +2,9 @@ class MasterConfigDTO:
     def __init__(self, config: dict):
         self._config = config
 
+    def get(self, key, default=None):
+        return self._config.get(key, default)
+
     def get_modules(self):
         return self._config.get("MODULES", [])
     def get_templates(self):
