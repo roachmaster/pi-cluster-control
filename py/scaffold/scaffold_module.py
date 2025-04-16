@@ -7,9 +7,10 @@ It supports different module types (lib, tool, exe, plugin, test-only), each
 with its own layout and CMakeLists.txt generation using Mustache-style templates.
 """
 
+from pathlib import Path
 from py.scaffold.finalize_module import finalize_module
 from py.config.master_config_loader import load_master_config, persist_master_config
-from pathlib import Path
+from py.scaffold.scaffold_root import scaffold_root  # ✅ Import root scaffolder
 
 
 def scaffold_command():
@@ -27,6 +28,9 @@ def run_scaffold():
 
     for module in modules:
         scaffold_per_module(module, master_config)
+
+    # ✅ Now scaffold root-level configuration
+    scaffold_root(master_config)
 
     print("\n✅ All modules processed.\n")
     persist_master_config(master_config)
