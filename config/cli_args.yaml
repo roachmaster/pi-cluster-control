@@ -8,3 +8,7 @@ subcommands:
   py_scaffold:
     help: "Generate Python DTOs and other template-based Python files"
     arguments: []
+
+  build:
+    help: "Build the entire Forge project from the root directory"
+    arguments: []

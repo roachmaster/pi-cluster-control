@@ -1,29 +1,20 @@
-#ifndef CPPFORGE_PTR_HPP
-#define CPPFORGE_PTR_HPP
+#ifndef CPPFORGE_CORE_FORGE_CPPFORGE_PTR_HPP
+#define CPPFORGE_CORE_FORGE_CPPFORGE_PTR_HPP
 
 #include <memory>
 #include "forgeable.hpp"
-#include "forge.hpp"
-#include "no_op_deleter.hpp"
 
 namespace cppforge::core::forge {
 
     /**
-     * @brief The standard smart pointer used for managing Forgeable instances.
+     * @brief Type-safe smart pointer for managing Forgeable instances.
+     *
+     * This alias wraps std::unique_ptr<T> and defaults to Forgeable.
+     * You can specialize the alias with a different type if needed.
      */
-    using ForgeablePtr = std::unique_ptr<Forgeable, NoOpDeleter>;
-
-    /**
-     * @brief Type-erased pointer to any registered Forge factory.
-     */
-    using ForgeFactoryPtr = std::shared_ptr<IForge>;
-
-    /**
-     * @brief Strongly typed pointer to a Forge<T> instance.
-     */
-    template <typename T>
-    using ForgePtr = std::shared_ptr<Forge<T>>;
+    template<typename T = Forgeable>
+    using ForgeablePtr = std::unique_ptr<T>;
 
 } // namespace cppforge::core::forge
 
-#endif // CPPFORGE_PTR_HPP
+#endif // CPPFORGE_CORE_FORGE_CPPFORGE_PTR_HPP

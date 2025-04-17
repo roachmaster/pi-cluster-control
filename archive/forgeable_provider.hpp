@@ -9,7 +9,7 @@
  * Forgeable instances while handling lifecycle policy (transient, thread-local, etc.).
  */
 
-#include "cppforge_ptr.hpp"
+#include "../forge/forge-core/include/cppforge/core/forge/cppforge_ptr.hpp"
 #include "forge_identifiers.hpp"
 
 namespace cppforge::core::forge {

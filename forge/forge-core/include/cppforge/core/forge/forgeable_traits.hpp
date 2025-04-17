@@ -1,27 +1,22 @@
-#ifndef FORGEABLE_TRAITS_HPP
-#define FORGEABLE_TRAITS_HPP
+#ifndef CPPFORGE_CORE_FORGE_FORGEABLE_TRAITS_HPP
+#define CPPFORGE_CORE_FORGE_FORGEABLE_TRAITS_HPP
 
-#include <memory>
+/**
+ * @file forgeable_traits.hpp
+ * @brief Type trait helper for validating inheritance from Forgeable.
+ */
+
 #include <type_traits>
-#include "forgeable.hpp"
-#include "no_op_deleter.hpp"
+#include <forgeable.hpp>
 
 namespace cppforge::core::forge {
 
     /**
-     * @brief Trait to check if a type is a Forgeable.
+     * @brief Evaluates to true if type T inherits from Forgeable.
      */
     template <typename T>
     constexpr bool is_forgeable = std::is_base_of_v<Forgeable, T>;
 
-    /**
-     * @brief Alias for a forgeable pointer of specific type T with a no-op deleter.
-     *
-     * Used by strongly typed Forge<T> implementations to manage concrete Forgeable lifecycles.
-     */
-    template <typename T>
-    using ForgeableImplPtr = std::unique_ptr<T, NoOpDeleter>;
-
 } // namespace cppforge::core::forge
 
-#endif // FORGEABLE_TRAITS_HPP
+#endif // CPPFORGE_CORE_FORGE_FORGEABLE_TRAITS_HPP

@@ -1,0 +1,54 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide empty members
+left to right direction
+
+package "Public API" {
+  class LambdaBridge {
+    +resolve(type, id)
+    +resolve_as(type, id)
+  }
+}
+
+package "Forge Orchestration" {
+  interface ForgeRegistry
+  interface ForgeResolver
+  class ForgeManager
+  ForgeManager ..|> ForgeRegistry
+  ForgeManager ..|> ForgeResolver
+}
+
+package "Provider Layer" {
+  interface ForgeProvider
+  ForgeProvider --> ForgeResolver : resolve
+}
+
+package "Cache Strategies" {
+  interface LifecycleCache
+  class SingletonCache
+  class ThreadLocalCache
+  class SessionCache
+
+  LifecycleCache <|-- SingletonCache
+  LifecycleCache <|-- ThreadLocalCache
+  LifecycleCache <|-- SessionCache
+  LifecycleCache ..|> Forgeable
+}
+
+package "Forge Runtime" {
+  interface Forge
+  interface Forgeable
+  class GoalValidate {
+    +execute()
+  }
+
+  GoalValidate ..|> Forgeable
+  Forge --> Forgeable : creates
+}
+
+LambdaBridge --> ForgeProvider : delegates
+ForgeProvider --> LifecycleCache : selects
+ForgeResolver --> LifecycleCache : returns
+ForgeResolver --> Forge : resolve_forge
+
+@enduml

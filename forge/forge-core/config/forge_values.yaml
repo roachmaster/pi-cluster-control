@@ -1,0 +1,18 @@
+HEADER_GUARD: CPPFORGE_CORE_FORGE_FORGE_HPP
+HEADER_FILENAME: forge.hpp
+DESCRIPTION: Defines the CRTP-style Forge<T> base for stateless factories.
+INCLUDES:
+  - "\"cppforge_ptr.hpp\""
+  - "\"forgeable_traits.hpp\""
+NAMESPACE: cppforge::core::forge
+
+ALIAS_EXECUTION_LABEL_TYPE: ForgeId
+ALIAS_DATA_TYPE: std::string  # or your real ForgeId type
+CLASS_NAME: Forge
+
+METHOD_EXECUTE: create
+METHOD_EXECUTE_IMPL: createImpl
+METHOD_EXECUTE_RETURN_TYPE: ForgeablePtr
+
+METHOD_LABEL: GetForgeId
+METHOD_LABEL_IMPL: GetForgeIdImpl

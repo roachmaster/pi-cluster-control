@@ -1,0 +1,21 @@
+#ifndef {{HEADER_GUARD}}
+#define {{HEADER_GUARD}}
+
+{{#includes}}
+#include {{{.}}}
+{{/includes}}
+
+namespace {{NAMESPACE}} {
+
+    /**
+     * @brief Type-safe smart pointer for managing {{BASE_TYPE}} instances.
+     *
+     * This alias wraps std::unique_ptr<T> and defaults to {{BASE_TYPE}}.
+     * You can specialize the alias with a different type if needed.
+     */
+    template<typename T = {{BASE_TYPE}}>
+    using {{ALIAS_NAME}} = std::unique_ptr<T>;
+
+} // namespace {{NAMESPACE}}
+
+#endif // {{HEADER_GUARD}}

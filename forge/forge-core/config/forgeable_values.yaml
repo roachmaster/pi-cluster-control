@@ -1,0 +1,14 @@
+HEADER_GUARD: CPPFORGE_CORE_FORGE_FORGEABLE_HPP
+HEADER_FILENAME: forgeable.hpp
+DESCRIPTION: Base CRTP-style Forgeable interface for stateless execution.
+INCLUDES:
+  - "<string>"
+NAMESPACE: cppforge::core::forge
+ALIAS_EXECUTION_LABEL_TYPE: ExecutionLabel
+ALIAS_DATA_TYPE: std::string
+CLASS_NAME: Forgeable
+METHOD_EXECUTE: Execute
+METHOD_EXECUTE_IMPL: ExecuteImpl
+METHOD_LABEL: GetLabel
+METHOD_LABEL_IMPL: GetLabelImpl
+METHOD_EXECUTE_RETURN_TYPE: void

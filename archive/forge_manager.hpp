@@ -19,7 +19,7 @@
 #include "forge_registry.hpp"         // Provides registerForge<T>()
 #include "forge_resolver.hpp"         // Provides resolveForge(), resolveAndCreate()
 #include "forge_identifiers.hpp"      // ForgeType, ForgeId, ForgeKeyList
-#include "cppforge_ptr.hpp"           // ForgePtr<T>, ForgeFactoryPtr
+#include "../forge/forge-core/include/cppforge/core/forge/cppforge_ptr.hpp"           // ForgePtr<T>, ForgeFactoryPtr
 #include "i_forge.hpp"                // IForge
 
 namespace cppforge::core::forge {

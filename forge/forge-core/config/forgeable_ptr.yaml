@@ -1,0 +1,7 @@
+HEADER_GUARD: CPPFORGE_CORE_FORGE_CPPFORGE_PTR_HPP
+NAMESPACE: cppforge::core::forge
+includes:
+  - "<memory>"
+  - "\"forgeable.hpp\""
+BASE_TYPE: Forgeable
+ALIAS_NAME: ForgeablePtr

@@ -1,0 +1,48 @@
+@startuml
+skinparam style strict
+skinparam packageStyle rectangle
+skinparam componentStyle rectangle
+
+title Forge-Core Architectural Hierarchy
+
+package "DSL Interface (Public)" {
+  interface LambdaBridge <<DSL>>
+  class ForgeCoreAPI <<Facade>>
+
+  LambdaBridge --> ForgeCoreAPI : invokes
+}
+
+package "Forge Provider (Glue Layer)" {
+  class ForgeProvider
+  ForgeCoreAPI --> ForgeProvider : delegates
+}
+
+package "Stateless System Core" {
+  interface ForgeRegistry
+  interface ForgeResolver
+  class ForgeManager
+
+  ForgeProvider --> ForgeRegistry : lookup
+  ForgeProvider --> ForgeResolver : resolve
+
+  ForgeManager ..|> ForgeRegistry
+  ForgeManager ..|> ForgeResolver
+}
+
+package "Contracts & Traits" {
+  interface Forgeable <<Marker>>
+  class Forge
+  class ForgeablePtr <<typedef>>
+  class NoOpDeleter <<utility>>
+  class ForgeableTraits <<utility>>
+
+  Forge --> Forgeable : creates
+  ForgeablePtr --> Forgeable
+}
+
+note right of Forgeable : Defined by users in external modules\nimplements business logic
+
+note top of ForgeCoreAPI : Public API used by client modules
+note top of ForgeManager : Stateless\nRuntime-registered\nInternal only
+
+@enduml

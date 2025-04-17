@@ -39,7 +39,6 @@ namespace cppforge::core::forge {
     /**
      * @brief Alias for a human-readable execution label (e.g. for testing, tracing).
      */
-    using ExecutionLabel = std::string;
 
     /**
      * @brief Alias for a list of registered forge keys in format "type.id".

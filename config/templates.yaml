@@ -8,11 +8,9 @@ TEMPLATES:
     cmakelists:
       template: templates/lib/CMakelists.txt.mustache
       output: "forge/{{module_path}}/CMakeLists.txt"
-
     entrypoint:
       template: templates/lib/entrypoint_lib.mustache
       output: "{{DIR_src}}/{{module_name_snake_case}}_lib.cpp"
-
     header:
       template: templates/lib/header_lib.mustache
       output: "{{DIR_include}}/{{module_name_snake_case}}.hpp"
@@ -22,3 +20,23 @@ TEMPLATES:
       master_config_dto:
         template: templates/py/py_dto_class.mustache
         values: config/dto/master_config_dto.yaml
+
+  forge-core:
+    headers:
+      forgeable_interface:
+        template: templates/cpp/crtp.hpp.mustache
+        values: forge/forge-core/config/forgeable_values.yaml
+        output: forge/forge-core/include/cppforge/core/forge/forgeable.hpp
+      forge_interface:
+        template: templates/cpp/crtp.hpp.mustache
+        values: forge/forge-core/config/forge_values.yaml
+        output: forge/forge-core/include/cppforge/core/forge/forge.hpp
+      forgeable_traits:
+        template: templates/cpp/traits.hpp.mustache
+        values: forge/forge-core/config/forgeable_traits.yaml
+        output: forge/forge-core/include/cppforge/core/forge/forgeable_traits.hpp
+
+      forgeable_ptr:
+        template: templates/cpp/type_alias_smart_ptr.hpp.mustache
+        values: forge/forge-core/config/forgeable_ptr.yaml
+        output: forge/forge-core/include/cppforge/core/forge/cppforge_ptr.hpp

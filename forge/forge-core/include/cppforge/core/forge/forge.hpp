@@ -1,46 +1,42 @@
-#ifndef FORGE_HPP
-#define FORGE_HPP
+#ifndef CPPFORGE_CORE_FORGE_FORGE_HPP
+#define CPPFORGE_CORE_FORGE_FORGE_HPP
 
 /**
  * @file forge.hpp
- * @brief Defines the templated Forge<T> interface for creating Forgeable components.
+ * @brief Defines the CRTP-style Forge&lt;T&gt; base for stateless factories.
  */
 
-#include "i_forge.hpp"
 #include "cppforge_ptr.hpp"
 #include "forgeable_traits.hpp"
 
 namespace cppforge::core::forge {
 
+    using ForgeId = std::string;
+
     /**
-     * @brief Templated factory interface for creating Forgeable components.
+     * @brief CRTP base class for Forge-like behavior.
      *
-     * @tparam T The specific Forgeable subclass to produce.
+     * Derived classes must implement:
+     *   - ForgeablePtr createImpl();
+     *   - ForgeId GetForgeIdImpl() const;
      */
-    template <typename T>
-    class Forge : public IForge {
+    template<typename Derived>
+    class Forge {
     public:
-        static_assert(is_forgeable<T>, "T must be derived from Forgeable");
-
-        /**
-         * @brief Strongly-typed creation method for concrete Forgeable instances.
-         *
-         * @return ForgeableImplPtr<T> A pointer to a freshly created instance of T.
-         */
-        virtual ForgeableImplPtr<T> createImpl() = 0;
-
-        /**
-         * @brief Type-erased factory method.
-         *
-         * Implements IForge by calling createImpl() and converting to ForgeablePtr.
-         */
-        ForgeablePtr create() override {
-            return ForgeablePtr(createImpl().release(), NoOpDeleter{});
+        ForgeablePtr create() {
+            return static_cast<Derived*>(this)->createImpl();
         }
 
-        ~Forge() noexcept override = default;
+        ForgeId GetForgeId() const {
+            return static_cast<const Derived*>(this)->GetForgeIdImpl();
+        }
+
+    protected:
+        Forge() = default;
+        Forge(const Forge&) = delete;
+        Forge& operator=(const Forge&) = delete;
     };
 
 } // namespace cppforge::core::forge
 
-#endif // FORGE_HPP
+#endif // CPPFORGE_CORE_FORGE_FORGE_HPP

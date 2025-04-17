@@ -12,7 +12,7 @@
 
 #include <string>
 #include "forge_identifiers.hpp"
-#include "cppforge_ptr.hpp"
+#include "../forge/forge-core/include/cppforge/core/forge/cppforge_ptr.hpp"
 #include "i_forge.hpp"
 
 namespace cppforge::core::forge {

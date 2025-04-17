@@ -14,10 +14,10 @@
 #include <string>
 
 #include "forge_identifiers.hpp"       // ForgeType, ForgeId, ForgeKeyList
-#include "forgeable_traits.hpp"        // is_forgeable<T>
-#include "cppforge_ptr.hpp"            // ForgePtr<T>, ForgeFactoryPtr
+#include "../forge/forge-core/include/cppforge/core/forge/forgeable_traits.hpp"        // is_forgeable<T>
+#include "../forge/forge-core/include/cppforge/core/forge/cppforge_ptr.hpp"            // ForgePtr<T>, ForgeFactoryPtr
 #include "i_forge.hpp"                 // IForge
-#include "forge.hpp"                   // Forge<T>
+#include "../forge/forge-core/include/cppforge/core/forge/forge.hpp"                   // Forge<T>
 
 namespace cppforge::core::forge {
 

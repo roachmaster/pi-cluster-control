@@ -1,0 +1,11 @@
+HEADER_FILENAME: goal_validate_forgeable.hpp
+HEADER_GUARD: CPPFORGE_CORE_FORGE_GOAL_VALIDATE_FORGEABLE_HPP
+DESCRIPTION: Base CRTP-style Forgeable interface for stateless execution.
+NAMESPACE: cppforge::core::forge
+CLASS_NAME: Forgeable
+ALIAS_EXECUTION_LABEL_TYPE: ExecutionLabel
+ALIAS_DATA_TYPE: std::string
+METHOD_EXECUTE: Execute
+METHOD_LABEL: GetLabel
+INCLUDES:
+  - string

@@ -1,3 +1,4 @@
 pystache
 PyYAML
 setuptools
+graphviz
