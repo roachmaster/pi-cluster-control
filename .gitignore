@@ -3,3 +3,5 @@ cmake-build-debug/
 /cmake-build-debug/
 /.idea/
 tmp/
+# Python egg metadata
+*.egg-info/
