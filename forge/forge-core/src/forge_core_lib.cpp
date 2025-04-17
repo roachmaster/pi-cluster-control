@@ -1,9 +1,9 @@
 // forge-core_lib.cpp
 // Auto-generated source file for the forge-core library module
 
-#include "forge-core.hpp"
+#include "forge_core.hpp"
 
-namespace  {
+namespace cppforge::forge_core::api {
 
     void placeholder();
 

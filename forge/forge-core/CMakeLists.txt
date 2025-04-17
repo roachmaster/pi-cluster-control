@@ -6,14 +6,20 @@ project(pi_cluster_control)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+message(STATUS "CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS "CMAKE_SOURCE_DIR         = ${CMAKE_SOURCE_DIR}")
+message(STATUS "CMAKE_BINARY_DIR         = ${CMAKE_BINARY_DIR}")
+message(STATUS "CMAKE_CURRENT_BINARY_DIR = ${CMAKE_CURRENT_BINARY_DIR}")
+
 # === Library Target ===
 add_library(forge_core_lib
     src/forge_core_lib.cpp
 )
 
 
+# === Include Directories ===
 target_include_directories(forge_core_lib PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include     # ✅ correct relative to CMakeLists.txt in forge-core
 )
 
 # === Output Path ===

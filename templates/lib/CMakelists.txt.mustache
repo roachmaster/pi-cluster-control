@@ -6,6 +6,11 @@ project({{CMAKE_PROJECT}})
 set(CMAKE_CXX_STANDARD {{CMAKE_CXX_STANDARD}})
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+message(STATUS "CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS "CMAKE_SOURCE_DIR         = ${CMAKE_SOURCE_DIR}")
+message(STATUS "CMAKE_BINARY_DIR         = ${CMAKE_BINARY_DIR}")
+message(STATUS "CMAKE_CURRENT_BINARY_DIR = ${CMAKE_CURRENT_BINARY_DIR}")
+
 # === Library Target ===
 add_library({{module_name_snake_case}}_lib
 {{#SOURCE_FILES}}
@@ -34,8 +39,9 @@ FetchContent_MakeAvailable(
 )
 {{/HAS_PACKAGES}}
 
+# === Include Directories ===
 target_include_directories({{module_name_snake_case}}_lib PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include     # ✅ correct relative to CMakeLists.txt in forge-core
 {{#DEPENDS_ON}}
     ${CMAKE_SOURCE_DIR}/{{.}}/include
 {{/DEPENDS_ON}}
