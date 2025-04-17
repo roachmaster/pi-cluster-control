@@ -1,52 +1,41 @@
-#ifndef FORGEABLE_HPP
-#define FORGEABLE_HPP
+#ifndef CPPFORGE_CORE_FORGE_FORGEABLE_HPP
+#define CPPFORGE_CORE_FORGE_FORGEABLE_HPP
 
 /**
  * @file forgeable.hpp
- * @brief Base interface for all executable Forgeable components.
- *
- * A Forgeable is the core unit of execution in the Forge system.
- * These objects are created by Forges and then executed to perform
- * a defined behavior (e.g., validating a goal, applying a contract, etc.).
+ * @brief Base CRTP-style Forgeable interface for stateless execution.
  */
 
 #include <string>
-#include "forge_identifiers.hpp"
 
 namespace cppforge::core::forge {
 
+    using ExecutionLabel = std::string;
+
     /**
-     * @brief Interface for executable Forgeable units.
+     * @brief CRTP base class for Forgeable-like behavior.
      *
-     * All Forgeables must implement `execute()`, which performs the
-     * component's action. `executionLabel()` may optionally be used
-     * for tracing, debugging, or DSL introspection.
+     * Derived classes must implement:
+     *   - void ExecuteImpl();
+     *   - ExecutionLabel GetLabelImpl() const;
      */
+    template<typename Derived>
     class Forgeable {
     public:
-        /**
-         * @brief Returns an execution label for diagnostics or DSL tracing.
-         *
-         * Commonly used for logs, test descriptions, or DSL mapping.
-         *
-         * @return ExecutionLabel A readable label representing this component.
-         */
-        virtual ExecutionLabel executionLabel() const = 0;
+        void Execute() {
+            return static_cast<Derived*>(this)->ExecuteImpl();
+        }
 
-        /**
-         * @brief Executes the Forgeable's core behavior.
-         *
-         * This is the main entry point for triggering the logic
-         * encapsulated by this component.
-         */
-        virtual void execute() = 0;
+        ExecutionLabel GetLabel() const {
+            return static_cast<const Derived*>(this)->GetLabelImpl();
+        }
 
-        /**
-         * @brief Virtual destructor for safe polymorphic deletion.
-         */
-        virtual ~Forgeable() noexcept = default;
+    protected:
+        Forgeable() = default;
+        Forgeable(const Forgeable&) = delete;
+        Forgeable& operator=(const Forgeable&) = delete;
     };
 
 } // namespace cppforge::core::forge
 
-#endif // FORGEABLE_HPP
+#endif // CPPFORGE_CORE_FORGE_FORGEABLE_HPP

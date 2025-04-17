@@ -34,6 +34,10 @@ def get_command_executor(command_name: str):
         # Create module directory
         module_path.parent.mkdir(parents=True, exist_ok=True)
 
+        # Ensure it's a valid package
+        init_file = module_path.parent / "__init__.py"
+        init_file.touch(exist_ok=True)
+
         # Render and write scaffolded command
         rendered = render_template(TEMPLATE_PATH, {"COMMAND_NAME": command_name})
         with open(module_path, "w") as f:
