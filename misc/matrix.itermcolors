@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+    <!-- Foreground Color (text) -->
+    <key>Foreground Color</key>
+    <dict>
+        <key>Alpha Component</key><real>1</real>
+        <key>Red Component</key><real>0.2</real>
+        <key>Green Component</key><real>1</real>
+        <key>Blue Component</key><real>0.2</real>
+        <key>Color Space</key><string>sRGB</string>
+    </dict>
+
+    <!-- Background Color (keep dark) -->
+    <key>Background Color</key>
+    <dict>
+        <key>Alpha Component</key><real>1</real>
+        <key>Red Component</key><real>0</real>
+        <key>Green Component</key><real>0</real>
+        <key>Blue Component</key><real>0</real>
+        <key>Color Space</key><string>sRGB</string>
+    </dict>
+
+    <!-- Cursor Color -->
+    <key>Cursor Color</key>
+    <dict>
+        <key>Alpha Component</key><real>1</real>
+        <key>Red Component</key><real>0.2</real>
+        <key>Green Component</key><real>1</real>
+        <key>Blue Component</key><real>0.2</real>
+        <key>Color Space</key><string>sRGB</string>
+    </dict>
+
+    <!-- Ansi 2 Color (Green) -->
+    <key>Ansi 2 Color</key>
+    <dict>
+        <key>Alpha Component</key><real>1</real>
+        <key>Red Component</key><real>0.2</real>
+        <key>Green Component</key><real>1</real>
+        <key>Blue Component</key><real>0.2</real>
+        <key>Color Space</key><string>sRGB</string>
+    </dict>
+
+    <!-- Ansi 10 Color (Bright Green) -->
+    <key>Ansi 10 Color</key>
+    <dict>
+        <key>Alpha Component</key><real>1</real>
+        <key>Red Component</key><real>0.4</real>
+        <key>Green Component</key><real>1</real>
+        <key>Blue Component</key><real>0.4</real>
+        <key>Color Space</key><string>sRGB</string>
+    </dict>
+
+    <!-- Everything else (fallback colors) -->
+    <key>Ansi 0 Color</key>
+    <dict><key>Alpha Component</key><real>1</real><key>Color Space</key><string>sRGB</string><key>Red Component</key><real>0</real><key>Green Component</key><real>0</real><key>Blue Component</key><real>0</real></dict>
+    <key>Ansi 1 Color</key>
+    <dict><key>Alpha Component</key><real>1</real><key>Color Space</key><string>sRGB</string><key>Red Component</key><real>1</real><key>Green Component</key><real>0</real><key>Blue Component</key><real>0</real></dict>
+    <key>Ansi 3 Color</key>
+    <dict><key>Alpha Component</key><real>1</real><key>Color Space</key><string>sRGB</string><key>Red Component</key><real>1</real><key>Green Component</key><real>1</real><key>Blue Component</key><real>0</real></dict>
+    <key>Ansi 4 Color</key>
+    <dict><key>Alpha Component</key><real>1</real><key>Color Space</key><string>sRGB</string><key>Red Component</key><real>0</real><key>Green Component</key><real>0</real><key>Blue Component</key><real>1</real></dict>
+    <key>Ansi 5 Color</key>
+    <dict><key>Alpha Component</key><real>1</real><key>Color Space</key><string>sRGB</string><key>Red Component</key><real>1</real><key>Green Component</key><real>0</real><key>Blue Component</key><real>1</real></dict>
+    <key>Ansi 6 Color</key>
+    <dict><key>Alpha Component</key><real>1</real><key>Color Space</key><string>sRGB</string><key>Red Component</key><real>0</real><key>Green Component</key><real>1</real><key>Blue Component</key><real>1</real></dict>
+    <key>Ansi 7 Color</key>
+    <dict><key>Alpha Component</key><real>1</real><key>Color Space</key><string>sRGB</string><key>Red Component</key><real>1</real><key>Green Component</key><real>1</real><key>Blue Component</key><real>1</real></dict>
+
+</dict>
+</plist>

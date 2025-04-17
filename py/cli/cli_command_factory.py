@@ -1,11 +1,18 @@
 import importlib
 import importlib.util
+import subprocess
 import yaml
 from pathlib import Path
 from py.template.template_utils import render_template
 
 CLI_CONFIG_PATH = Path("config/cli_args.yaml")
 TEMPLATE_PATH = Path("templates/cli/python_command_module.py.mustache")
+
+
+def recompile_python_package():
+    print("♻️  Refreshing Forge Python links...")
+    subprocess.run(["pip", "install", "-e", "."], cwd="py", stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    print("✅ Forge Python package refreshed.")
 
 
 def get_command_executor(command_name: str):
@@ -44,6 +51,9 @@ def get_command_executor(command_name: str):
             f.write(rendered)
 
         print(f"✅ Scaffolding complete: {module_path}")
+
+        # 🛠️ After scaffolding, refresh the Forge Python package
+        recompile_python_package()
 
         # Dynamically load the new module
         spec = importlib.util.spec_from_file_location(module_name, module_path)

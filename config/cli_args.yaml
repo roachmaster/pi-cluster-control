@@ -12,3 +12,7 @@ subcommands:
   build:
     help: "Build the entire Forge project from the root directory"
     arguments: []
+
+  clean:
+    help: "Clean all CLion build artifacts (cmake-build-*) from the project root"
+    arguments: []
