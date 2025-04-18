@@ -11,7 +11,7 @@
 namespace cppforge::core::forge {
 
     /**
-     * @brief base class for Forgeable-like behavior.
+     * @brief Base class for Forgeable-like behavior.
      *
      * Derived classes must implement:
      *   - void execute(
@@ -20,7 +20,8 @@ namespace cppforge::core::forge {
        ) const noexcept;
      */
     template<typename Derived>
-    class Forgeable {
+    class Forgeable
+    {
     public:
         using ExecutionLabel = std::string;
 

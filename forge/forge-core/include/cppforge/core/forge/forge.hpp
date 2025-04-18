@@ -12,7 +12,7 @@
 namespace cppforge::core::forge {
 
     /**
-     * @brief base class for Forge-like behavior.
+     * @brief Base class for Forge-like behavior.
      *
      * Derived classes must implement:
      *   - ForgeablePtr&lt;ForgeableType&gt; create(
@@ -21,7 +21,8 @@ namespace cppforge::core::forge {
        ) const noexcept;
      */
     template<typename Derived, typename ForgeableType>
-    class Forge {
+    class Forge
+    {
     public:
         using ForgeId = std::string;
 

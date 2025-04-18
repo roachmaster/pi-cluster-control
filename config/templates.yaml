@@ -67,3 +67,8 @@ TEMPLATES:
         template: templates/cpp/crtp.hpp.mustache
         values: forge/forge-core/config/forge_registry.yaml
         output: forge/forge-core/include/cppforge/core/forge/forge_registry.hpp
+
+      forge_manager:
+        template: templates/cpp/crtp.hpp.mustache
+        values: forge/forge-core/config/forge_manager.yaml
+        output: forge/forge-core/include/cppforge/core/forge/forge_manager.hpp

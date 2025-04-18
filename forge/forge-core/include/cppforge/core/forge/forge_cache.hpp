@@ -15,7 +15,7 @@
 namespace cppforge::core::forge {
 
     /**
-     * @brief base class for ForgeCache-like behavior.
+     * @brief Base class for ForgeCache-like behavior.
      *
      * Derived classes must implement:
      *   - void insert(
@@ -34,7 +34,8 @@ namespace cppforge::core::forge {
        ) const noexcept;
      */
     template<typename Derived>
-    class ForgeCache {
+    class ForgeCache
+    {
     public:
         using KeyType = std::string;
         using ValueType = ForgeablePtr<typename Derived::StoredType>;

@@ -11,7 +11,7 @@
 namespace cppforge::core::forge {
 
     /**
-     * @brief base class for ForgeRegistry-like behavior.
+     * @brief Base class for ForgeRegistry-like behavior.
      *
      * Derived classes must implement:
      *   - void registerForge(
@@ -20,7 +20,8 @@ namespace cppforge::core::forge {
        ) noexcept;
      */
     template<typename ForgeType>
-    class ForgeRegistry {
+    class ForgeRegistry
+    {
     public:
         using ForgeId = std::string;
 

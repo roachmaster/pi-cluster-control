@@ -13,7 +13,7 @@
 namespace {{NAMESPACE}} {
 
     /**
-     * @brief base class for {{CLASS_NAME}}-like behavior.
+     * @brief Base class for {{CLASS_NAME}}-like behavior.
      *
 {{#has_method}}
      * Derived classes must implement:
@@ -32,7 +32,12 @@ namespace {{NAMESPACE}} {
 {{^has_second_template_param}}
     template<typename {{TEMPLATE_PARAM}}>
 {{/has_second_template_param}}
-    class {{CLASS_NAME}} {
+    class {{CLASS_NAME}}
+{{#TRAITS}}
+    {{#isFirst}}:{{/isFirst}} public {{{NAME}}}{{#hasNext}},
+{{/hasNext}}
+{{/TRAITS}}
+    {
     public:
 {{#has_alias}}
 {{#ALIASES}}
@@ -58,7 +63,7 @@ namespace {{NAMESPACE}} {
 {{#has_internal_storage}}
     private:
 {{#INTERNAL_STORAGE}}
-        {{.}}
+        {{{.}}}
 {{/INTERNAL_STORAGE}}
 {{/has_internal_storage}}
     };

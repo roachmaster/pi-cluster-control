@@ -11,7 +11,7 @@
 namespace cppforge::core::forge {
 
     /**
-     * @brief base class for ForgeResolver-like behavior.
+     * @brief Base class for ForgeResolver-like behavior.
      *
      * Derived classes must implement:
      *   - ForgeType* resolve(
@@ -19,7 +19,8 @@ namespace cppforge::core::forge {
        ) const noexcept;
      */
     template<typename ForgeType>
-    class ForgeResolver {
+    class ForgeResolver
+    {
     public:
         using ForgeId = std::string;
 

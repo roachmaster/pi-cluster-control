@@ -1,0 +1,56 @@
+HEADER_GUARD: CPPFORGE_CORE_FORGE_FORGE_MANAGER_HPP
+HEADER_FILENAME: forge_manager.hpp
+DESCRIPTION: Manages Forge registration and resolution.
+NAMESPACE: cppforge::core::forge
+
+INCLUDES:
+  - "<unordered_map>"
+  - "\"forge.hpp\""
+  - "\"forge_resolver.hpp\""
+  - "\"forge_registry.hpp\""
+
+CLASS_NAME: ForgeManager
+
+TEMPLATE_PARAM: ForgeType
+
+ALIASES:
+  - NAME: ForgeId
+    TYPE: std::string
+    hasNext: false
+
+has_alias: true
+
+METHODS:
+  - NAME: resolve
+    RETURN_TYPE: ForgeType*
+    PARAMS:
+      - DESCRIPTION: "const ForgeId& id"
+        hasNext: false
+    SPECIFIER: const noexcept
+    hasNext: true
+
+  - NAME: registerForge
+    RETURN_TYPE: void
+    PARAMS:
+      - DESCRIPTION: "const ForgeId& id"
+        hasNext: true
+      - DESCRIPTION: "ForgeType* forge"
+        hasNext: false
+    SPECIFIER: noexcept
+    hasNext: false
+
+has_method: true
+has_second_template_param: false
+
+has_internal_storage: true
+INTERNAL_STORAGE:
+  - "std::unordered_map<ForgeId, ForgeType*> registry_;"
+
+# 🧩 Updated TRAITS with isFirst and hasNext
+TRAITS:
+  - NAME: cppforge::core::forge::ForgeResolver<ForgeType>
+    isFirst: true
+    hasNext: true
+  - NAME: cppforge::core::forge::ForgeRegistry<ForgeType>
+    isFirst: false
+    hasNext: false

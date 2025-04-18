@@ -10,11 +10,12 @@
 namespace cppforge::core::forge {
 
     /**
-     * @brief base class for StatefulForgeable-like behavior.
+     * @brief Base class for StatefulForgeable-like behavior.
      *
      */
     template<typename Derived>
-    class StatefulForgeable {
+    class StatefulForgeable
+    {
     public:
 
 
