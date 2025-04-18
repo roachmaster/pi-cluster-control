@@ -9,19 +9,20 @@
 
 namespace cppforge::core::forge {
 
-
     /**
-     * @brief CRTP base class for StatelessForgeable-like behavior.
+     * @brief base class for StatelessForgeable-like behavior.
      *
      */
     template<typename Derived>
     class StatelessForgeable {
     public:
 
+
     protected:
         StatelessForgeable() = default;
         StatelessForgeable(const StatelessForgeable&) = delete;
         StatelessForgeable& operator=(const StatelessForgeable&) = delete;
+
     };
 
 } // namespace cppforge::core::forge

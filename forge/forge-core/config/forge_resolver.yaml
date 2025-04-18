@@ -1,0 +1,30 @@
+HEADER_GUARD: CPPFORGE_CORE_FORGE_FORGE_RESOLVER_HPP
+HEADER_FILENAME: forge_resolver.hpp
+DESCRIPTION: Resolves Forge instances by ForgeId to produce Forgeables.
+NAMESPACE: cppforge::core::forge
+
+INCLUDES:
+  - "\"forge.hpp\""
+
+CLASS_NAME: ForgeResolver
+
+TEMPLATE_PARAM: ForgeType
+
+ALIASES:
+  - NAME: ForgeId
+    TYPE: std::string
+    hasNext: false
+
+has_alias: true
+
+METHODS:
+  - NAME: resolve
+    RETURN_TYPE: ForgeType*
+    PARAMS:
+      - DESCRIPTION: "const ForgeId& id"
+        hasNext: false
+    SPECIFIER: const noexcept
+    hasNext: false
+
+has_method: true
+has_second_template_param: false

@@ -10,30 +10,30 @@
 
 namespace cppforge::core::forge {
 
-    using ExecutionLabel = std::string;
-
     /**
-     * @brief CRTP base class for Forgeable-like behavior.
+     * @brief base class for Forgeable-like behavior.
      *
      * Derived classes must implement:
-     *   - void ExecuteImpl();
-     *   - ExecutionLabel GetLabelImpl() const;
+     *   - void execute(
+       ) noexcept;
+     *   - ExecutionLabel getLabel(
+       ) const noexcept;
      */
     template<typename Derived>
     class Forgeable {
     public:
-        void Execute() {
-            return static_cast<Derived*>(this)->ExecuteImpl();
-        }
+        using ExecutionLabel = std::string;
 
-        ExecutionLabel GetLabel() const {
-            return static_cast<const Derived*>(this)->GetLabelImpl();
-        }
+        void execute(
+        ) noexcept;
+        ExecutionLabel getLabel(
+        ) const noexcept;
 
     protected:
         Forgeable() = default;
         Forgeable(const Forgeable&) = delete;
         Forgeable& operator=(const Forgeable&) = delete;
+
     };
 
 } // namespace cppforge::core::forge

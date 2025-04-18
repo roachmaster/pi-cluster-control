@@ -11,30 +11,30 @@
 
 namespace cppforge::core::forge {
 
-    using ForgeId = std::string;
-
     /**
-     * @brief CRTP base class for Forge-like behavior.
+     * @brief base class for Forge-like behavior.
      *
      * Derived classes must implement:
-     *   - ForgeablePtr createImpl();
-     *   - ForgeId GetForgeIdImpl() const;
+     *   - ForgeablePtr&lt;ForgeableType&gt; create(
+       ) noexcept;
+     *   - ForgeId getForgeId(
+       ) const noexcept;
      */
     template<typename Derived, typename ForgeableType>
     class Forge {
     public:
-        ForgeablePtr<ForgeableType> create() {
-            return static_cast<Derived*>(this)->createImpl();
-        }
+        using ForgeId = std::string;
 
-        ForgeId GetForgeId() const {
-            return static_cast<const Derived*>(this)->GetForgeIdImpl();
-        }
+        ForgeablePtr<ForgeableType> create(
+        ) noexcept;
+        ForgeId getForgeId(
+        ) const noexcept;
 
     protected:
         Forge() = default;
         Forge(const Forge&) = delete;
         Forge& operator=(const Forge&) = delete;
+
     };
 
 } // namespace cppforge::core::forge

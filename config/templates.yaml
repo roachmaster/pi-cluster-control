@@ -46,9 +46,24 @@ TEMPLATES:
       stateful_forgeable:
         template: templates/cpp/crtp.hpp.mustache
         values: forge/forge-core/config/stateless_forgeable_values.yaml
-        output: forge/forge-core/include/cppforge/core/forge/stateless_forgeable_values.hpp
+        output: forge/forge-core/include/cppforge/core/forge/stateless_forgeable.hpp
 
       stateless_forgeable:
         template: templates/cpp/crtp.hpp.mustache
         values: forge/forge-core/config/stateful_forgeable_values.yaml
-        output: forge/forge-core/include/cppforge/core/forge/stateful_forgeable_values.hpp
+        output: forge/forge-core/include/cppforge/core/forge/stateful_forgeable.hpp
+
+      forge_cache:
+        template: templates/cpp/crtp.hpp.mustache
+        values: forge/forge-core/config/forge_cache.yaml
+        output: forge/forge-core/include/cppforge/core/forge/forge_cache.hpp
+
+      forge_resolver:
+        template: templates/cpp/crtp.hpp.mustache
+        values: forge/forge-core/config/forge_resolver.yaml
+        output: forge/forge-core/include/cppforge/core/forge/forge_resolver.hpp
+
+      forge_registry:
+        template: templates/cpp/crtp.hpp.mustache
+        values: forge/forge-core/config/forge_registry.yaml
+        output: forge/forge-core/include/cppforge/core/forge/forge_registry.hpp

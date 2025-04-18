@@ -1,0 +1,32 @@
+HEADER_GUARD: CPPFORGE_CORE_FORGE_FORGE_REGISTRY_HPP
+HEADER_FILENAME: forge_registry.hpp
+DESCRIPTION: Registers Forge instances by ForgeId.
+NAMESPACE: cppforge::core::forge
+
+INCLUDES:
+  - "\"forge.hpp\""
+
+CLASS_NAME: ForgeRegistry
+
+TEMPLATE_PARAM: ForgeType
+
+ALIASES:
+  - NAME: ForgeId
+    TYPE: std::string
+    hasNext: false
+
+has_alias: true
+
+METHODS:
+  - NAME: registerForge
+    RETURN_TYPE: void
+    PARAMS:
+      - DESCRIPTION: "const ForgeId& id"
+        hasNext: true
+      - DESCRIPTION: "ForgeType* forge"
+        hasNext: false
+    SPECIFIER: noexcept
+    hasNext: false
+
+has_method: true
+has_second_template_param: false
