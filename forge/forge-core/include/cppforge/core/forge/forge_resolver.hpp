@@ -24,6 +24,7 @@ namespace cppforge::core::forge {
     public:
         using ForgeId = std::string;
 
+
         ForgeType* resolve(
             const ForgeId& id
         ) const noexcept;

@@ -26,6 +26,7 @@ namespace cppforge::core::forge {
     public:
         using ForgeId = std::string;
 
+
         ForgeablePtr<ForgeableType> create(
         ) noexcept;
         ForgeId getForgeId(

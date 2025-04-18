@@ -19,6 +19,7 @@ namespace cppforge::core::forge {
     public:
 
 
+
     protected:
         StatefulForgeable() = default;
         StatefulForgeable(const StatefulForgeable&) = delete;

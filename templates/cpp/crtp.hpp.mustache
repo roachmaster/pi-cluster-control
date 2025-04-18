@@ -45,6 +45,18 @@ namespace {{NAMESPACE}} {
 {{/ALIASES}}
 {{/has_alias}}
 
+{{#CONSTRUCTOR.ENABLED}}
+        explicit {{CLASS_NAME}}(
+{{#CONSTRUCTOR.PARAMS}}
+            {{{TYPE}}} {{{NAME}}}{{#hasNext}},{{/hasNext}}
+{{/CONSTRUCTOR.PARAMS}}
+        )
+{{#CONSTRUCTOR.BODY}}
+            : {{{CONSTRUCTOR.BODY}}}
+{{/CONSTRUCTOR.BODY}}
+        {}
+{{/CONSTRUCTOR.ENABLED}}
+
 {{#has_method}}
 {{#METHODS}}
         {{{RETURN_TYPE}}} {{{NAME}}}(
@@ -56,7 +68,9 @@ namespace {{NAMESPACE}} {
 {{/has_method}}
 
     protected:
+{{^CONSTRUCTOR.ENABLED}}
         {{CLASS_NAME}}() = default;
+{{/CONSTRUCTOR.ENABLED}}
         {{CLASS_NAME}}(const {{CLASS_NAME}}&) = delete;
         {{CLASS_NAME}}& operator=(const {{CLASS_NAME}}&) = delete;
 

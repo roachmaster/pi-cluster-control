@@ -40,6 +40,7 @@ namespace cppforge::core::forge {
         using KeyType = std::string;
         using ValueType = ForgeablePtr<typename Derived::StoredType>;
 
+
         void insert(
             const KeyType& key,
             ValueType value

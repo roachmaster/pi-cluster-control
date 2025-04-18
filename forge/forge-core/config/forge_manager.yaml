@@ -4,10 +4,10 @@ DESCRIPTION: Manages Forge registration and resolution.
 NAMESPACE: cppforge::core::forge
 
 INCLUDES:
-  - "<unordered_map>"
   - "\"forge.hpp\""
   - "\"forge_resolver.hpp\""
   - "\"forge_registry.hpp\""
+  - "\"forge_cache.hpp\""
 
 CLASS_NAME: ForgeManager
 
@@ -16,9 +16,20 @@ TEMPLATE_PARAM: ForgeType
 ALIASES:
   - NAME: ForgeId
     TYPE: std::string
+    hasNext: true
+  - NAME: CacheType
+    TYPE: ForgeCache<ForgeType>
     hasNext: false
 
 has_alias: true
+
+CONSTRUCTOR:
+  ENABLED: true
+  PARAMS:
+    - TYPE: CacheType*
+      NAME: cache
+  BODY: |
+    cache_(cache)
 
 METHODS:
   - NAME: resolve
@@ -44,9 +55,8 @@ has_second_template_param: false
 
 has_internal_storage: true
 INTERNAL_STORAGE:
-  - "std::unordered_map<ForgeId, ForgeType*> registry_;"
+  - "CacheType* cache_;"
 
-# 🧩 Updated TRAITS with isFirst and hasNext
 TRAITS:
   - NAME: cppforge::core::forge::ForgeResolver<ForgeType>
     isFirst: true

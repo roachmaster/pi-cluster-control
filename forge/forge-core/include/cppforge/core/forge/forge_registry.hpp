@@ -25,6 +25,7 @@ namespace cppforge::core::forge {
     public:
         using ForgeId = std::string;
 
+
         void registerForge(
             const ForgeId& id,
             ForgeType* forge
