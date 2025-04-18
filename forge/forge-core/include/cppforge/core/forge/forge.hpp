@@ -3,7 +3,7 @@
 
 /**
  * @file forge.hpp
- * @brief Defines the CRTP-style Forge&lt;T&gt; base for stateless factories.
+ * @brief Defines the CRTP-style Forge&lt;T, ForgeableType&gt; base for stateless factories.
  */
 
 #include "cppforge_ptr.hpp"
@@ -20,10 +20,10 @@ namespace cppforge::core::forge {
      *   - ForgeablePtr createImpl();
      *   - ForgeId GetForgeIdImpl() const;
      */
-    template<typename Derived>
+    template<typename Derived, typename ForgeableType>
     class Forge {
     public:
-        ForgeablePtr create() {
+        ForgeablePtr<ForgeableType> create() {
             return static_cast<Derived*>(this)->createImpl();
         }
 

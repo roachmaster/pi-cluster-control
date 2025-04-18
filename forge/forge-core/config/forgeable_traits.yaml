@@ -3,9 +3,9 @@ HEADER_GUARD: CPPFORGE_CORE_FORGE_FORGEABLE_TRAITS_HPP
 DESCRIPTION: Type trait helper for validating inheritance from Forgeable.
 NAMESPACE: cppforge::core::forge
 INCLUDES:
-  - type_traits
-  - forgeable.hpp
+  - "<type_traits>"
+  - "\"forgeable.hpp\""
 BASE_CLASS: Forgeable
 TRAIT_NAME: is_forgeable
 TRAIT_DOC: Evaluates to true if type T inherits from Forgeable.
-TRAIT_IMPL: std::is_base_of_v<Forgeable, T>
+TRAIT_IMPL: std::is_base_of_v<Forgeable<T>, T>

@@ -12,25 +12,43 @@
 
 namespace {{NAMESPACE}} {
 
+{{#has_alias}}
     using {{ALIAS_EXECUTION_LABEL_TYPE}} = {{ALIAS_DATA_TYPE}};
+{{/has_alias}}
 
     /**
      * @brief CRTP base class for {{CLASS_NAME}}-like behavior.
      *
+{{#has_method}}
      * Derived classes must implement:
      *   - {{METHOD_EXECUTE_RETURN_TYPE}} {{METHOD_EXECUTE_IMPL}}();
      *   - {{ALIAS_EXECUTION_LABEL_TYPE}} {{METHOD_LABEL_IMPL}}() const;
+{{/has_method}}
      */
+{{#has_second_template_param}}
+    template<typename Derived, typename {{SECOND_TEMPLATE_PARAM}}>
+{{/has_second_template_param}}
+{{^has_second_template_param}}
     template<typename Derived>
+{{/has_second_template_param}}
     class {{CLASS_NAME}} {
     public:
+{{#has_method}}
+{{#has_second_template_param}}
+        {{METHOD_EXECUTE_RETURN_TYPE}}<{{SECOND_TEMPLATE_PARAM}}> {{METHOD_EXECUTE}}() {
+            return static_cast<Derived*>(this)->{{METHOD_EXECUTE_IMPL}}();
+        }
+{{/has_second_template_param}}
+{{^has_second_template_param}}
         {{METHOD_EXECUTE_RETURN_TYPE}} {{METHOD_EXECUTE}}() {
             return static_cast<Derived*>(this)->{{METHOD_EXECUTE_IMPL}}();
         }
+{{/has_second_template_param}}
 
         {{ALIAS_EXECUTION_LABEL_TYPE}} {{METHOD_LABEL}}() const {
             return static_cast<const Derived*>(this)->{{METHOD_LABEL_IMPL}}();
         }
+{{/has_method}}
 
     protected:
         {{CLASS_NAME}}() = default;

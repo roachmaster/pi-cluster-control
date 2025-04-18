@@ -7,7 +7,7 @@
  */
 
 {{#INCLUDES}}
-#include <{{.}}>
+#include {{{.}}}
 {{/INCLUDES}}
 
 namespace {{NAMESPACE}} {
@@ -16,7 +16,12 @@ namespace {{NAMESPACE}} {
      * @brief {{TRAIT_DOC}}
      */
     template <typename T>
-    constexpr bool {{TRAIT_NAME}} = {{{TRAIT_IMPL}}};
+    struct {{TRAIT_NAME}}_helper {
+        static constexpr bool value = {{{TRAIT_IMPL}}};
+    };
+
+    template <typename T>
+    constexpr bool {{TRAIT_NAME}} = {{TRAIT_NAME}}_helper<T>::value;
 
 } // namespace {{NAMESPACE}}
 

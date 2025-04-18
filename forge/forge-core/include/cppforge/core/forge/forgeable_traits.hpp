@@ -7,7 +7,7 @@
  */
 
 #include <type_traits>
-#include <forgeable.hpp>
+#include "forgeable.hpp"
 
 namespace cppforge::core::forge {
 
@@ -15,7 +15,12 @@ namespace cppforge::core::forge {
      * @brief Evaluates to true if type T inherits from Forgeable.
      */
     template <typename T>
-    constexpr bool is_forgeable = std::is_base_of_v<Forgeable, T>;
+    struct is_forgeable_helper {
+        static constexpr bool value = std::is_base_of_v<Forgeable<T>, T>;
+    };
+
+    template <typename T>
+    constexpr bool is_forgeable = is_forgeable_helper<T>::value;
 
 } // namespace cppforge::core::forge
 

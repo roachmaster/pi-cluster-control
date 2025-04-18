@@ -12,3 +12,5 @@ METHOD_EXECUTE_IMPL: ExecuteImpl
 METHOD_LABEL: GetLabel
 METHOD_LABEL_IMPL: GetLabelImpl
 METHOD_EXECUTE_RETURN_TYPE: void
+has_alias: true
+has_method: true

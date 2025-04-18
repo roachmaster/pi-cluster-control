@@ -1,0 +1,12 @@
+HEADER_GUARD: CPPFORGE_CORE_FORGE_STATELESS_FORGEABLE_HPP
+HEADER_FILENAME: stateless_forgeable.hpp
+DESCRIPTION: CRTP-style marker interface to classify a Forgeable as stateless.
+INCLUDES: []
+NAMESPACE: cppforge::core::forge
+
+CLASS_NAME: StatelessForgeable
+
+TEMPLATE_PARAM: Derived
+METHODS: []
+has_alias: false
+has_method: false

@@ -8,13 +8,18 @@
 namespace {{NAMESPACE}} {
 
     /**
-     * @brief Type-safe smart pointer for managing {{BASE_TYPE}} instances.
+     * @brief Type-safe smart pointer for managing {{BASE_TYPE}}-derived instances.
      *
-     * This alias wraps std::unique_ptr<T> and defaults to {{BASE_TYPE}}.
-     * You can specialize the alias with a different type if needed.
+     * This alias wraps std::unique_ptr<T> and enforces that T is a valid {{BASE_TYPE}} type.
      */
-    template<typename T = {{BASE_TYPE}}>
-    using {{ALIAS_NAME}} = std::unique_ptr<T>;
+    template<typename T>
+    struct {{ALIAS_NAME}}_helper {
+        static_assert({{TRAIT_NAME}}<T>, "{{ALIAS_NAME}} must wrap a {{BASE_TYPE}}-derived type.");
+        using type = std::unique_ptr<T>;
+    };
+
+    template<typename T>
+    using {{ALIAS_NAME}} = typename {{ALIAS_NAME}}_helper<T>::type;
 
 } // namespace {{NAMESPACE}}
 

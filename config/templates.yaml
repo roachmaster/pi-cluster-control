@@ -27,10 +27,12 @@ TEMPLATES:
         template: templates/cpp/crtp.hpp.mustache
         values: forge/forge-core/config/forgeable_values.yaml
         output: forge/forge-core/include/cppforge/core/forge/forgeable.hpp
+
       forge_interface:
         template: templates/cpp/crtp.hpp.mustache
         values: forge/forge-core/config/forge_values.yaml
         output: forge/forge-core/include/cppforge/core/forge/forge.hpp
+
       forgeable_traits:
         template: templates/cpp/traits.hpp.mustache
         values: forge/forge-core/config/forgeable_traits.yaml
@@ -40,3 +42,13 @@ TEMPLATES:
         template: templates/cpp/type_alias_smart_ptr.hpp.mustache
         values: forge/forge-core/config/forgeable_ptr.yaml
         output: forge/forge-core/include/cppforge/core/forge/cppforge_ptr.hpp
+
+      stateful_forgeable:
+        template: templates/cpp/crtp.hpp.mustache
+        values: forge/forge-core/config/stateless_forgeable_values.yaml
+        output: forge/forge-core/include/cppforge/core/forge/stateless_forgeable_values.hpp
+
+      stateless_forgeable:
+        template: templates/cpp/crtp.hpp.mustache
+        values: forge/forge-core/config/stateful_forgeable_values.yaml
+        output: forge/forge-core/include/cppforge/core/forge/stateful_forgeable_values.hpp
