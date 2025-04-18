@@ -36,7 +36,7 @@ def get_command_executor(command_name: str):
         return command_fn_factory()
 
     except (ImportError, AttributeError) as e:
-        print(f"⚠️ Command '{command_name}' not found. Scaffolding...")
+        print(f"⚠ Command '{command_name}' not found. Scaffolding...")
 
         # Create module directory
         module_path.parent.mkdir(parents=True, exist_ok=True)
@@ -52,7 +52,7 @@ def get_command_executor(command_name: str):
 
         print(f"✅ Scaffolding complete: {module_path}")
 
-        # 🛠️ After scaffolding, refresh the Forge Python package
+        # 🛠 After scaffolding, refresh the Forge Python package
         recompile_python_package()
 
         # Dynamically load the new module
