@@ -6,10 +6,10 @@
  * @brief Manages Forge registration and resolution.
  */
 
-#include <unordered_map>
 #include "forge.hpp"
 #include "forge_resolver.hpp"
 #include "forge_registry.hpp"
+#include "forge_cache.hpp"
 
 namespace cppforge::core::forge {
 
@@ -31,6 +31,14 @@ namespace cppforge::core::forge {
      public cppforge::core::forge::ForgeRegistry<ForgeType>    {
     public:
         using ForgeId = std::string;
+        using CacheType = ForgeCache<ForgeType>;
+
+        explicit ForgeManager(
+            CacheType* cache
+        )
+            : cache_(cache)
+
+        {}
 
         ForgeType* resolve(
             const ForgeId& id
@@ -41,12 +49,11 @@ namespace cppforge::core::forge {
         ) noexcept;
 
     protected:
-        ForgeManager() = default;
         ForgeManager(const ForgeManager&) = delete;
         ForgeManager& operator=(const ForgeManager&) = delete;
 
     private:
-        std::unordered_map<ForgeId, ForgeType*> registry_;
+        CacheType* cache_;
     };
 
 } // namespace cppforge::core::forge
