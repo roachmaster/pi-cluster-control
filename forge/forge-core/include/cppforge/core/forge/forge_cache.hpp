@@ -7,7 +7,6 @@
  */
 
 #include <string>
-#include <unordered_map>
 #include "forgeable.hpp"
 #include "stateful_forgeable.hpp"
 #include "cppforge_ptr.hpp"

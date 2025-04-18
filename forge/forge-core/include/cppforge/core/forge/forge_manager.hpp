@@ -33,12 +33,10 @@ namespace cppforge::core::forge {
         using ForgeId = std::string;
         using CacheType = ForgeCache<ForgeType>;
 
-        explicit ForgeManager(
-            CacheType* cache
-        )
+        explicit ForgeManager(CacheType* cache)
             : cache_(cache)
-
-        {}
+        {
+        }
 
         ForgeType* resolve(
             const ForgeId& id

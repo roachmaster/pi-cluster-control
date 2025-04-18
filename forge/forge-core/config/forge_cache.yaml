@@ -3,7 +3,6 @@ HEADER_FILENAME: forge_cache.hpp
 DESCRIPTION: Base CRTP-style ForgeCache interface for stateful, key-value ForgeablePtr management.
 INCLUDES:
   - "<string>"
-  - "<unordered_map>"
   - "\"forgeable.hpp\""
   - "\"stateful_forgeable.hpp\""
   - "\"cppforge_ptr.hpp\""
