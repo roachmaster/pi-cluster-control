@@ -3,7 +3,10 @@ TEMPLATES:
     cmakelists:
       template: templates/root/CMakeLists.txt.mustache
       output: forge/CMakeLists.txt
-
+  exe:
+    cmakelists:
+      template: templates/exe/CMakelists.txt.mustache
+      output: "forge/{{module_path}}/CMakeLists.txt"
   lib:
     cmakelists:
       template: templates/lib/CMakelists.txt.mustache

@@ -3,11 +3,9 @@ CMAKE:
   PROJECT: pi_cluster_control
   CXX_STANDARD: 17
 
-GLOBAL_PACKAGES:
+GLOBAL_PACKAGES: []
 
-GLOBAL_TEST_PACKAGES:
-  - NAME: googletest
-    URL: https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip
+GLOBAL_TEST_PACKAGES: []
 
 MODULES:
   - NAME: forge-core
@@ -19,3 +17,14 @@ MODULES:
       Provides shared interfaces, type definitions, enums, and data transfer objects (DTOs)
       used across all Forge modules. This module defines core abstractions and contracts
       but contains no business logic or implementations.
+
+  - NAME: forge-test
+    TYPE: exe
+    TEST: false
+    PACKAGES: []
+    DEPENDS_ON:
+      - forge-core
+    RESPONSIBILITY: >
+      Main executable entry point for testing the Forge runtime.
+      Will host custom lightweight Forge-specific test runner capable of executing
+      internal validation scenarios outside of external frameworks.

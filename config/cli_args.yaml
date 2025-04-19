@@ -16,3 +16,13 @@ subcommands:
   clean:
     help: "Clean all CLion build artifacts (cmake-build-*) from the project root"
     arguments: []
+  test:
+    help: "Run the ForgeTestRunner to execute all internal tests"
+    arguments: []
+  multi:
+    help: "Run multiple Forge CLI commands in sequence"
+    arguments:
+      - name: commands
+        positional: true
+        nargs: '+'
+        help: "List of commands to run sequentially"

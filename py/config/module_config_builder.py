@@ -3,11 +3,11 @@ from py.config.master_config import MasterConfigDTO
 from py.template.values_template_expansion import ValuesTemplateExpansion
 from py.template.template_utils import render_template_str
 
-# 🔒 Internal module cache
-_module_meta_cache = {}
-
 import json
 from pathlib import Path
+
+# 🔒 Internal module cache
+_module_meta_cache = {}
 
 def validate_rendered_outputs(template_dict: dict, module_name: str, values_context: dict):
     """
@@ -30,14 +30,13 @@ def validate_rendered_outputs(template_dict: dict, module_name: str, values_cont
             first_part = output_path.parts[0] if output_path.parts else ""
 
             if first_part not in allowed_roots:
-                # Convert Path and non-serializable values for display
                 safe_values = {
                     k: str(v) if isinstance(v, Path) else v
                     for k, v in values_context.items()
                 }
 
                 raise ValueError(
-                    f"\n⚠️ Hear me, Blacksmith! The path for '{key}' in module '{module_name}' — '{output}' — strayeth from the righteous roots!\n"
+                    f"\n⚠️ Hear me, Blacksmith! The path for '{key}' in '{module_name}' — '{output}' — strayeth from the righteous roots!\n"
                     f"    Tread only within: {allowed_roots}\n"
                     f"    Consult the sacred scroll: '{root_dir}/config/templates.yaml' and right this folly!\n"
                     f"    🔎 OUTPUT: {output}\n"
@@ -63,7 +62,7 @@ def build_module_config(module_name: str, master_config: MasterConfigDTO) -> dic
             name = module["NAME"]
             _module_meta_cache[name] = {
                 "module_type": module["TYPE"],
-                "module_path": f"{name}"
+                "module_path": name
             }
 
     if module_name not in _module_meta_cache:
@@ -81,6 +80,19 @@ def build_module_config(module_name: str, master_config: MasterConfigDTO) -> dic
     flattened_cmake = {f"CMAKE_{k}": v for k, v in cmake_config.items()}
     flattened_dirs = {f"DIR_{k}": v for k, v in created_dirs.items()}
 
+    # 🧠 Expand DEPENDS_ON properly
+    raw_depends_on = []
+    for module in master_config.get_modules():
+        if module["NAME"] == module_name:
+            raw_depends_on = module.get("DEPENDS_ON", [])
+            break
+
+    expanded_depends_on = []
+    for dep in raw_depends_on:
+        dep_expansion = ValuesTemplateExpansion().expands_to_dict("module_name", dep)
+        dep_expansion["module_name"] = dep  # 🔥 Corrected field: `module_name`, not `NAME`
+        expanded_depends_on.append(dep_expansion)
+
     values_section = {
         **expanded_name,
         **expanded_type,
@@ -90,7 +102,8 @@ def build_module_config(module_name: str, master_config: MasterConfigDTO) -> dic
         **flattened_cmake,
         **flattened_dirs,
         "GLOBAL_PACKAGES": master_config["GLOBAL_PACKAGES"],
-        "GLOBAL_TEST_PACKAGES": master_config["GLOBAL_TEST_PACKAGES"]
+        "GLOBAL_TEST_PACKAGES": master_config["GLOBAL_TEST_PACKAGES"],
+        "DEPENDS_ON": expanded_depends_on,  # ✅ Correct naming and structure
     }
 
     # Render and inject the correct TEMPLATE block
@@ -101,13 +114,10 @@ def build_module_config(module_name: str, master_config: MasterConfigDTO) -> dic
         if module_entry["NAME"] == module_name:
             module_entry = module_entry.copy()
 
-            json_template = json.dumps(templates_block)
-
-            rendered_json = render_template_str(json_template, values_section)
+            rendered_json = render_template_str(json.dumps(templates_block), values_section)
             rendered_template = json.loads(rendered_json)
 
-            # 🔎 Validate rendered output paths
-            validate_rendered_outputs(rendered_template, module_name,values_section)
+            validate_rendered_outputs(rendered_template, module_name, values_section)
 
             module_entry["TEMPLATE"] = rendered_template
 
